@@ -1,0 +1,52 @@
+.has-error {
+  .form-control,
+  .custom-select {
+    border-color: #f46a6a;
+
+    &::placeholder {
+      color: #f46a6a;
+    }
+  }
+
+  .validation {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 80%;
+    color: #f46a6a;
+  }
+}
+
+.full-flex {
+  display: flex;
+  flex: 1;
+}
+
+.bg-white {
+  background-color: #fff !important;
+}
+.no-wrap {
+  white-space: nowrap;
+}
+
+.md-editor-preview.default-theme {
+  white-space: unset;
+
+  p {
+    padding: 0;
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+}
+
+.h-100px {
+  height: 100px !important;
+}
+.h-200px {
+  height: 200px !important;
+}
+.h-300px {
+  height: 300px !important;
+}
+.h-400px {
+  height: 400px !important;
+}

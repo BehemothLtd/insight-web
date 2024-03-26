@@ -1,0 +1,14 @@
+.user-group-page {
+  .user-group__member_list {
+    max-height: 500px;
+    position: relative;
+  }
+
+  .user-group__member_th {
+    border-color: #eff2f7;
+    background-color: #f8f9fa;
+
+    position: sticky;
+    top: -1px;
+  }
+}

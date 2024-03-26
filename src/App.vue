@@ -1,8 +1,8 @@
 <template>
   <!-- <Loading></Loading> -->
-  <h3>App</h3>
-  <DefaultLayout>
-    <!-- <router-view v-slot="{ Component, route }">
+
+  <!-- <DefaultLayout >
+    <router-view v-slot="{ Component, route }">
       <transition name="fade">
         <div>
           <component
@@ -11,18 +11,17 @@
           />
         </div>
       </transition>
-    </router-view> -->
-  </DefaultLayout>
+    </router-view>
+  </DefaultLayout> -->
 
-  <!-- <RouterView v-else></RouterView> -->
+  <RouterView></RouterView>
 </template>
 
 <script setup>
 import DefaultLayout from "@/layouts/default.vue";
-// import Loading from "@/components/molecules/common/Loading.vue";
+import api from "@/apis/axios.js"
 
 import { useRoute } from "vue-router";
-
 const route = useRoute();
 </script>
 

@@ -1,0 +1,13 @@
+.btn-fullscreen {
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+
+  &.toggled {
+    .bx-fullscreen::before {
+      content: "\ea3f";
+    }
+  }
+}

@@ -1,0 +1,12 @@
+@import "./date_picker.scss";
+@import "./dragging.scss";
+@import "./modal.scss";
+@import "./button.scss";
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.notify.notify-autoclose.notify--success::before {
+  background-color: transparent !important;
+}

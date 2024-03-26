@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-// import { useAuthStore } from "@/stores/auth";
+import { useAuthStore } from "@/stores/auth";
 
 import { useBreadcrumb } from "@bachdx/b-vuse";
 const { setBreadcrumb } = useBreadcrumb();
@@ -13,26 +13,26 @@ const router = createRouter({
   routes,
 });
 
-// router.beforeEach(async (to, from, next) => {
-//   setBreadcrumb({});
+router.beforeEach(async (to, from, next) => {
+  setBreadcrumb({});
 
-//   const requiresAuth = to.meta.authRequired;
+  const requiresAuth = to.meta.authRequired;
 
-//   const authStore = useAuthStore();
-//   const isAuthenticated = authStore.token;
+  const authStore = useAuthStore();
+  const isAuthenticated = authStore.token;
 
-//   // const userStore = useUserStore();
+  // const userStore = useUserStore();
 
-//   if (requiresAuth && !isAuthenticated) {
-//     authStore.token = null;
-//     next("/login");
-//   } else {
-//     if (to.path !== "/login") {
-//       // await userStore.fetchUserPermissions();
-//     }
+  if (requiresAuth && !isAuthenticated) {
+    authStore.token = null;
+    next("/login");
+  } else {
+    if (to.path !== "/login") {
+      // await userStore.fetchUserPermissions();
+    }
 
-//     next();
-//   }
-// });
+    next();
+  }
+});
 
 export default router;

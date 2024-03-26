@@ -1783,6 +1783,11 @@ graphemer@^1.4.0:
   resolved "https://registry.yarnpkg.com/graphemer/-/graphemer-1.4.0.tgz#fb2f1d55e0e3a1849aeffc90c4fa0dd53a0e66c6"
   integrity sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==
 
+graphql-combine-query@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/graphql-combine-query/-/graphql-combine-query-1.2.4.tgz#73013fbef0671762569a70780778da8eb2157ef2"
+  integrity sha512-Os0d5cS8nH1cRnejGyACda0lraPzMJJjtd21KrfjKi1NWgEgzXzP8s29cpLlne+Y+51/2mS4j/3aTaIlCYMexg==
+
 graphql-tag@^2.12.6:
   version "2.12.6"
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.12.6.tgz#d441a569c1d2537ef10ca3d1633b48725329b5f1"
@@ -2418,10 +2423,10 @@ shebang-regex@^3.0.0:
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-3.0.0.tgz#ae16f1644d873ecad843b0307b143362d4c42172"
   integrity sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==
 
-simple-notify@^0.5.5:
-  version "0.5.8"
-  resolved "https://registry.yarnpkg.com/simple-notify/-/simple-notify-0.5.8.tgz#d5b988f2c7a2df845c1c63f5b384e58a8c494ae2"
-  integrity sha512-m1sdoC6DVzyRzh3ooBYCMmJ02H8uGKB1AjhBIGwPfxTmCERXvRbW+rOZJa4gJdjOvUVKPagOD/c7PJ9G6345tA==
+simple-notify@0.5.5:
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/simple-notify/-/simple-notify-0.5.5.tgz#49db50bcc250c3225509340e4fbd849d2566e9bc"
+  integrity sha512-zsFPqTqoSOcAGdvT76NdxkceC0kKiRSLJLVD6fn2o2j17bwUMw3cl9f07aLmojAHeNzQRUeXNxYK4OCumIcC4g==
 
 simplebar-core@^1.2.4:
   version "1.2.4"
