@@ -2,10 +2,7 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useLocalStorage } from "@vueuse/core";
 
-import { get, camelCase } from "lodash";
-
-import GlobalsRepository from "@/apis/repositories/globalsRepository";
-import axios from "@/apis/axios";
+import { get } from "lodash";
 
 export const useGlobalStore = defineStore("global", () => {
   const theme = ref(useLocalStorage("theme", "light"));
@@ -14,7 +11,7 @@ export const useGlobalStore = defineStore("global", () => {
   const errorMessage = ref("");
   const selectOptions = ref([]);
   const loadingRequests = ref([]);
-  
+
   function getErrors(name) {
     return get(validationErrors.value, name, []);
   }
