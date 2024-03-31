@@ -1,7 +1,7 @@
 <template>
   <!-- <Loading></Loading> -->
 
-  <!-- <DefaultLayout >
+  <DefaultLayout v-if="route.meta.authRequired">
     <router-view v-slot="{ Component, route }">
       <transition name="fade">
         <div>
@@ -12,9 +12,9 @@
         </div>
       </transition>
     </router-view>
-  </DefaultLayout> -->
+  </DefaultLayout>
 
-  <RouterView></RouterView>
+  <RouterView v-else></RouterView>
 </template>
 
 <script setup>
