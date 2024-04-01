@@ -77,9 +77,9 @@ api.interceptors.response.use(
           router.push("/login");
           break;
         case 422:
-          const validationErrors = get(errors[0], "extensions.errors")
+          const validationErrors = get(errors[0], "extensions.errors");
 
-          globalStore.validationErrors = validationErrors|| {};
+          globalStore.validationErrors = validationErrors || {};
           break;
         default:
           break;
@@ -87,16 +87,6 @@ api.interceptors.response.use(
 
       Toast.error({ title: errorMessage });
     } else if (response.data) {
-      const data = response.data
- 
-      const successMessage = get(
-        response.data.data,
-        `${Object.keys(data.data)[0]}.message`,
-      );
-
-      if (response.config.toast) {
-        Toast.success({ title: successMessage });
-      }
       return response.data.data;
     }
   },
