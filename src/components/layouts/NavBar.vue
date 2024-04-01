@@ -75,12 +75,11 @@
         >
           <template #button-content>
             <UserAvatar
-              v-if="authStore"
-              :user="authStore"
+              :user="currentUser"
               avatar-size="header-profile-user"
             />
             <span class="d-none d-xl-inline-block ml-1">{{
-              authStore.fullName
+              currentUser.fullName
             }}</span>
             <!-- <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i> -->
           </template>
@@ -120,9 +119,13 @@
 </template>
 
 <script setup>
+import { storeToRefs } from "pinia";
 import { useAuthStore } from "@/stores/auth";
-import UserAvatar from "@/molecules/users/UserAvatar.vue";
+
+import UserAvatar from "@/components/molecules/users/UserAvatar.vue";
 const authStore = useAuthStore();
+
+const { currentUser } = storeToRefs(authStore);
 
 // ================DATA=================
 const collapsedClassString = "sidebar-enable vertical-collpsed";
