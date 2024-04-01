@@ -70,8 +70,11 @@ api.interceptors.response.use(
 
       switch (errorCode) {
         case 401:
+          const authStore = useAuthStore();
+          const { token } = storeToRefs(authStore);
+
           token.value = null;
-          router.push("/signIn");
+          router.push("/login");
           break;
         case 422:
           const validationErrors = get(errors[0], "extensions.errors")
