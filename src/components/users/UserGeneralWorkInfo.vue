@@ -31,7 +31,7 @@
               "
             >
               {{
-                currentUser.thisMonthWorkingHours.percentCompareToLastMonth
+                currentUser.thisMonthWorkingHours.percentCompareToLastMonth.toFixed(1)
               }}%
               <i
                 class="mdi"

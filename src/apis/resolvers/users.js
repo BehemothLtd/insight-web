@@ -10,6 +10,15 @@ export const FetchUserGeneralInfoGQL = gql`
       issuesCount
       projectsCount
       avatarUrl
+      thisMonthWorkingHours {
+        hours
+        percentCompareToLastMonth
+        upFromLastMonth
+        timeGraphOnProjects {
+          labels
+          series
+        }
+      }
     }
   }
 `;
