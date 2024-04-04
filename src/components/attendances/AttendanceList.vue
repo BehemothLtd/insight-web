@@ -7,8 +7,6 @@
       @search="$emit('search')"
     />
 
-    {{ query }}
-
     <table class="table table-hover table-nowrap align-middle table-borderless">
       <thead>
         <tr>
@@ -73,20 +71,20 @@ searchFieldsList.value = [
   [
     new SearchField(
       "Start Date",
-      "checkinAtLteq",
-      "",
-      searchComponents.DateField,
-      {
-        DateField: new Date(),
-      },
-    ),
-    new SearchField(
-      "End Date",
       "checkinAtGteq",
       "",
       searchComponents.DateField,
       {
-        DateField: new Date(),
+        modelFormat: "yyyy-MM-dd",
+      },
+    ),
+    new SearchField(
+      "End Date",
+      "checkinAtLteq",
+      "",
+      searchComponents.DateField,
+      {
+        modelFormat: "yyyy-MM-dd",
       },
     ),
   ],

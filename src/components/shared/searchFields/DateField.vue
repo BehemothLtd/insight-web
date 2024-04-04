@@ -4,6 +4,7 @@
     :class="usingClasses"
     :enable-time-picker="false"
     :placeholder="placeHolder"
+    :modelType="options.modelFormat"
   />
 </template>
 <script setup>
@@ -23,7 +24,18 @@ const props = defineProps({
     required: false,
     default: "",
   },
+
+  options: {
+    type: Object,
+    required: false,
+    default: () => {
+      return {
+        modelFormat: "yyyy-MM-dd",
+      };
+    },
+  },
 });
+
 const usingClasses = computed(() => {
   if (props.classes) return props.classes;
   else return "w-100 p-1";
@@ -37,6 +49,7 @@ const placeHolder = computed(() => {
 watch(searchDate, () => {
   emitUpdate();
 });
+
 const emit = defineEmits(["updated"]);
 
 defineExpose({
@@ -47,10 +60,12 @@ function clear() {
   searchDate.value = null;
   emitUpdate();
 }
+
 function emitUpdate() {
   emit("updated", searchDate);
 }
 </script>
+
 <style lang="scss" scoped>
 :deep(.dp__input) {
   padding-left: 40px;

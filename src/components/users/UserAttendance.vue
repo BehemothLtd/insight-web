@@ -47,7 +47,7 @@ import api from "@/apis/axios";
 import { SelfAttendancesGQL } from "@/apis/resolvers";
 
 const query = reactive({});
-const { goQueryInput, updatePage } = useGoQuery({ perPage: 2, query: query });
+const { goQueryInput, updatePage } = useGoQuery({ perPage: 10, query: query });
 
 const list = ref([]);
 const metadata = ref({});
