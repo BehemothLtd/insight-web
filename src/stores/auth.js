@@ -5,6 +5,7 @@ import { useLocalStorage, StorageSerializers } from "@vueuse/core";
 import { useRouter } from "vue-router";
 
 import AuthRepository from "@/apis/repositories/authsRepository";
+import Toast from "@/ultilities/toast";
 
 export const useAuthStore = defineStore("auth", () => {
   const router = useRouter();
@@ -37,6 +38,7 @@ export const useAuthStore = defineStore("auth", () => {
     token.value = data?.SignIn?.token;
 
     router.push("/");
+    Toast.success({ title: "Signed In" });
   }
 
   return {

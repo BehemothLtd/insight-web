@@ -22,3 +22,18 @@ export const FetchUserGeneralInfoGQL = gql`
     }
   }
 `;
+
+export const SelfRecentTasksGQL = gql`
+  query {
+    SelfRecentTasks {
+      id
+      projectId
+      title
+      assignees {
+        id
+        name
+        avatarUrl
+      }
+    }
+  }
+`;

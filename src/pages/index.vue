@@ -9,6 +9,12 @@
         :totalSummarize="analysesTotalSummarize"
         v-if="analysesTotalSummarize"
       />
+
+      <div class="row">
+        <div class="col-12">
+          <UserRecentTasks :userRecentTasks="userRecentTasks" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -24,11 +30,13 @@ import fetchData from "@/dataFetcher/homePage.js";
 import UserWelcomeCard from "@/components/users/UserWelcomeCard.vue";
 
 const analysesTotalSummarize = ref(null);
+const userRecentTasks = ref([]);
 
 onBeforeMount(async () => {
   const result = await fetchData();
 
   analysesTotalSummarize.value = result.analysesTotalSummarize;
+  userRecentTasks.value = result.userRecentTasks;
 });
 
 setBreadcrumb({
