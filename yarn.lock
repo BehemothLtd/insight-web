@@ -24,10 +24,10 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
-"@bachdx/b-vuse@^1.1.4":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@bachdx/b-vuse/-/b-vuse-1.1.4.tgz#4ef731a2200d41704b49aef543cfb4ad198b3361"
-  integrity sha512-SHIIzL3W5uB4f+eSlcwgh0SIxfbtFIA9MXynGx82eOWD3CYxeoK1adPxZ2hZoEBh4QlwiY2PQypAVUdyaocJmA==
+"@bachdx/b-vuse@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@bachdx/b-vuse/-/b-vuse-1.2.2.tgz#192b2e11d6b0433d5909084c24f2520e28b8ef29"
+  integrity sha512-QLU0g8+FATLFwN/jezKABF4hA82XT6zhZOUpjbYbgoYT+tZjsWYN9oLWI7fEgDdALOjlWGveWJMWK+N3xXop7g==
   dependencies:
     vue-demi latest
 

@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from "vue";
+import { ref, onMounted } from "vue";
 
 import { useBreadcrumb } from "@bachdx/b-vuse";
 const { setBreadcrumb } = useBreadcrumb();
@@ -32,7 +32,7 @@ import UserWelcomeCard from "@/components/users/UserWelcomeCard.vue";
 const analysesTotalSummarize = ref(null);
 const userRecentTasks = ref([]);
 
-onBeforeMount(async () => {
+onMounted(async () => {
   const result = await fetchData();
 
   analysesTotalSummarize.value = result.analysesTotalSummarize;

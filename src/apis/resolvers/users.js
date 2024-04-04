@@ -37,3 +37,26 @@ export const SelfRecentTasksGQL = gql`
     }
   }
 `;
+
+export const SelfAttendancesGQL = gql`
+  query SelfAttendances($input: PagyInput!, $query: SelfAttendancesQuery!) {
+    SelfAttendances(input: $input, query: $query) {
+      collection {
+        checkinAt
+        checkoutAt
+        createdAt
+      }
+      metadata {
+        total
+        perPage
+        page
+        pages
+        count
+        next
+        prev
+        from
+        to
+      }
+    }
+  }
+`;
