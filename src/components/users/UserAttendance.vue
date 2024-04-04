@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-body">
-      <!-- <h4 class="card-title mb-4">{{ date }}</h4> -->
+      <h4 class="card-title mb-4">{{ date }}</h4>
 
       <div class="show-more">
         <span
@@ -24,7 +24,11 @@
         @close="closedModal"
         @hide="closedModal"
       >
-        <AttendanceList :list="list" />
+        <AttendanceList
+          :list="list"
+          v-model="query"
+          @search="onSearch"
+        />
 
         <Pagination
           :meta="metadata"
@@ -42,7 +46,7 @@ import api from "@/apis/axios";
 
 import { SelfAttendancesGQL } from "@/apis/resolvers";
 
-const query = reactive({ checkInGteq: null, checkInLteq: null });
+const query = reactive({});
 const { goQueryInput, updatePage } = useGoQuery({ perPage: 2, query: query });
 
 const list = ref([]);
@@ -60,12 +64,22 @@ async function fetchSelfAttendances() {
 
 const isShowAttendanceHistory = ref(false);
 
+const date = new Date().toLocaleDateString("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+});
+
 onMounted(async () => {
   await fetchSelfAttendances();
 });
 
 function onPageChange(page) {
-  updatePage(page);
+  updatePage(page, fetchSelfAttendances);
+}
+
+function onSearch() {
+  console.log(query);
   fetchSelfAttendances();
 }
 

@@ -22,7 +22,7 @@ const props = defineProps({
     type: String,
     required: false,
     default: "",
-  }
+  },
 });
 const usingClasses = computed(() => {
   if (props.classes) return props.classes;

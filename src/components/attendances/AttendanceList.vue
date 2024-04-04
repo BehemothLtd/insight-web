@@ -1,7 +1,16 @@
 <template>
   <div>
+    <BasicDataFilter
+      v-if="searchFieldsList.length > 0"
+      :search-fields-list="searchFieldsList"
+      :query="query"
+      @search="$emit('search')"
+    />
+
+    {{ query }}
+
     <table class="table table-hover table-nowrap align-middle table-borderless">
-      <thead v-if="showHeader">
+      <thead>
         <tr>
           <th>Date</th>
           <th>Checkin at</th>
@@ -50,6 +59,38 @@
 defineProps({
   list: Array,
 });
+
+defineEmits(["search"]);
+
+const query = defineModel();
+
+import useDynamicSearch from "@/composable/dynamicSearch";
+import SearchField from "@/types/searchField";
+
+const { searchFieldsList, searchComponents } = useDynamicSearch();
+
+searchFieldsList.value = [
+  [
+    new SearchField(
+      "Start Date",
+      "checkinAtLteq",
+      "",
+      searchComponents.DateField,
+      {
+        DateField: new Date(),
+      },
+    ),
+    new SearchField(
+      "End Date",
+      "checkinAtGteq",
+      "",
+      searchComponents.DateField,
+      {
+        DateField: new Date(),
+      },
+    ),
+  ],
+];
 </script>
 
 <style lang="scss" scoped>
