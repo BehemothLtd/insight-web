@@ -4,8 +4,8 @@
       <b-pagination
         class="pagination-rounded justify-content-center mt-4"
         :model-value="meta.page"
-        :total-rows="meta.count"
-        :per-page="meta.per_page"
+        :total-rows="parseInt(meta.total)"
+        :per-page="meta.perPage"
         @update:modelValue="onChange($event)"
       ></b-pagination>
     </div>

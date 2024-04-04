@@ -26,10 +26,10 @@
       >
         <AttendanceList :list="list" />
 
-        <!-- <Pagination
+        <Pagination
           :meta="metadata"
           @change="onPageChange"
-        ></Pagination> -->
+        ></Pagination>
       </b-modal>
     </div>
   </div>
@@ -43,9 +43,10 @@ import api from "@/apis/axios";
 import { SelfAttendancesGQL } from "@/apis/resolvers";
 
 const query = reactive({ checkInGteq: null, checkInLteq: null });
-const { goQueryInput } = useGoQuery({ perPage: 20, query: query });
+const { goQueryInput, updatePage } = useGoQuery({ perPage: 2, query: query });
 
-var list = ref([]);
+const list = ref([]);
+const metadata = ref({});
 
 async function fetchSelfAttendances() {
   const result = await api(SelfAttendancesGQL, {
@@ -54,6 +55,7 @@ async function fetchSelfAttendances() {
   });
 
   list.value = result.SelfAttendances.collection;
+  metadata.value = result.SelfAttendances.metadata;
 }
 
 const isShowAttendanceHistory = ref(false);
@@ -61,6 +63,11 @@ const isShowAttendanceHistory = ref(false);
 onMounted(async () => {
   await fetchSelfAttendances();
 });
+
+function onPageChange(page) {
+  updatePage(page);
+  fetchSelfAttendances();
+}
 
 function closedModal() {}
 </script>
