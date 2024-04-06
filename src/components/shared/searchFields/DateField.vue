@@ -7,10 +7,11 @@
     :modelType="options.modelFormat"
   />
 </template>
-<script setup>
-import { ref, watch, computed } from "vue";
 
-const searchDate = ref(null);
+<script setup>
+import { computed } from "vue";
+
+const searchDate = defineModel();
 
 const props = defineProps({
   classes: {
@@ -46,23 +47,12 @@ const placeHolder = computed(() => {
   else return "Search...";
 });
 
-watch(searchDate, () => {
-  emitUpdate();
-});
-
-const emit = defineEmits(["updated"]);
-
 defineExpose({
   clear,
 });
 
 function clear() {
   searchDate.value = null;
-  emitUpdate();
-}
-
-function emitUpdate() {
-  emit("updated", searchDate);
 }
 </script>
 

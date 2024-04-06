@@ -27,7 +27,7 @@
                 :title="searchField.title"
                 :options="searchField.options"
                 :classes="searchField.options.classes"
-                @updated="(value) => onUpdated(searchField, value)"
+                v-model="props.query[searchField.ransacker]"
               />
               <i :class="searchField.icon"></i>
             </div>
@@ -90,10 +90,6 @@ props.searchFieldsList.forEach((listOfField) => {
     props.query[field.ransacker] = null;
   });
 });
-
-function onUpdated(searchField, value) {
-  props.query[searchField.ransacker] = value;
-}
 
 function clear() {
   childs.value.forEach((child) => {
