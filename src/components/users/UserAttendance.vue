@@ -27,6 +27,7 @@
                   v-else
                   variant="danger"
                   @click="attend"
+                  class="attend-btn"
                 >
                   <i class="fas fa-sign-out-alt"></i>
                   <span>Check out</span>
@@ -43,6 +44,7 @@
           <b-button
             variant="success"
             @click="attend"
+            class="attend-btn"
           >
             <i class="fas fa-sign-in-alt"></i>
             <span>Check in</span>
@@ -71,7 +73,7 @@
         @close="closedModal"
         @hide="closedModal"
       >
-        <AttendanceList
+        <SelfAttendanceList
           :list="list"
           v-model="query"
           @search="onSearch"
@@ -187,6 +189,9 @@ function closedModal() {}
       text-decoration: underline;
       cursor: pointer;
     }
+  }
+  .attend-btn {
+    margin-top: -5px !important;
   }
 }
 </style>

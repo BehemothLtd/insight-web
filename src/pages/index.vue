@@ -27,8 +27,6 @@ const { setBreadcrumb } = useBreadcrumb();
 
 import fetchData from "@/dataFetcher/homePage.js";
 
-import UserWelcomeCard from "@/components/users/UserWelcomeCard.vue";
-
 const analysesTotalSummarize = ref(null);
 const userRecentTasks = ref([]);
 
