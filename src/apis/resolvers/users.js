@@ -60,3 +60,15 @@ export const SelfAttendancesGQL = gql`
     }
   }
 `;
+
+export const SelfThisWeekIssuesStateGQL = gql`
+  query {
+    SelfThisWeekIssuesState {
+      labels
+      series {
+        done
+        notDone
+      }
+    }
+  }
+`;
