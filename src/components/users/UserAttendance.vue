@@ -95,8 +95,11 @@ import { FetchSelfAttendances, SelfAttend } from "@/apis/repositories";
 
 const Swal = inject("Swal");
 
-const query = reactive({});
-const { goQueryInput, updatePage } = useGoQuery({ perPage: 10, query: query });
+const query = ref({});
+const { goQueryInput, updatePage, updateQuery } = useGoQuery({
+  perPage: 10,
+  query: query,
+});
 
 const list = ref([]);
 const metadata = ref({});
@@ -119,17 +122,11 @@ const date = new Date().toLocaleDateString("en-US", {
   year: "numeric",
 });
 
-const todayAttendance = computed(() =>
-  list.value.find((item) => {
-    return (
-      new Date().toLocaleDateString() ===
-      new Date(item.checkinAt).toLocaleDateString()
-    );
-  }),
-);
+const todayAttendance = ref(null);
 
 onMounted(async () => {
   await fetchSelfAttendances();
+  checkInAttendedToday();
 });
 
 function onPageChange(page) {
@@ -138,6 +135,15 @@ function onPageChange(page) {
 
 function onSearch() {
   fetchSelfAttendances();
+}
+
+function checkInAttendedToday() {
+  todayAttendance.value = list.value.find((item) => {
+    return (
+      new Date().toLocaleDateString() ===
+      new Date(item.checkinAt).toLocaleDateString()
+    );
+  });
 }
 
 async function attend() {
@@ -159,7 +165,10 @@ async function attend() {
   fetchSelfAttendances();
 }
 
-function closedModal() {}
+function closedModal() {
+  query.value = {};
+  updateQuery(query);
+}
 </script>
 
 <style lang="scss" scoped>
