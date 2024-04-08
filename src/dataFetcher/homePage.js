@@ -7,6 +7,7 @@ import {
   FetchUserGeneralInfoGQL,
   AnalysesTotalSummarizeGQL,
   SelfRecentTasksGQL,
+  AnalysesProjectIssueStatusGQL,
 } from "../apis/resolvers";
 
 export default async function fetchData() {
@@ -15,7 +16,8 @@ export default async function fetchData() {
   const query = combineQuery("HomePage")
     .add(FetchUserGeneralInfoGQL)
     .add(AnalysesTotalSummarizeGQL)
-    .add(SelfRecentTasksGQL).document;
+    .add(SelfRecentTasksGQL)
+    .add(AnalysesProjectIssueStatusGQL).document;
 
   try {
     const data = await api(query);
@@ -25,6 +27,7 @@ export default async function fetchData() {
     return {
       analysesTotalSummarize: data.AnalysesTotalSummarize,
       userRecentTasks: data.SelfRecentTasks,
+      analysesProjectsIssueStatus: data.AnalysesProjectsIssueStatus,
     };
   } catch {}
 }

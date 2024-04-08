@@ -10,3 +10,15 @@ export const AnalysesTotalSummarizeGQL = gql`
     }
   }
 `;
+
+export const AnalysesProjectIssueStatusGQL = gql`
+  query {
+    AnalysesProjectsIssueStatus {
+      Categories
+      Series {
+        data
+        name
+      }
+    }
+  }
+`;

@@ -15,6 +15,11 @@
           <UserRecentTasks :userRecentTasks="userRecentTasks" />
         </div>
       </div>
+
+      <ProjectIssuesGeneralChart
+        :data="analysesProjectsIssueStatus"
+        v-if="analysesProjectsIssueStatus"
+      />
     </div>
   </div>
 </template>
@@ -29,12 +34,14 @@ import fetchData from "@/dataFetcher/homePage.js";
 
 const analysesTotalSummarize = ref(null);
 const userRecentTasks = ref([]);
+const analysesProjectsIssueStatus = ref(null);
 
 onMounted(async () => {
   const result = await fetchData();
 
   analysesTotalSummarize.value = result.analysesTotalSummarize;
   userRecentTasks.value = result.userRecentTasks;
+  analysesProjectsIssueStatus.value = result.analysesProjectsIssueStatus;
 });
 
 setBreadcrumb({

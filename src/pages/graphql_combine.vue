@@ -13,7 +13,10 @@ import api from "@/apis/axios";
 import gql from "graphql-tag";
 
 const UserGroups = gql`
-  query UserGroups($userGroupInput: PagyInput, $userGroupsQuery: UserGroupsQuery) {
+  query UserGroups(
+    $userGroupInput: PagyInput
+    $userGroupsQuery: UserGroupsQuery
+  ) {
     UserGroups(input: $userGroupInput, query: $userGroupsQuery) {
       collection {
         id
@@ -36,19 +39,15 @@ const Users = gql`
   }
 `;
 
-const combineQL = combineQuery("Example")
-  .add(UserGroups)
-  .add(Users).document
+const combineQL = combineQuery("Example").add(UserGroups).add(Users).document;
 
-const demo = async() => {
+const demo = async () => {
   const data = await api(combineQL);
-
-  console.log(data)
-}
+};
 
 onMounted(() => {
   demo();
-})
+});
 setBreadcrumb({
   title: "GraphqlCombine",
   items: [
