@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-export const FetchUserGeneralInfoGQL = gql`
+export const UserGeneralInfoGQL = gql`
   query {
     SelfGeneralInfo {
       id
@@ -17,6 +17,38 @@ export const FetchUserGeneralInfoGQL = gql`
         timeGraphOnProjects {
           labels
           series
+        }
+      }
+    }
+  }
+`;
+
+export const SelfInfoGQL = gql`
+  query {
+    SelfProfile {
+      id
+      email
+      fullName
+      name
+      about
+      avatarUrl
+      createdAt
+      companyLevelId
+      address
+      birthday
+      gender
+      phone
+      timingActiveAt
+      timingDeactiveAt
+      slackId
+      projectAssignees {
+        active
+        title
+        joinDate
+        leaveDate
+        name
+        project {
+          name
         }
       }
     }

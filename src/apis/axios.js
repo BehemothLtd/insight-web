@@ -87,6 +87,10 @@ api.interceptors.response.use(
 
       Toast.error({ title: errorMessage });
     } else if (response.data) {
+      if (response.config.toastMessage != null) {
+        Toast.success({ title: response.config.toastMessage });
+      }
+
       return response.data.data;
     }
   },
@@ -118,22 +122,22 @@ export default function (
   variables,
   options = {
     loading: true,
-    toast: true,
+    requestType: null,
+    toastMessage: null,
   },
 ) {
-  const globalStore = useGlobalStore();
   // For Uploads
   switch (options.requestType) {
     case "upload":
       const config = {
-        header: {
-          "Content-Type": "multiple/form-data",
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
         baseURL: import.meta.env.VITE_APP_API_BASE_URL,
         timeout: 300000,
       };
 
-      return api.post("/upload", variables.data, {
+      return api.post("/uploads", variables.data, {
         ...config,
         ...options,
       });

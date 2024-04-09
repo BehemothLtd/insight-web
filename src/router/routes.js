@@ -14,9 +14,9 @@ export default [
     component: () => import("@/pages/auth/login.vue"),
   },
   {
-    path: "/graphql_combine",
-    name: "GraphqlCombine",
-    meta: { authRequired: false },
-    component: () => import("@/pages/graphql_combine.vue"),
+    path: "/profile",
+    name: "Profile",
+    meta: { authRequired: true },
+    component: () => import("@/pages/users/profile.vue"),
   },
 ];

@@ -4,7 +4,7 @@ import combineQuery from "graphql-combine-query";
 import { useAuthStore } from "../stores/auth";
 
 import {
-  FetchUserGeneralInfoGQL,
+  UserGeneralInfoGQL,
   AnalysesTotalSummarizeGQL,
   SelfRecentTasksGQL,
   AnalysesProjectIssueStatusGQL,
@@ -15,7 +15,7 @@ export default async function fetchData() {
   const authStore = useAuthStore();
 
   const query = combineQuery("HomePage")
-    .add(FetchUserGeneralInfoGQL)
+    .add(UserGeneralInfoGQL)
     .add(AnalysesTotalSummarizeGQL)
     .add(SelfRecentTasksGQL)
     .add(AnalysesProjectIssueStatusGQL)
