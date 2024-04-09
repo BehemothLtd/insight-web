@@ -1,3 +1,5 @@
+import ClientsRoute from "./clientRoutes";
+
 export default [
   {
     path: "/",
@@ -19,4 +21,5 @@ export default [
     meta: { authRequired: false },
     component: () => import("@/pages/graphql_combine.vue"),
   },
+  ...ClientsRoute,
 ];
