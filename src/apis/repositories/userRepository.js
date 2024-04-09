@@ -2,8 +2,9 @@ import api from "@/apis/axios";
 
 import { pick } from "lodash";
 
-import { SelfInfoGQL } from "@/apis/resolvers";
+import { SelfInfoGQL, UsersGQL } from "@/apis/resolvers";
 import { SelfUpdateProfileGQL } from "@/apis/mutations";
+import { UserGQL } from "../resolvers";
 
 export function FetchSelfInfo() {
   return api(SelfInfoGQL);
@@ -26,4 +27,15 @@ export function SelfUpdateProfile(
 
   input = pick(input, updateKeys);
   return api(SelfUpdateProfileGQL, { input }, options);
+}
+
+export function FetchUsers(params = { input: {}, query: {} }) {
+  return api(UsersGQL, {
+    input: params.input,
+    query: params.query,
+  });
+}
+
+export function GetUser(id) {
+  return api(UserGQL, { id: id });
 }
