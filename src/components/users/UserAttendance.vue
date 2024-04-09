@@ -89,7 +89,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, computed, inject } from "vue";
+import { ref, onMounted, inject } from "vue";
 import { useGoQuery } from "@bachdx/b-vuse";
 import { FetchSelfAttendances, SelfAttend } from "@/apis/repositories";
 
