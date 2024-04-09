@@ -159,10 +159,11 @@ async function attend() {
   });
 
   if (confirmation.isConfirmed) {
-    await SelfAttend();
+    try {
+      const result = await SelfAttend();
+      todayAttendance.value = result.SelfAttend;
+    } catch {}
   }
-
-  fetchSelfAttendances();
 }
 
 function closedModal() {

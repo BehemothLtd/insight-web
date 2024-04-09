@@ -62,9 +62,11 @@ async function fetchSelfInfo() {
 }
 
 async function updateProfile() {
-  const result = await SelfUpdateProfile({ input: userDetail.value });
+  try {
+    const result = await SelfUpdateProfile({ input: userDetail.value });
 
-  userDetail.value = result.SelfUpdateProfile.user;
+    userDetail.value = result.SelfUpdateProfile.user;
+  } catch {}
 }
 
 onMounted(async () => {
