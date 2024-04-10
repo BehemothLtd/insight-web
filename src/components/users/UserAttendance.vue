@@ -126,7 +126,7 @@ const todayAttendance = ref(null);
 
 onMounted(async () => {
   await fetchSelfAttendances();
-  checkInAttendedToday();
+  checkAttendedToday();
 });
 
 function onPageChange(page) {
@@ -137,7 +137,7 @@ function onSearch() {
   fetchSelfAttendances();
 }
 
-function checkInAttendedToday() {
+function checkAttendedToday() {
   todayAttendance.value = list.value.find((item) => {
     return (
       new Date().toLocaleDateString() ===
