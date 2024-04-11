@@ -175,7 +175,7 @@ function toggleMenu() {
 }
 
 function logout() {
-  authStore.token = null;
+  authStore.logout();
 }
 </script>
 

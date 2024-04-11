@@ -59,12 +59,14 @@ app.component("DatePicker", VueDatePicker);
 import filters from "@/ultilities/filters";
 app.config.globalProperties.filters = filters;
 
-// import usePermission from "@/composable/permission";
-// const { hasPermissionOn } = usePermission();
-// app.config.globalProperties.hasPermissionOn = hasPermissionOn;
+import usePermission from "@/composable/permission";
+const { hasPermissionOn, blockAccess } = usePermission();
+app.config.globalProperties.hasPermissionOn = hasPermissionOn;
+app.config.globalProperties.blockAccess = blockAccess;
 
 // globalProperties can only use for options API
 app.provide("Swal", Swal);
-// app.provide("hasPermissionOn", hasPermissionOn);
+app.provide("hasPermissionOn", hasPermissionOn);
+app.provide("blockAccess", blockAccess);
 
 app.mount("#app");
