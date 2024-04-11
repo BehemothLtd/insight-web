@@ -10,7 +10,7 @@ export default function usePermission() {
 
   function hasPermissionOn(target, action) {
     return some(permissions.value, (p) => {
-      return p.Target == "all" || (p.target == target && p.Action == action);
+      return p.Target == "all" || (p.Target == target && p.Action == action);
     });
   }
 
