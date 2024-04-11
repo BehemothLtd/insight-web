@@ -12,12 +12,19 @@ export const useAuthStore = defineStore("auth", () => {
 
   // ================ STATES ==========================
   const token = ref(useLocalStorage("authToken", null));
+
   const currentUser = ref(
     useLocalStorage(
       "currentUser",
       {},
       { serializer: StorageSerializers.object },
     ),
+  );
+
+  const permissions = ref(
+    useLocalStorage("permissions", [], {
+      serializer: StorageSerializers.array,
+    }),
   );
 
   // ================ GETTERS ========================
@@ -32,13 +39,32 @@ export const useAuthStore = defineStore("auth", () => {
     currentUser.value = currentUserValue;
   }
 
+  function logout() {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("currentUser");
+    localStorage.removeItem("permissions");
+  }
+
   async function signInAction({ email, password, rememberMe }) {
     const data = await AuthRepository.signIn({ email, password, rememberMe });
 
-    token.value = data?.SignIn?.token;
+    if (data?.SignIn) {
+      token.value = data?.SignIn?.token;
 
-    router.push("/");
-    Toast.success({ title: "Signed In" });
+      if (token.value) {
+        await fetchUserPermissions();
+      }
+      router.push("/");
+      Toast.success({ title: "Signed In" });
+    }
+  }
+
+  async function fetchUserPermissions() {
+    const result = await AuthRepository.fetchPermissions();
+
+    if (result) {
+      permissions.value = result.SelfPermission;
+    }
   }
 
   return {
@@ -46,11 +72,12 @@ export const useAuthStore = defineStore("auth", () => {
     token,
     layout,
     currentUser,
+    permissions,
 
     // function
     setToken,
     signInAction,
-
+    logout,
     setCurrentUser,
   };
 });

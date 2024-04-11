@@ -50,8 +50,13 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { inject, ref, watch, computed } from "vue";
 import { useRoute } from "vue-router";
+
+import { useAuthStore } from "@/stores/auth";
+import { storeToRefs } from "pinia";
+
+import { cloneDeep } from "lodash";
 
 const props = defineProps({
   menu: {
@@ -75,16 +80,59 @@ const route = useRoute();
 
 const routerName = computed(() => route?.name ?? "");
 
-// ===========DATA========
-const ready = computed(() => {
-  const obj = {}
+const hasPermissionOn = inject("hasPermissionOn");
 
+// ===========STORE========
+const authStore = useAuthStore();
+const { permissions } = storeToRefs(authStore);
+
+// ===========DATA========
+const roadMap = ref({});
+const ready = ref({});
+
+watch(
+  permissions,
+  () => {
+    checkDisplay();
+  },
+  { immediate: true },
+);
+
+// ===========FUNCTION========
+function checkDisplay() {
   for (let i = 0; i < props.menu.length; i++) {
-    obj[i] = true
+    ready.value[i] = checkPermission(props.menu[i], i);
+  }
+}
+
+function checkPermission(menu, index, level = 0) {
+  if (props.rootLevel == 0 && level == 0) roadMap.value[index] = [index];
+
+  if (props.rootLevel != 0 && props.road.length) {
+    if (level == 0) roadMap.value[index] = cloneDeep(props.road);
+
+    if (props.rootLevel < props.road.length) {
+      if (props.road[props.rootLevel] == index) return true;
+      if (props.road[props.rootLevel] > index) return false;
+
+      roadMap.value[index][props.rootLevel] = index;
+    }
   }
 
-  return obj
-})
+  const permission = menu.permission;
+
+  if (permission) return hasPermissionOn(permission.target, permission.action);
+
+  if (!menu.children) return true;
+
+  for (let i = 0; i < menu.children.length; i++) {
+    if (checkPermission(menu.children[i], i, level + 1)) {
+      roadMap.value[index].push(i);
+
+      return true;
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

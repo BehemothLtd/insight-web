@@ -26,13 +26,8 @@ router.beforeEach(async (to, from, next) => {
   if (requiresAuth && !isAuthenticated) {
     authStore.token = null;
     next("/login");
-  } else {
-    if (to.path !== "/login") {
-      // await userStore.fetchUserPermissions();
-    }
-
-    next();
   }
+  next();
 });
 
 export default router;
