@@ -4,7 +4,7 @@
       <BasicDataFilter
         v-if="searchFieldsList.length > 0"
         :search-fields-list="searchFieldsList"
-        :query="queryInput.query"
+        :query="goQueryInput.query"
         @search="searchList"
         @reset="resetQuerySearch"
       />
@@ -27,20 +27,16 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { FetchUsers } from "@/apis/repositories";
-import { useQuery, useGoQuery, useBreadcrumb } from "@bachdx/b-vuse";
+import { useGoQuery, useBreadcrumb } from "@bachdx/b-vuse";
 
 import useDynamicSearch from "@/composable/dynamicSearch";
 import SearchField from "@/types/searchField";
 
 const { setBreadcrumb } = useBreadcrumb();
+
 const query = ref({});
 const users = ref([]);
 const metadata = ref({});
-
-const { queryInput } = useQuery({
-  perPage: 10,
-  query: query,
-});
 
 const { goQueryInput, updatePage, updateQuery } = useGoQuery({
   perPage: 10,
@@ -101,7 +97,7 @@ searchFieldsList.value = [
 async function fetchListUser() {
   const result = await FetchUsers({
     input: goQueryInput.pagyInput,
-    query: goQueryInput.query,
+    query: goQueryInput.pagyInput,
   });
 
   users.value = result.Users.collection;
@@ -113,7 +109,7 @@ function onPageChange(page) {
 }
 
 function searchList() {
-  query.value.page = 1;
+  // query.value.page = 1;
 
   fetchListUser();
 }
