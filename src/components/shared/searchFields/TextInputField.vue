@@ -4,12 +4,11 @@
     :placeholder="placeHolder"
     :class="usingClasses"
     type="text"
-    @input="$emit('updated', $event.target.value)"
   />
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { computed } from "vue";
 
 const props = defineProps({
   classes: {
@@ -25,6 +24,8 @@ const props = defineProps({
   },
 });
 
+const inputValue = defineModel();
+
 const usingClasses = computed(() => {
   if (props.classes) return props.classes;
   else return "form-control w-100";
@@ -34,10 +35,6 @@ const placeHolder = computed(() => {
   if (props.title) return props.title;
   else return "Search...";
 });
-
-const inputValue = ref(null);
-
-const emit = defineEmits(["updated"]);
 
 defineExpose({
   clear,

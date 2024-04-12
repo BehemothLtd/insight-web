@@ -5,15 +5,13 @@
       :options="options.selectOptions"
       :reduce="(option) => option.value"
       :placeholder="placeHolder"
-      @option:selected="emitValue"
-      @option:deselected="emitValue"
     >
     </VSelect>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { computed } from "vue";
 
 const props = defineProps({
   classes: {
@@ -34,7 +32,7 @@ const props = defineProps({
   },
 });
 
-const inputValue = ref("");
+const inputValue = defineModel();
 
 const emit = defineEmits(["updated"]);
 
@@ -47,24 +45,21 @@ defineExpose({
   clear,
 });
 
-function emitValue() {
-  emit("updated", inputValue);
-}
-
 function clear() {
   inputValue.value = null;
   emit("updated", null);
 }
 </script>
+
 <style lang="scss" scoped>
-  :deep(.vs__dropdown-toggle) {
-    min-height: 40px;
-    padding-left: 35px;
-    .vs__search {
-      font-size: 13px;
-      &::placeholder {
-        color: lightgray;
-      }
+:deep(.vs__dropdown-toggle) {
+  min-height: 40px;
+  padding-left: 35px;
+  .vs__search {
+    font-size: 13px;
+    &::placeholder {
+      color: lightgray;
     }
   }
+}
 </style>

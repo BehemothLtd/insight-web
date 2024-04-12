@@ -1,3 +1,5 @@
+import ProjectRoutes from "./projectRoutes";
+
 export default [
   {
     path: "/",
@@ -19,4 +21,6 @@ export default [
     meta: { authRequired: true },
     component: () => import("@/pages/users/profile.vue"),
   },
+
+  ...ProjectRoutes,
 ];
