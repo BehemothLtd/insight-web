@@ -30,3 +30,13 @@ export const SelfUpdateProfileGQL = gql`
     }
   }
 `;
+
+export const UserToggleActive = gql`
+  mutation ($id: ID!) {
+    UserToggleActive(id: $id) {
+      state
+      timingActiveAt
+      timingDeactiveAt
+    }
+  }
+`;

@@ -4,7 +4,7 @@
       <BasicDataFilter
         v-if="searchFieldsList.length > 0"
         :search-fields-list="searchFieldsList"
-        :query="goQueryInput.query"
+        :query="query"
         @search="searchList"
         @reset="resetQuerySearch"
       />
@@ -13,6 +13,7 @@
 
       <UserList
         :users="users"
+        :write-permission="writePermission"
         @active-toggle="handleToggleActiveAccount"
       />
 
@@ -25,14 +26,15 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
-import { FetchUsers } from "@/apis/repositories";
+import { onMounted, ref, inject, computed } from "vue";
+import { FetchUsers, UserToggleState } from "@/apis/repositories";
 import { useGoQuery, useBreadcrumb } from "@bachdx/b-vuse";
 
 import useDynamicSearch from "@/composable/dynamicSearch";
 import SearchField from "@/types/searchField";
 
 const { setBreadcrumb } = useBreadcrumb();
+const Swal = inject("Swal");
 
 const query = ref({});
 const users = ref([]);
@@ -43,19 +45,25 @@ const { goQueryInput, updatePage, updateQuery } = useGoQuery({
   query: query,
 });
 
+// =========== PERMISSION ========
+const hasPermissionOn = inject("hasPermissionOn");
+
+const writePermission = computed(() => hasPermissionOn("users", "write"));
+
 const { searchFieldsList, searchComponents } = useDynamicSearch();
 
+// =========== Search List ========
 searchFieldsList.value = [
   [
     new SearchField(
       "Name",
-      "nameLike",
+      "nameCont",
       "mdi mdi-magnify",
       searchComponents.TextInputField,
     ),
     new SearchField(
       "Email",
-      "emailLike",
+      "emailCont",
       "mdi mdi-email-outline",
       searchComponents.TextInputField,
     ),
@@ -63,13 +71,13 @@ searchFieldsList.value = [
   [
     new SearchField(
       "FullName",
-      "fullNameLike",
+      "fullNameCont",
       "mdi mdi-magnify",
       searchComponents.TextInputField,
     ),
     new SearchField(
       "SlackID",
-      "slackIdLike",
+      "slackIdCont",
       "mdi mdi-slack",
       searchComponents.TextInputField,
     ),
@@ -97,7 +105,7 @@ searchFieldsList.value = [
 async function fetchListUser() {
   const result = await FetchUsers({
     input: goQueryInput.pagyInput,
-    query: goQueryInput.pagyInput,
+    query: goQueryInput.query,
   });
 
   users.value = result.Users.collection;
@@ -109,16 +117,41 @@ function onPageChange(page) {
 }
 
 function searchList() {
-  // query.value.page = 1;
-
   fetchListUser();
 }
 
 function resetQuerySearch() {
-  // query.value = {};
+  updateQuery({});
+}
 
-  updateQuery(query);
-  // fetchListUser();
+async function toggleActiveUser(id) {
+  return await UserToggleState(id);
+}
+
+async function handleToggleActiveAccount(data) {
+  const confirmation = await Swal.fire({
+    title: "Warning !",
+    icon: "warning",
+    text: "You want to change state ?",
+    showCancelButton: true,
+    confirmButtonText: "Yes",
+    cancelButtonText: "Cancel",
+  });
+
+  if (confirmation.isConfirmed) {
+    try {
+      toggleActiveUser(data.id);
+    } catch {
+      // switch back in case doesn't success
+      switchBackToggle(data);
+    }
+  } else switchBackToggle(data);
+}
+
+function switchBackToggle(data) {
+  const userIndex = users.value.findIndex((u) => u.id == data.id);
+  users.value[userIndex].state =
+    users.value[userIndex].state == "active" ? "inactive" : "active";
 }
 
 onMounted(async () => {

@@ -87,17 +87,15 @@
 </template>
 
 <script setup>
-import { inject, computed } from "vue";
-
 defineProps({
   users: {
     type: Array,
     required: true,
   },
+  writePermission: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
-
-// ===========PERMISSION========
-const hasPermissionOn = inject("hasPermissionOn");
-
-const writePermission = computed(() => hasPermissionOn("users", "write"));
 </script>
