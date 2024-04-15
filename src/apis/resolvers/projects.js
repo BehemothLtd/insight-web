@@ -7,6 +7,7 @@ export const FetchProjectListGQL = gql`
         id
         name
         code
+        logoUrl
         description
         projectType
         projectPriority
