@@ -148,6 +148,18 @@ export const UserGQL = gql`
       email
       fullName
       name
+      about
+      avatarUrl
+      createdAt
+      companyLevelId
+      state
+      address
+      birthday
+      gender
+      phone
+      timingActiveAt
+      timingDeactiveAt
+      slackId
     }
   }
 `;

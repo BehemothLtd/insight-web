@@ -15,7 +15,6 @@
         @change="onUpdateAvatar"
       />
     </div>
-    {{ user.birthday }}
     <div class="row">
       <div class="col-6">
         <div class="mb-3">
@@ -168,7 +167,7 @@
             <VSelect
               v-model="user.companyLevelId"
               class="w-100"
-              :options="selectOptions.companyLevel"
+              :options="selectOptionCompanyLevel"
               :reduce="(option) => option.value"
               :disabled="!writePermission"
             >
@@ -233,6 +232,13 @@ const selectOptionsGender = [
   { value: "male", label: "Male" },
   { value: "female", label: "Female" },
   { value: "bisexuality", label: "Bisexuality" },
+];
+
+const selectOptionCompanyLevel = [
+  { value: "1", label: "Fresher" },
+  { value: "2", label: "Junior" },
+  { value: "3", label: "Middle" },
+  { value: "4", label: "Senior" },
 ];
 
 defineProps({

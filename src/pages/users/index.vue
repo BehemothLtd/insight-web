@@ -50,9 +50,8 @@ const hasPermissionOn = inject("hasPermissionOn");
 
 const writePermission = computed(() => hasPermissionOn("users", "write"));
 
-const { searchFieldsList, searchComponents } = useDynamicSearch();
-
 // =========== Search List ========
+const { searchFieldsList, searchComponents } = useDynamicSearch();
 searchFieldsList.value = [
   [
     new SearchField(
