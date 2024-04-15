@@ -115,10 +115,10 @@ function searchList() {
 }
 
 function resetQuerySearch() {
-  query.value = {};
+  // query.value = {};
 
   updateQuery(query);
-  fetchListUser();
+  // fetchListUser();
 }
 
 onMounted(async () => {

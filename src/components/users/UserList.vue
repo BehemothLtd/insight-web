@@ -45,7 +45,7 @@
           <td class="align-middle">{{ user.fullName }}</td>
           <td class="align-middle">{{ user.slackId }}</td>
           <td>
-            <!-- <div
+            <div
               v-if="writePermission"
               class="form-check form-switch form-switch-lg"
             >
@@ -65,7 +65,7 @@
               />
             </div>
 
-            <div v-else>{{ user.state }}</div> -->
+            <div v-else>{{ user.state }}</div>
           </td>
           <td>
             <ul class="list-inline font-size-20 contact-links mb-0">
@@ -97,7 +97,7 @@ defineProps({
 });
 
 // ===========PERMISSION========
-// const hasPermissionOn = inject("hasPermissionOn");
+const hasPermissionOn = inject("hasPermissionOn");
 
-// const writePermission = computed(() => hasPermissionOn("users", "write"));
+const writePermission = computed(() => hasPermissionOn("users", "write"));
 </script>
