@@ -92,6 +92,7 @@ props.searchFieldsList.forEach((listOfField) => {
 });
 
 function clear() {
+  console.log(childs.value)
   childs.value.forEach((child) => {
     child.clear();
   });

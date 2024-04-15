@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 
 export const ClientsGQL = gql`
-  query {
-    Clients {
+  query Clients($input: PagyInput!, $query: ClientsQuery!){
+    Clients (input: $input, query: $query) {
       collection {
         id
         name

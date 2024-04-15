@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-12">
-      <div v-if="hasPermissionOn('clients', 'write')">
+      <!-- <div v-if="hasPermissionOn('clients', 'write')">
         <div class="text-sm-end">
           <button
             type="button"
@@ -11,17 +11,17 @@
             <i class="bx bx-plus-circle me-1"></i> New
           </button>
         </div>
-      </div>
+      </div> -->
 
       <BasicDataFilter
+        v-if="searchFieldsList.length > 0"
         :search-fields-list="searchFieldsList"
-        :query="queryInput.q"
-        @search="searchList"
-        @reset="resetQuerySearch"
+        :query="query"
+        @search="fetchClients"
       />
 
       <ClientsList
-        :clients="clients"
+        :clients="list"
         @delete="deleteClient"
         @open-detail="openModal"
       />
@@ -31,7 +31,7 @@
         @change="onPageChange"
       ></Pagination>
 
-      <b-modal
+      <!-- <b-modal
         ref="modal"
         size="lg"
         centered
@@ -42,22 +42,57 @@
           @create="create"
           @update="update"
         />
-      </b-modal>
+      </b-modal> -->
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted } from "vue";
-import { storeToRefs } from "pinia";
+import { onMounted, ref } from "vue";
 import { useBreadcrumb } from "@bachdx/b-vuse";
-const { setBreadcrumb } = useBreadcrumb();
+import { useGoQuery } from "@bachdx/b-vuse";
+import { FetchClients } from "@/apis/repositories/clientRepository";
 import useModal from "@/composable/modal";
+
 const { modal, showModal, hideModal } = useModal();
 
-// ============ STORE ===============
-import { useClientStore } from "@/stores/client";
+const { setBreadcrumb } = useBreadcrumb();
 
+const query = ref({});
+
+const { goQueryInput, updatePage, updateQuery } = useGoQuery({
+  perPage: 10,
+  query: query,
+});
+
+const list = ref([]);
+const metadata = ref({});
+
+async function fetchClients() {
+  const result = await FetchClients({
+    input: goQueryInput.pagyInput,
+    query: goQueryInput.query,
+  });
+
+  list.value = result.Clients.collection;
+  metadata.value = result.Clients.metadata;
+}
+
+function deleteClient() {}
+
+onMounted(async () => {
+  await fetchClients();
+});
+
+function onPageChange(page) {
+  updatePage(page, fetchClients);
+}
+
+function onSearch() {
+  fetchClients();
+}
+
+// ============ STORE ===============
 import SearchField from "@/types/searchField";
 import useDynamicSearch from "@/composable/dynamicSearch";
 
@@ -80,15 +115,13 @@ setBreadcrumb({
 });
 
 // ============ DATA ====================
-const clientStore = useClientStore();
-const { clients, metadata, queryInput, clientForm } = storeToRefs(clientStore);
 const { searchFieldsList, searchComponents } = useDynamicSearch();
 
 searchFieldsList.value = [
   [
     new SearchField(
       "Name",
-      "name_cont",
+      "nameCont",
       "mdi mdi-magnify",
       searchComponents.TextInputField,
       {
@@ -98,49 +131,6 @@ searchFieldsList.value = [
   ],
 ];
 
+async function openModal(id) {}
 // ============ METHODS ===================
-onMounted(() => {
-  searchList();
-});
-
-function onPageChange(page) {
-  clientStore.updateQuery({ page: page });
-  clientStore.fetchListClients();
-}
-
-function searchList() {
-  clientStore.updateQuery({ page: 1 });
-  refetchList();
-}
-
-function refetchList() {
-  clientStore.fetchListClients();
-}
-
-function resetQuerySearch() {
-  clientStore.updateQuery({ q: {} });
-  refetchList();
-}
-
-function deleteClient(id) {
-  clientStore.updateQuery({ page: 1 });
-  clientStore.destroyClient(id);
-}
-
-async function openModal(id) {
-  clientStore.resetClientForm();
-  if (id) await clientStore.fetchClientDetail(id);
-  showModal();
-}
-
-async function create() {
-  await clientStore.createClient();
-  await clientStore.fetchListClients();
-  hideModal();
-}
-async function update(id) {
-  await clientStore.updateClient(id);
-  searchList();
-  hideModal();
-}
 </script>
