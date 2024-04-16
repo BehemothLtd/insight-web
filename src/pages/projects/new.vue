@@ -50,6 +50,8 @@
                 <component
                   :is="stepComponent.component"
                   :issueStatusOptions="issueStatusOptions"
+                  :developmentRoleOptions="developmentRoleOptions"
+                  :userOptions="userOptions"
                   v-model="project"
                 >
                   <div class="step-title">
@@ -105,8 +107,14 @@ import CreateProjectStep3 from "@/components/projects/create/CreateProjectStep3.
 import { useBreadcrumb } from "@bachdx/b-vuse";
 const { setBreadcrumb } = useBreadcrumb();
 
-const project = ref({});
+const project = ref({
+  projectIssueStatuses: [],
+  projectAssignees: [],
+});
+
 const issueStatusOptions = ref([]);
+const developmentRoleOptions = ref([]);
+const userOptions = ref([]);
 
 import { FetchSelectOptions } from "@/apis/repositories";
 
@@ -129,10 +137,16 @@ setBreadcrumb({
 });
 
 onMounted(async () => {
-  const result = await FetchSelectOptions(["issueStatus"]);
+  const result = await FetchSelectOptions([
+    "issueStatus",
+    "developmentRole",
+    "user",
+  ]);
 
   if (result.SelectOptions) {
     issueStatusOptions.value = result.SelectOptions.IssueStatusOptions;
+    developmentRoleOptions.value = result.SelectOptions.DevelopmentRoleOptions;
+    userOptions.value = result.SelectOptions.UserOptions;
   }
 });
 
@@ -170,6 +184,8 @@ function nextStep() {
   if (createCurrentStep.value >= totalSteps.value) return;
   createCurrentStep.value += 1;
 }
+
+function submit() {}
 </script>
 
 <style lang="scss" scoped>

@@ -6,6 +6,15 @@ export const FetchSelectOptionsGQL = gql`
       IssueStatusOptions {
         label
         value
+        color
+      }
+      DevelopmentRoleOptions {
+        label
+        value
+      }
+      UserOptions {
+        label
+        value
       }
     }
   }

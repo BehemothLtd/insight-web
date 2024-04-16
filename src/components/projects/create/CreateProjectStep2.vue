@@ -70,7 +70,7 @@ import { computed } from "vue";
 
 import { ProjectTypeOptions, ProjectSprintDurationOptions } from "@/constants";
 
-defineProps({
+const props = defineProps({
   issueStatusOptions: {
     type: Array,
     required: true,
@@ -89,10 +89,11 @@ const activeStyles = computed(() => {
         (item) => item.issueStatusId === id,
       );
       if (active) {
-        const issueStatus = selectOptions.value.issueStatuses.find(
+        const issueStatus = props.issueStatusOptions.find(
           (e) => e.value === id,
         );
         if (issueStatus) {
+          console.log(issueStatus);
           const issueStatusColor = issueStatus.color;
           const styles = {
             border: `2px solid ${issueStatusColor}`,

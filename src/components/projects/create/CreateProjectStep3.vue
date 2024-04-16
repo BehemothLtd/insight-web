@@ -6,41 +6,41 @@
       <table class="table b-table">
         <thead>
           <tr class="thead-light">
-            <th>User</th>
-            <th>Development Role</th>
-            <th>Active</th>
-            <th>Joined Date</th>
-            <th>Action</th>
+            <th width="20%">User</th>
+            <th width="20%">Development Role</th>
+            <th width="15%">Active</th>
+            <th width="20%">Joined Date</th>
+            <th width="5%">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr
-            v-for="(attribute, index) in projectAssigneesAttributes"
+            v-for="(attribute, index) in project.projectAssignees"
             :key="index"
           >
             <td>
               <FormValidator
-                :name="`project_assignees_attributes.${index}.user_id`"
+                :name="`project_assignees.${index}.user_id`"
                 required
               >
                 <el-select-v2
                   v-model="attribute.userId"
                   filterable
                   clearable
-                  :options="selectOptions.users"
+                  :options="userOptions"
                 ></el-select-v2>
               </FormValidator>
             </td>
             <td>
               <FormValidator
-                :name="`project_assignees_attributes.${index}.development_role_id`"
+                :name="`project_assignees.${index}.development_role_id`"
                 required
               >
                 <el-select-v2
                   v-model="attribute.developmentRoleId"
                   filterable
                   clearable
-                  :options="selectOptions.developmentRoles"
+                  :options="developmentRoleOptions"
                 ></el-select-v2>
               </FormValidator>
             </td>
@@ -90,16 +90,19 @@
   </div>
 </template>
 <script setup>
-import { computed } from "vue";
-
 const project = defineModel();
 
-const projectAssigneesAttributes = computed(
-  () => project.value.projectAssigneesAttributes,
-);
+defineProps({
+  developmentRoleOptions: {
+    type: Array,
+  },
+  userOptions: {
+    type: Array,
+  },
+});
 
 function addRow() {
-  projectAssigneesAttributes.value.push({
+  project.value.projectAssignees.push({
     userId: null,
     developmentRoleId: null,
     active: false,
@@ -108,7 +111,7 @@ function addRow() {
 }
 
 function deleteRow(index) {
-  projectAssigneesAttributes.value.splice(index, 1);
+  project.value.projectAssignees.splice(index, 1);
 }
 </script>
 
