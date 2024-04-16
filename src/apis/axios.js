@@ -87,6 +87,15 @@ api.interceptors.response.use(
 
       Toast.error({ title: errorMessage });
     } else if (response.data) {
+      const successMessage = get(
+        response.data.data,
+        `${Object.keys(response.data.data)[0]}.message`,
+      ) || "Sucess !";
+
+      if (response.config.toast) {
+        Toast.success({ title: successMessage });
+      }
+      
       return response.data.data;
     }
   },
@@ -118,7 +127,7 @@ export default function (
   variables,
   options = {
     loading: true,
-    toast: true,
+    toast: false,
   },
 ) {
   const globalStore = useGlobalStore();

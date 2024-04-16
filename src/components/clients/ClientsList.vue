@@ -40,7 +40,7 @@
               {{ client.name }}
             </div>
           </td>
-          <td class="text-left">{{ client.showOnHomePage }}</td>
+          <td class="text-left">{{ client.showOnHomePage ? "Yes" : "No" }}</td>
           <td v-if="writePermission || deletePermission">
             <div class="d-flex gap-3">
               <span
@@ -67,7 +67,7 @@
 </template>
 
 <script setup>
-import { inject, computed } from "vue";
+import { computed } from "vue";
 
 defineProps({
   clients: {

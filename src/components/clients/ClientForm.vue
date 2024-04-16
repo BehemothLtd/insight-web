@@ -20,7 +20,7 @@
               required
             >
               <input
-                v-model="clientForm.name"
+                v-model="clientFormData.name"
                 class="form-control"
                 type="text"
                 placeholder="Client Name"
@@ -33,7 +33,7 @@
               required
             >
               <b-form-checkbox
-                v-model="clientForm.showOnHomePage"
+                v-model="clientFormData.showOnHomePage"
                 switch
                 class="form-control"
               ></b-form-checkbox>
@@ -58,20 +58,57 @@
 </template>
 
 <script setup>
-import { useClientStore } from "@/stores/client";
-const clientStore = useClientStore();
+import { ref } from "vue";
+import { CreateClient, UpdateClient } from "@/apis/repositories/clientRepository";
+import { cloneDeep, omit } from "lodash";
 
-import { storeToRefs } from "pinia";
+const emits = defineEmits(["onSubmitForm"]);
 
-const { clientForm } = storeToRefs(clientStore);
-const emits = defineEmits(["create", "update"]);
+const clientFormData = ref({
+  id: null,
+  name: "",
+  showOnHomePage: false,
+  lockVersion: 0,
+  reset() {
+    (this.id = null), (this.name = "");
+    this.showOnHomePage = false;
+    this.lockVersion = 0;
+  },
+  createOutput() {
+    return omit(this, ["id", "lockVersion"]);
+  },
+  updateOutput(){
+    return {
+      id:this.id,
+      input: omit(this, ["id"])
+    }
+  },
+  assignAttributes(input) {
+    if (input) {
+      Object.keys(this).forEach((key) => {
+        if (input.hasOwnProperty(key)) this[key] = cloneDeep(input[key]);
+      });
+    }
+  },
+});
 
-function submitForm() {
-  if (clientForm.value.id) emits("update", clientForm.value.id);
-  else emits("create");
+async function submitForm() {
+  let result;
+
+  if (!clientFormData.value.id) {
+    result = await CreateClient(clientFormData.value.createOutput());
+  } else {
+    result = await UpdateClient(clientFormData.value.updateOutput())
+  }
+
+  if (result) emits("onSubmitForm"); 
 }
 async function onUpdateAvatar(value) {
   clientForm.value.avatarKey = value.key;
   clientForm.value.avatarUrl = value.url;
 }
+
+defineExpose({
+  clientFormData,
+});
 </script>

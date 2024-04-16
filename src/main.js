@@ -65,6 +65,9 @@ app.config.globalProperties.filters = filters;
 
 // globalProperties can only use for options API
 app.provide("Swal", Swal);
+app.config.errorHandler = (err, instance, info) => {
+  console.log(err) 
+}
 // app.provide("hasPermissionOn", hasPermissionOn);
 
 app.mount("#app");

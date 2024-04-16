@@ -6,6 +6,7 @@ export const ClientsGQL = gql`
       collection {
         id
         name
+        showOnHomePage
         createdAt
         updatedAt
         lockVersion
@@ -24,3 +25,15 @@ export const ClientsGQL = gql`
     }
   }
 `;
+
+export const ClientGQL = gql`
+  query Client($id: ID!){
+    Client (id: $id) {
+      id
+      name
+      showOnHomePage
+      lockVersion
+    }
+  }
+`;
+
