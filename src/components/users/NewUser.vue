@@ -79,9 +79,10 @@
 
 <script setup>
 import { ref, inject, computed } from "vue";
-import { UserCreate, FetchUsers } from "@/apis/repositories";
-import { useGoQuery } from "@bachdx/b-vuse";
+import { UserCreate } from "@/apis/repositories";
 import Toast from "@/ultilities/toast";
+
+const emits = defineEmits(["onCreate"]);
 
 // ===========PERMISSION========
 const hasPermissionOn = inject("hasPermissionOn");
@@ -93,10 +94,6 @@ const newUserInfoModal = ref(null);
 const userInfo = ref(null);
 
 const userDetail = ref({});
-const { goQueryInput } = useGoQuery({
-  perPage: 10,
-  query: {},
-});
 
 // =============METHODS=========
 function showNewUserModal() {
@@ -116,10 +113,7 @@ async function submitNewUser() {
     createUserModal.value.hide();
     newUserInfoModal.value.show();
 
-    FetchUsers({
-      input: goQueryInput.pagyInput,
-      query: goQueryInput.query,
-    });
+    emits("onCreate");
   }
 }
 

@@ -9,7 +9,10 @@
         @reset="resetQuerySearch"
       />
 
-      <NewUser :write-permission="writePermission" />
+      <NewUser
+        :write-permission="writePermission"
+        @on-create="fetchListUser"
+      />
 
       <UserList
         :users="users"
