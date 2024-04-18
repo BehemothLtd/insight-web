@@ -24,6 +24,8 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(["updated"]);
+
 const inputValue = defineModel();
 
 const usingClasses = computed(() => {

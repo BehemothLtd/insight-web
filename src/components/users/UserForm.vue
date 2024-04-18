@@ -15,7 +15,6 @@
         @change="onUpdateAvatar"
       />
     </div>
-    {{ user.birthday }}
     <div class="row">
       <div class="col-6">
         <div class="mb-3">
@@ -168,7 +167,7 @@
             <VSelect
               v-model="user.companyLevelId"
               class="w-100"
-              :options="selectOptions.companyLevel"
+              :options="selectOptionCompanyLevel"
               :reduce="(option) => option.value"
               :disabled="!writePermission"
             >
@@ -223,17 +222,11 @@
 
 <script setup>
 import { onMounted } from "vue";
-
-const selectOptionsState = [
-  { value: "active", label: "Active" },
-  { value: "inactive", label: "Inactive" },
-];
-
-const selectOptionsGender = [
-  { value: "male", label: "Male" },
-  { value: "female", label: "Female" },
-  { value: "bisexuality", label: "Bisexuality" },
-];
+import {
+  selectOptionsState,
+  selectOptionsGender,
+  selectOptionCompanyLevel,
+} from "@/ultilities/selectOptions.js";
 
 defineProps({
   emailDisable: {
