@@ -9,6 +9,7 @@ import {
   UserUpdateGQL,
 } from "@/apis/mutations";
 import { UserGQL } from "../resolvers";
+import { UserCreateGQL } from "../mutations/users";
 
 const updateKeys = [
   "about",
@@ -21,16 +22,12 @@ const updateKeys = [
   "fullName",
 ];
 
-// const USER_FORM_UNUSE_FIELDS = [
-//   "id",
-//   "avatarUrl",
-//   "name",
-//   "projectAssignees",
-//   "createdAt",
-//   "projectsCount",
-//   "timingActiveAt",
-//   "timingInactiveAt",
-// ];
+const adminMutateKeys = updateKeys.concat([
+  "email",
+  "state",
+  "password",
+  "companyLevelId",
+]);
 
 // Mutations
 export function SelfUpdateProfile(
@@ -45,20 +42,22 @@ export function UserToggleState(id) {
   return api(UserToggleActiveGQL, { id: id });
 }
 
+export function UserCreate(
+  input,
+  options = { loading: true, toastMessage: "Create User Successfully" },
+) {
+  input = pick(input, adminMutateKeys);
+
+  return api(UserCreateGQL, { input: input }, options);
+}
+
 export function UserUpdate(
   id,
   input,
-  options = { loading: true, toastMessage: "Update Profile Successfully" },
+  options = { loading: true, toastMessage: "Update User Successfully" },
 ) {
-  const keys = updateKeys.concat([
-    "email",
-    "state",
-    "password",
-    "companyLevelId",
-  ]);
-  input = pick(input, keys);
+  input = pick(input, adminMutateKeys);
 
-  console.log(input);
   return api(UserUpdateGQL, { id: id, input: input }, options);
 }
 

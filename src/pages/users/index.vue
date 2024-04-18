@@ -9,7 +9,7 @@
         @reset="resetQuerySearch"
       />
 
-      <!-- <NewUser /> -->
+      <NewUser :write-permission="writePermission" />
 
       <UserList
         :users="users"
@@ -29,6 +29,7 @@
 import { onMounted, ref, inject, computed } from "vue";
 import { FetchUsers, UserToggleState } from "@/apis/repositories";
 import { useGoQuery, useBreadcrumb } from "@bachdx/b-vuse";
+import { selectOptionsState } from "@/ultilities/selectOptions.js";
 
 import useDynamicSearch from "@/composable/dynamicSearch";
 import SearchField from "@/types/searchField";
@@ -86,16 +87,7 @@ searchFieldsList.value = [
       "mdi mdi-check-all",
       searchComponents.SingleSelectField,
       {
-        selectOptions: [
-          {
-            label: "Active",
-            value: "active",
-          },
-          {
-            label: "Inactive",
-            value: "inactive",
-          },
-        ],
+        selectOptions: selectOptionsState,
       },
     ),
   ],

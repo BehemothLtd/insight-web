@@ -72,3 +72,9 @@ export const UserUpdateGQL = gql`
     }
   }
 `;
+
+export const UserCreateGQL = gql`
+  mutation UserCreate($input: AdminUserInput!) {
+    UserCreate(input: $input)
+  }
+`;

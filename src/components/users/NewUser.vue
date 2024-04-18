@@ -20,7 +20,7 @@
       hide-footer
       size="lg"
     >
-      <NewUserForm></NewUserForm>
+      <NewUserForm v-model="userDetail" />
 
       <div class="modal-footer pb-0">
         <button
@@ -60,7 +60,7 @@
 
       <div class="card card-body">
         <div class="card-text fw-bold alert alert-success">
-          {{ newUserInfo }}
+          {{ userInfo }}
         </div>
 
         <div>
@@ -79,32 +79,27 @@
 
 <script setup>
 import { ref, inject, computed } from "vue";
+import { UserCreate, FetchUsers } from "@/apis/repositories";
+import { useGoQuery } from "@bachdx/b-vuse";
 import Toast from "@/ultilities/toast";
-import { storeToRefs } from "pinia";
-
-// ==============STORE============
-import { useUserStore } from "@/stores/user";
-const userStore = useUserStore();
-import { useGlobalStore } from "@/stores/global";
-const globalStore = useGlobalStore();
 
 // ===========PERMISSION========
 const hasPermissionOn = inject("hasPermissionOn");
-
 const writePermission = computed(() => hasPermissionOn("users", "write"));
 
 // =============DATA==========
 const createUserModal = ref(null);
 const newUserInfoModal = ref(null);
-const newUserInfo = ref({});
+const userInfo = ref(null);
 
-// const { newUserInfo } = storeToRefs(userStore);
+const userDetail = ref({});
+const { goQueryInput } = useGoQuery({
+  perPage: 10,
+  query: {},
+});
 
 // =============METHODS=========
 function showNewUserModal() {
-  // userStore.resetUserForm();
-  // globalStore.setValidationErrors({});
-
   createUserModal.value.show();
 }
 
@@ -113,16 +108,23 @@ function closeModal() {
 }
 
 async function submitNewUser() {
-  await userStore.createUser();
+  const result = await UserCreate(userDetail.value);
 
-  if (newUserInfo.value) {
+  if (userInfo) {
+    userInfo.value = result.UserCreate;
+
     createUserModal.value.hide();
     newUserInfoModal.value.show();
+
+    FetchUsers({
+      input: goQueryInput.pagyInput,
+      query: goQueryInput.query,
+    });
   }
 }
 
 function onCopyPassword() {
-  navigator.clipboard.writeText(newUserInfo.value);
+  navigator.clipboard.writeText(userInfo.value);
 
   Toast.success({ title: "Password is Copied to Clipboard" });
 }
