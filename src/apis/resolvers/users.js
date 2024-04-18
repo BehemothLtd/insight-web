@@ -160,6 +160,16 @@ export const UserGQL = gql`
       timingActiveAt
       timingDeactiveAt
       slackId
+      projectAssignees {
+        active
+        title
+        joinDate
+        leaveDate
+        name
+        project {
+          name
+        }
+      }
     }
   }
 `;

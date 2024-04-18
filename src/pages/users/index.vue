@@ -130,9 +130,9 @@ async function handleToggleActiveAccount(data) {
   });
 
   if (confirmation.isConfirmed) {
-    try {
-      toggleActiveUser(data.id);
-    } catch {
+    const result = await toggleActiveUser(data.id);
+
+    if (!result) {
       // switch back in case doesn't success
       switchBackToggle(data);
     }

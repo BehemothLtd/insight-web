@@ -45,6 +45,14 @@
           :write-permission="writePermission"
         >
           <div class="text-end">
+            <router-link
+              :to="`/users`"
+              type="button"
+              class="btn btn-outline-secondary me-2"
+            >
+              Back
+            </router-link>
+
             <b-button
               variant="primary"
               @click="updateUser"

@@ -110,7 +110,7 @@ function closeModal() {
 async function submitNewUser() {
   const result = await UserCreate(userDetail.value);
 
-  if (userInfo) {
+  if (result) {
     userInfo.value = result.UserCreate;
 
     createUserModal.value.hide();
