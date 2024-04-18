@@ -20,6 +20,9 @@ export const SelfUpdateProfileGQL = gql`
         timingDeactiveAt
         slackId
         projectAssignees {
+          project {
+            name
+          }
           active
           title
           name

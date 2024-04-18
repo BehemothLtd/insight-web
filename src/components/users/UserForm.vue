@@ -19,7 +19,7 @@
       <div class="col-6">
         <div class="mb-3">
           <FormValidator
-            name="fullName"
+            name="FullName"
             label="Full Name"
             required
           >
@@ -34,7 +34,7 @@
       <div class="col-6">
         <div class="mb-3">
           <FormValidator
-            name="email"
+            name="Email"
             label="E-mail"
             required
           >
@@ -52,7 +52,7 @@
       <div class="col-6">
         <div class="mb-3">
           <FormValidator
-            name="phone"
+            name="Phone"
             label="Phone"
           >
             <b-form-input
@@ -66,7 +66,7 @@
       <div class="col-6">
         <div class="mb-3">
           <FormValidator
-            name="address"
+            name="Address"
             label="Address"
           >
             <b-form-input
@@ -83,7 +83,7 @@
       <div class="col-6">
         <div class="mb-3">
           <FormValidator
-            name="birthday"
+            name="Birthday"
             label="Birthday"
           >
             <DatePicker
@@ -100,7 +100,7 @@
       <div class="col-6">
         <div class="mb-3">
           <FormValidator
-            name="gender"
+            name="Gender"
             label="Gender"
           >
             <VSelect
@@ -119,7 +119,7 @@
       <div class="col-6">
         <div class="mb-3">
           <FormValidator
-            name="slack_id"
+            name="SlackId"
             label="Slack ID"
             required
           >
@@ -138,7 +138,7 @@
       >
         <div class="mb-3">
           <FormValidator
-            name="state"
+            name="State"
             label="Active"
             required
           >
@@ -161,7 +161,7 @@
       >
         <div class="mb-3">
           <FormValidator
-            name="company_level_id"
+            name="companyLevelId"
             label="Company Level"
           >
             <VSelect
@@ -181,7 +181,7 @@
       >
         <div class="mb-3">
           <FormValidator
-            name="password"
+            name="Password"
             label="Password"
           >
             <b-form-input
@@ -198,7 +198,7 @@
       <div class="col-6">
         <div class="mb-3">
           <FormValidator
-            name="about"
+            name="About"
             label="About"
           >
             <b-form-textarea
