@@ -164,7 +164,7 @@ const Swal = inject("Swal");
 const attendance = ref({});
 const attendanceFormInput = computed(() => {
   return {
-    userId: Number(attendance.value.userId),
+    userId: Number(attendance.value.userId) || 0,
     checkinAt: filters.formatDateHourMinute(attendance.value.checkinAt),
     checkoutAt: filters.formatDateHourMinute(attendance.value.checkoutAt),
   };
