@@ -21,8 +21,44 @@
           <p class="text-mute mb-1 text-left">
             {{ `Member since ${filters.fullDate(userDetail.createdAt)}` }}
           </p>
+
+          <span
+            class="text-left text-primary"
+            style="cursor: pointer"
+            @click="showPasswordModal"
+          >
+            Change Password
+            <i class="mdi mdi-pencil font-size-14"></i>
+          </span>
         </div>
       </div>
+
+      <b-modal
+        ref="modal"
+        title="Change Password"
+        title-class="font-18"
+        hide-footer
+        size="md"
+      >
+        <PasswordForm v-model="changePasswordForm"> </PasswordForm>
+        <div class="modal-footer pb-0">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+            @click="hideModal"
+          >
+            Close
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            @click="onChangePassword"
+          >
+            Save
+          </button>
+        </div>
+      </b-modal>
 
       <div>
         <UserForm
@@ -55,6 +91,14 @@ const userDetail = ref({});
 
 import { FetchSelfInfo, SelfUpdateProfile } from "@/apis/repositories";
 
+import { useGlobalStore } from "@/stores/global";
+const globalStore = useGlobalStore();
+
+import useModal from "@/composable/modal";
+const { modal, showModal, hideModal } = useModal();
+
+const changePasswordForm = ref({});
+
 async function fetchSelfInfo() {
   const result = await FetchSelfInfo();
 
@@ -76,5 +120,10 @@ onMounted(async () => {
 async function onUpdateAvatar(value) {
   userDetail.value.avatarKey = value.key;
   userDetail.value.avatarUrl = value.url;
+}
+
+function showPasswordModal() {
+  globalStore.setValidationErrors({});
+  showModal();
 }
 </script>

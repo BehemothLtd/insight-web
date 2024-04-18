@@ -33,8 +33,10 @@
                   </a>
                 </div>
               </td>
-              <td>{{ projectAssignee.joinDate }}</td>
-              <td>{{ projectAssignee.leaveDate }}</td>
+              <td>{{ `${filters.fullDate(projectAssignee.joinDate)}` }}</td>
+              <td>
+                {{ `${filters.fullDate(projectAssignee.leaveDate)}` }}
+              </td>
               <td>
                 <span
                   class="badge me-2"
