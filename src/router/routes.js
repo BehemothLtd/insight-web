@@ -1,5 +1,7 @@
 import ProjectRoutes from "./projectRoutes";
 
+import AdminAttendance from "./AdminAttendance";
+
 export default [
   {
     path: "/",
@@ -23,4 +25,7 @@ export default [
   },
 
   ...ProjectRoutes,
+
+  // Admin
+  ...AdminAttendance,
 ];
