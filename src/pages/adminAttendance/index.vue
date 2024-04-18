@@ -10,6 +10,7 @@
     <button
       type="button"
       class="btn btn-primary waves-effect waves-light"
+      :disabled="!writePermission"
       @click="showModal()"
     >
       <i class="bx bx-plus-circle font-size-16 align-middle me-2"></i>
@@ -19,6 +20,7 @@
 
   <AttendanceList
     :list="attendances"
+    :write-permission="writePermission"
     @delete="destroy"
     @detail="showAttendance"
   ></AttendanceList>

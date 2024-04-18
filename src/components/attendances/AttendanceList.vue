@@ -37,18 +37,20 @@
 
           <td>
             <div class="d-flex gap-3">
-              <span
-                class="text-success cursor-pointer"
+              <button
+                class="btn text-success cursor-pointer"
+                :disabled="!writePermission"
                 @click="$emit('detail', record.id)"
               >
                 <i class="mdi mdi-pencil font-size-18"></i>
-              </span>
-              <span
-                class="text-danger cursor-pointer"
+              </button>
+              <button
+                class="btn text-danger cursor-pointer"
+                :disabled="!writePermission"
                 @click="$emit('delete', record.id)"
               >
                 <i class="mdi mdi-delete font-size-18"></i>
-              </span>
+              </button>
             </div>
           </td>
         </tr>
@@ -62,6 +64,10 @@ const props = defineProps({
   list: {
     type: Array,
     required: true,
+  },
+  writePermission: {
+    type: Boolean,
+    default: false,
   },
 });
 
