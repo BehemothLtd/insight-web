@@ -1,6 +1,7 @@
 import ProjectRoutes from "./projectRoutes";
 
 import AdminAttendance from "./AdminAttendance";
+import userRoutes from "./userRoutes";
 
 export default [
   {
@@ -28,16 +29,5 @@ export default [
 
   // Admin
   ...AdminAttendance,
-  {
-    path: "/users",
-    name: "User",
-    meta: { authRequired: true },
-    component: () => import("@/pages/users/index.vue"),
-  },
-  {
-    path: "/users/:id",
-    name: "UserDetail",
-    meta: { authRequired: true },
-    component: () => import("@/pages/users/[id]/index.vue"),
-  },
+  ...userRoutes,
 ];

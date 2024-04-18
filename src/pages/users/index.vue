@@ -40,6 +40,7 @@ import SearchField from "@/types/searchField";
 const { setBreadcrumb } = useBreadcrumb();
 const Swal = inject("Swal");
 
+// =========== DATA ========
 const query = ref({});
 const users = ref([]);
 const metadata = ref({});
@@ -51,7 +52,6 @@ const { goQueryInput, updatePage, updateQuery } = useGoQuery({
 
 // =========== PERMISSION ========
 const hasPermissionOn = inject("hasPermissionOn");
-
 const writePermission = computed(() => hasPermissionOn("users", "write"));
 
 // =========== Search List ========
@@ -96,6 +96,7 @@ searchFieldsList.value = [
   ],
 ];
 
+// =========== FUNCTION ========
 async function fetchListUser() {
   const result = await FetchUsers({
     input: goQueryInput.pagyInput,
@@ -156,8 +157,12 @@ setBreadcrumb({
   title: "User List",
   items: [
     {
-      text: "Users",
-      active: true,
+      text: "Home",
+      href: "/",
+    },
+    {
+      text: "User",
+      href: "/users",
     },
   ],
 });

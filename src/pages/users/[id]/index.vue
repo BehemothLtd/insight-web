@@ -74,20 +74,24 @@
 import { ref, onMounted, inject, computed } from "vue";
 import { GetUser, UserUpdate } from "@/apis/repositories";
 import { useRoute } from "vue-router";
+import { useBreadcrumb } from "@bachdx/b-vuse";
 
 const props = defineProps({
   user: Object,
 });
 
-// =========== PERMISSION ========
+// =========== PERMISSION ===========
 const hasPermissionOn = inject("hasPermissionOn");
 const writePermission = computed(() => hasPermissionOn("users", "write"));
 
+// =========== DATA ===========
 const route = useRoute();
-
 const userDetail = ref({});
 const userId = ref();
 
+const { setBreadcrumb } = useBreadcrumb();
+
+// =========== FUNCTION ===========
 async function updateUser() {
   try {
     const result = await UserUpdate(userId.value, userDetail.value);
@@ -116,4 +120,22 @@ async function onUpdateAvatar(value) {
   userDetail.value.avatarKey = value.key;
   userDetail.value.avatarUrl = value.url;
 }
+
+setBreadcrumb({
+  title: "User",
+  items: [
+    {
+      text: "Home",
+      href: "/",
+    },
+    {
+      text: "User",
+      href: "/users",
+    },
+    {
+      text: "Detail",
+      active: true,
+    },
+  ],
+});
 </script>

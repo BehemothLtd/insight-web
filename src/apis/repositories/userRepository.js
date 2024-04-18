@@ -1,6 +1,6 @@
 import api from "@/apis/axios";
 
-import { pick, omit } from "lodash";
+import { pick } from "lodash";
 
 import { SelfInfoGQL, UsersGQL } from "@/apis/resolvers";
 import {
@@ -8,6 +8,7 @@ import {
   UserToggleActiveGQL,
   UserUpdateGQL,
 } from "@/apis/mutations";
+
 import { UserGQL } from "../resolvers";
 import { UserCreateGQL } from "../mutations/users";
 
