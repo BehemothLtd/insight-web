@@ -4,7 +4,7 @@
     <div class="form-group">
       <FormValidator
         label="Project Type"
-        name="project_type"
+        name="projectType"
         required
       >
         <el-select-v2
@@ -19,7 +19,7 @@
         v-if="project.projectType == 'scrum'"
         class="mt-3"
         label="Sprint Duration"
-        name="sprint_duration"
+        name="sprintDuration"
         required
       >
         <el-select-v2
@@ -32,7 +32,7 @@
     </div>
 
     <FormValidator
-      name="project_issue_statuses_attributes"
+      name="projectIssueStatuses"
       label="Project Statuses"
     >
       <div class="custom-checkbox">
@@ -42,7 +42,7 @@
         >
           <input
             :id="`issueStatus_${status.value}`"
-            v-model="project.projectIssueStatusesAttributes"
+            v-model="project.projectIssueStatuses"
             class="form-check-input"
             type="checkbox"
             :value="{ issueStatusId: status.value }"
@@ -81,11 +81,8 @@ const project = defineModel();
 
 const activeStyles = computed(() => {
   return (id) => {
-    if (
-      project.value.projectIssueStatusesAttributes &&
-      project.value.projectIssueStatusesAttributes.length
-    ) {
-      const active = project.value.projectIssueStatusesAttributes.some(
+    if (project.value.projectIssueStatuses.length) {
+      const active = project.value.projectIssueStatuses.some(
         (item) => item.issueStatusId === id,
       );
       if (active) {
@@ -93,7 +90,6 @@ const activeStyles = computed(() => {
           (e) => e.value === id,
         );
         if (issueStatus) {
-          console.log(issueStatus);
           const issueStatusColor = issueStatus.color;
           const styles = {
             border: `2px solid ${issueStatusColor}`,
@@ -108,11 +104,8 @@ const activeStyles = computed(() => {
 });
 
 function checked(id) {
-  if (
-    project.value.projectIssueStatusesAttributes &&
-    project.value.projectIssueStatusesAttributes.length
-  ) {
-    return project.value.projectIssueStatusesAttributes.some(
+  if (project.value.projectIssueStatuses.length) {
+    return project.value.projectIssueStatuses.some(
       (item) => item.issueStatusId === id,
     );
   }

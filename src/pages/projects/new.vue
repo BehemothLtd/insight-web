@@ -1,12 +1,11 @@
 <template>
   <div class="row">
-    {{ project }}
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
           <div class="container">
             <el-steps
-              :active="createCurrentStep"
+              :active="currentStep"
               direction="vertical"
               finish-status="success"
             >
@@ -55,7 +54,7 @@
                   v-model="project"
                 >
                   <div class="step-title">
-                    <div class="step-count">Step {{ createCurrentStep }}</div>
+                    <div class="step-count">Step {{ currentStep }}</div>
                     <div class="step-info">{{ stepComponent.title }}</div>
                   </div>
                 </component>
@@ -66,14 +65,14 @@
             <div class="d-flex justify-content-end w-100">
               <b-button
                 class="btn mr-2"
-                :disabled="createCurrentStep <= 1"
+                :disabled="currentStep <= 1"
                 @click="prevStep"
               >
                 Prev Step
               </b-button>
 
               <b-button
-                v-if="createCurrentStep !== totalSteps"
+                v-if="currentStep !== totalSteps"
                 variant="primary"
                 class="btn"
                 @click="nextStep"
@@ -82,7 +81,7 @@
               </b-button>
 
               <b-button
-                v-if="createCurrentStep === totalSteps"
+                v-if="currentStep === totalSteps"
                 variant="primary"
                 class="btn"
                 @click="submit"
@@ -100,6 +99,12 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 
+import { useRouter } from "vue-router";
+const router = useRouter();
+
+import { useGlobalStore } from "@/stores/global";
+const globalStore = useGlobalStore();
+
 import CreateProjectStep1 from "@/components/projects/create/CreateProjectStep1.vue";
 import CreateProjectStep2 from "@/components/projects/create/CreateProjectStep2.vue";
 import CreateProjectStep3 from "@/components/projects/create/CreateProjectStep3.vue";
@@ -116,7 +121,7 @@ const issueStatusOptions = ref([]);
 const developmentRoleOptions = ref([]);
 const userOptions = ref([]);
 
-import { FetchSelectOptions } from "@/apis/repositories";
+import { FetchSelectOptions, CreateProject } from "@/apis/repositories";
 
 setBreadcrumb({
   title: "Create Project",
@@ -150,13 +155,11 @@ onMounted(async () => {
   }
 });
 
-const createCurrentStep = ref(1);
+const currentStep = ref(1);
 const totalSteps = ref(3);
 
 const stepComponent = computed(() => {
-  const currentStep = createCurrentStep.value;
-
-  switch (currentStep) {
+  switch (currentStep.value) {
     case 2:
       return {
         title: "Project Statuses",
@@ -176,16 +179,37 @@ const stepComponent = computed(() => {
 });
 
 function prevStep() {
-  if (createCurrentStep.value <= 1) return;
-  createCurrentStep.value -= 1;
+  if (currentStep.value <= 1) return;
+  currentStep.value -= 1;
 }
 
 function nextStep() {
-  if (createCurrentStep.value >= totalSteps.value) return;
-  createCurrentStep.value += 1;
+  if (currentStep.value >= totalSteps.value) return;
+  currentStep.value += 1;
 }
 
-function submit() {}
+async function submit() {
+  const result = await CreateProject(project.value);
+
+  if (result?.ProjectCreate) {
+    router.push("/projects");
+  } else {
+    if (
+      globalStore.haveErrorOnFields([
+        "name",
+        "code",
+        "description",
+        "projectType",
+      ])
+    ) {
+      currentStep.value = 1;
+    } else if (
+      globalStore.haveErrorOnFields(["projectIssueStatusesAttributes"])
+    ) {
+      currentStep.value = 2;
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
