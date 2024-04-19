@@ -97,6 +97,7 @@ const userDetail = ref({});
 
 // =============METHODS=========
 function showNewUserModal() {
+  userDetail.value = {};
   createUserModal.value.show();
 }
 
