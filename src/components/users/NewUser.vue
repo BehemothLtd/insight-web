@@ -102,7 +102,6 @@ function showNewUserModal() {
 }
 
 function closeModal() {
-  userDetail.value = {};
   createUserModal.value.hide();
 }
 
@@ -114,8 +113,6 @@ async function submitNewUser() {
 
     createUserModal.value.hide();
     newUserInfoModal.value.show();
-
-    userDetail.value = {};
 
     emits("onCreate");
   }
