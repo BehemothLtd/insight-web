@@ -97,10 +97,12 @@ const userDetail = ref({});
 
 // =============METHODS=========
 function showNewUserModal() {
+  userDetail.value = {};
   createUserModal.value.show();
 }
 
 function closeModal() {
+  userDetail.value = {};
   createUserModal.value.hide();
 }
 
@@ -112,6 +114,8 @@ async function submitNewUser() {
 
     createUserModal.value.hide();
     newUserInfoModal.value.show();
+
+    userDetail.value = {};
 
     emits("onCreate");
   }

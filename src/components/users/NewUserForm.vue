@@ -7,7 +7,7 @@
         >Avatar :</label
       >
       <UserAvatarUpload
-        :user="user"
+        :user="userDetail"
         :permission="true"
         @change="onUpdateAvatar"
       />
@@ -20,10 +20,11 @@
             label="Full Name"
             required
           >
-            <b-form-input
-              v-model="user.fullName"
+            <input
+              class="form-control"
+              v-model="userDetail.fullName"
               placeholder="Full Name"
-            ></b-form-input>
+            />
           </FormValidator>
         </div>
       </div>
@@ -34,11 +35,12 @@
             label="E-mail"
             required
           >
-            <b-form-input
+            <input
               id="email"
-              v-model="user.email"
+              class="form-control"
+              v-model="userDetail.email"
               placeholder="domain behemoth.vn, kerberos.jp"
-            ></b-form-input>
+            />
           </FormValidator>
         </div>
       </div>
@@ -49,11 +51,12 @@
             label="Slack ID"
             required
           >
-            <b-form-input
+            <input
               id="slackId"
-              v-model="user.slackId"
+              class="form-control"
+              v-model="userDetail.slackId"
               placeholder="ABCDEFGH"
-            ></b-form-input>
+            />
           </FormValidator>
         </div>
       </div>
@@ -65,29 +68,28 @@
             name="about"
             label="About"
           >
-            <b-form-textarea
+            <textarea
               id="about"
-              v-model="user.about"
+              class="form-control"
+              v-model="userDetail.about"
               placeholder="Enter something..."
               rows="6"
               max-rows="6"
-            ></b-form-textarea>
+            />
           </FormValidator>
         </div>
       </div>
     </div>
 
-    <div class="col-12">
-      <slot></slot>
-    </div>
+    <div class="col-12"></div>
   </div>
 </template>
 
 <script setup>
-const user = defineModel();
+const userDetail = defineModel();
 
 async function onUpdateAvatar(value) {
-  user.value.avatarKey = value.key;
-  user.value.avatarUrl = value.url;
+  userDetail.value.avatarKey = value.key;
+  userDetail.value.avatarUrl = value.url;
 }
 </script>
