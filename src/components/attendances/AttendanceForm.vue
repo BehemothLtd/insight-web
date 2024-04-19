@@ -5,7 +5,7 @@
         <div class="row mb-3">
           <FormValidator
             label="User"
-            name="userId"
+            name="UserId"
             required
           >
             <VSelect
@@ -19,7 +19,7 @@
 
           <FormValidator
             class="mt-2"
-            name="checkinAt"
+            name="CheckinAt"
             label="Check In"
             required
           >
@@ -33,7 +33,7 @@
 
           <FormValidator
             class="mt-2"
-            name="checkoutAt"
+            name="CheckoutAt"
             label="Check Out"
           >
             <DatePicker
