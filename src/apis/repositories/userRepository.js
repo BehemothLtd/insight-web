@@ -7,6 +7,7 @@ import {
   SelfUpdateProfileGQL,
   UserToggleActiveGQL,
   UserUpdateGQL,
+  SelfUpdatePasswordGQL,
 } from "@/apis/mutations";
 
 import { UserGQL } from "../resolvers";
@@ -37,6 +38,13 @@ export function SelfUpdateProfile(
 ) {
   input = pick(input, updateKeys);
   return api(SelfUpdateProfileGQL, { input }, options);
+}
+
+export function SelfUpdatePassword(
+  { input },
+  options = { loading: true, toastMessage: "Update Password Successfully" },
+) {
+  return api(SelfUpdatePasswordGQL, { input }, options);
 }
 
 export function UserToggleState(id) {

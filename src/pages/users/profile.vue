@@ -40,7 +40,7 @@
         hide-footer
         size="md"
       >
-        <PasswordForm v-model="changePasswordForm"> </PasswordForm>
+        <PasswordForm v-model="userPasswordForm"> </PasswordForm>
         <div class="modal-footer pb-0">
           <button
             type="button"
@@ -87,9 +87,11 @@
 <script setup>
 import { ref, onMounted } from "vue";
 
-const userDetail = ref({});
-
-import { FetchSelfInfo, SelfUpdateProfile } from "@/apis/repositories";
+import {
+  FetchSelfInfo,
+  SelfUpdateProfile,
+  SelfUpdatePassword,
+} from "@/apis/repositories";
 
 import { useGlobalStore } from "@/stores/global";
 const globalStore = useGlobalStore();
@@ -97,7 +99,8 @@ const globalStore = useGlobalStore();
 import useModal from "@/composable/modal";
 const { modal, showModal, hideModal } = useModal();
 
-const changePasswordForm = ref({});
+const userDetail = ref({});
+const userPasswordForm = ref({});
 
 async function fetchSelfInfo() {
   const result = await FetchSelfInfo();
@@ -110,6 +113,17 @@ async function updateProfile() {
     const result = await SelfUpdateProfile({ input: userDetail.value });
 
     userDetail.value = result.SelfUpdateProfile.user;
+  } catch {}
+}
+
+async function onChangePassword() {
+  try {
+    const result = await SelfUpdatePassword({
+      input: userPasswordForm.value,
+    });
+    if (result.SelfUpdatePassword) {
+      hideModal();
+    }
   } catch {}
 }
 

@@ -34,6 +34,12 @@ export const SelfUpdateProfileGQL = gql`
   }
 `;
 
+export const SelfUpdatePasswordGQL = gql`
+  mutation ($input: SelfUpdatePassword!) {
+    SelfUpdatePassword(input: $input)
+  }
+`;
+
 export const UserToggleActiveGQL = gql`
   mutation ($id: ID!) {
     UserToggleActive(id: $id) {

@@ -2,9 +2,9 @@
   <div class="container-fluid">
     <div class="mb-3">
       <label class="form-label">Current Password :</label>
-      <FormValidator name="current_password">
+      <FormValidator name="CurrentPassword">
         <b-form-input
-          v-model="changePasswordForm.currentPassword"
+          v-model="userPasswordForm.currentPassword"
           type="password"
         ></b-form-input>
       </FormValidator>
@@ -15,9 +15,9 @@
         class="form-label"
         >Password :</label
       >
-      <FormValidator name="password">
+      <FormValidator name="Password">
         <b-form-input
-          v-model="changePasswordForm.password"
+          v-model="userPasswordForm.password"
           type="password"
         ></b-form-input>
       </FormValidator>
@@ -28,9 +28,9 @@
         class="form-label"
         >Password Confirmation :</label
       >
-      <FormValidator name="password_confirmation">
+      <FormValidator name="PasswordConfirmation">
         <b-form-input
-          v-model="changePasswordForm.passwordConfirmation"
+          v-model="userPasswordForm.passwordConfirmation"
           type="password"
         ></b-form-input>
       </FormValidator>
@@ -39,5 +39,5 @@
 </template>
 
 <script setup>
-const changePasswordForm = defineModel();
+const userPasswordForm = defineModel();
 </script>
