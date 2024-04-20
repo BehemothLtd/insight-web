@@ -89,8 +89,8 @@
             <DatePicker
               v-model="user.birthday"
               :enable-time-picker="false"
-              model-type="yyyy-MM-dd"
-              format="yyyy-MM-dd"
+              model-type="dd-MM-yyyy"
+              format="dd-MM-yyyy"
               auto-apply
               :disabled="!writePermission"
             />
