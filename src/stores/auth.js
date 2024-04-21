@@ -5,7 +5,7 @@ import { useLocalStorage, StorageSerializers } from "@vueuse/core";
 import { useRouter } from "vue-router";
 
 import AuthRepository from "@/apis/repositories/authsRepository";
-import Toast from "@/ultilities/toast";
+import Toast from "@/utilities/toast";
 
 export const useAuthStore = defineStore("auth", () => {
   const router = useRouter();

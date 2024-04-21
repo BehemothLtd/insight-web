@@ -1,6 +1,6 @@
 <script setup>
 import simplebar from "simplebar-vue";
-import { menu } from "@/ultilities/menu";
+import { menu } from "@/utilities/menu";
 </script>
 
 <template>

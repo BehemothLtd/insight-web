@@ -80,7 +80,7 @@
 <script setup>
 import { ref, inject, computed } from "vue";
 import { UserCreate } from "@/apis/repositories";
-import Toast from "@/ultilities/toast";
+import Toast from "@/utilities/toast";
 
 const emits = defineEmits(["onCreate"]);
 

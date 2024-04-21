@@ -2,7 +2,7 @@ import axios from "axios";
 import router from "@/router/index";
 // ==========UTILITIES=========
 import { get } from "lodash";
-import Toast from "@/ultilities/toast";
+import Toast from "@/utilities/toast";
 
 // ==========STORE=========
 import { useAuthStore } from "@/stores/auth";

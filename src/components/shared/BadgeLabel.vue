@@ -18,7 +18,7 @@
 <script setup>
 import { ref, watch } from "vue";
 
-import getColorByCodes from "@/ultilities/colorMapping";
+import getColorByCodes from "@/utilities/colorMapping";
 
 const props = defineProps({
   text: {

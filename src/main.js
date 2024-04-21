@@ -56,7 +56,7 @@ VueDatePicker.props.actionRow.default = {
 VueDatePicker.props.autoApply.default = true;
 app.component("DatePicker", VueDatePicker);
 
-import filters from "@/ultilities/filters";
+import filters from "@/utilities/filters";
 app.config.globalProperties.filters = filters;
 
 import usePermission from "@/composable/permission";

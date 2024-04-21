@@ -1,7 +1,7 @@
 import { some } from "lodash";
 import { useAuthStore } from "@/stores/auth";
 import { storeToRefs } from "pinia";
-import Toast from "@/ultilities/toast";
+import Toast from "@/utilities/toast";
 import router from "@/router/index";
 
 export default function usePermission() {
