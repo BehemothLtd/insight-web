@@ -49,7 +49,7 @@ onMounted(async () => {
 
   analysesTotalSummarize.value = result.analysesTotalSummarize;
   userRecentTasks.value = result.userRecentTasks;
-analysesProjectsIssueStatus.value = result.analysesProjectsIssueStatus;
+  analysesProjectsIssueStatus.value = result.analysesProjectsIssueStatus;
   selfThisWeekIssuesState.value = result.selfThisWeekIssuesState;
 });
 

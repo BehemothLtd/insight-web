@@ -70,6 +70,5 @@ export const useGlobalStore = defineStore("global", () => {
     haveErrorOnFields,
     addLoadingRequest,
     removeLoadingRequest,
-    uploadFiles
   };
 });

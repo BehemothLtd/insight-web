@@ -21,7 +21,7 @@ export function FetchSelfAttendances(params = { input: {}, query: {} }) {
 }
 
 export function SelfAttend() {
-  return api(SelfAttendGQL, {}, { loading: true, toast: true });
+  return api(SelfAttendGQL, {}, { loading: true });
 }
 
 export function FetchAttendances(

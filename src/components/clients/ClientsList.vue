@@ -31,9 +31,9 @@
           <td class="text-left">
             <div class="d-flex">
               <UserAvatarUpload
-              class="mr-3"
+                class="mr-3"
                 :user="client"
-                :permission="true"
+                :permission="false"
                 avatar-size="avatar-sm"
               />
 
