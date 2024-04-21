@@ -5,12 +5,12 @@
         <div class="row mb-3">
           <div class="col-sm-3">
             <div class="d-flex align-items-center justify-content-start mb-3">
-              <!-- <UserAvatarUpload
-                :user="clientForm"
+              <UserAvatarUpload
+                :user="clientFormData"
                 btn-type="mdi mdi-pencil"
                 permission
                 @change="onUpdateAvatar"
-              /> -->
+              />
             </div>
           </div>
           <div class="col-sm-9">
@@ -53,6 +53,7 @@
           </div>
         </div>
       </div>
+      <h3>{{ clientFormData }}</h3>
     </div>
   </div>
 </template>
@@ -69,18 +70,23 @@ const clientFormData = ref({
   name: "",
   showOnHomePage: false,
   lockVersion: 0,
+  avatarKey:"",
+  avatarUrl:"",
+
   reset() {
     (this.id = null), (this.name = "");
     this.showOnHomePage = false;
     this.lockVersion = 0;
+    this.avatarKey = "";
+    this.avatarUrl = ""
   },
   createOutput() {
-    return omit(this, ["id", "lockVersion"]);
+    return omit(this, ["id", "lockVersion","avatarUrl"]);
   },
   updateOutput(){
     return {
       id:this.id,
-      input: omit(this, ["id"])
+      input: omit(this, ["id","avatarUrl"])
     }
   },
   assignAttributes(input) {
@@ -104,8 +110,8 @@ async function submitForm() {
   if (result) emits("onSubmitForm"); 
 }
 async function onUpdateAvatar(value) {
-  clientForm.value.avatarKey = value.key;
-  clientForm.value.avatarUrl = value.url;
+  clientFormData.value.avatarKey = value.key;
+  clientFormData.value.avatarUrl = value.url;
 }
 
 defineExpose({

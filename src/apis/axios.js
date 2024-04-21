@@ -142,7 +142,7 @@ export default function (
         timeout: 300000,
       };
 
-      return api.post("/upload", variables.data, {
+      return api.post("/uploads", variables.data, {
         ...config,
         ...options,
       });

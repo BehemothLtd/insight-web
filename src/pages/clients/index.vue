@@ -108,6 +108,7 @@ async function deleteClient(id) {
 
 onMounted(async () => {
   await fetchClients();
+  showModal()
 });
 
 function onPageChange(page) {

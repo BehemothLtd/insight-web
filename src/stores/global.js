@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { useLocalStorage } from "@vueuse/core";
 
 import { get } from "lodash";
+import axios from "@/apis/axios";
 
 export const useGlobalStore = defineStore("global", () => {
   const theme = ref(useLocalStorage("theme", "light"));
@@ -54,6 +55,16 @@ export const useGlobalStore = defineStore("global", () => {
     );
   }
 
+  async function uploadFiles(data) {
+    const response = await axios(
+      null,
+      { data },
+      { loading: true, toast: false, requestType: "upload" },
+    );
+
+    return response;
+  }
+
   return {
     theme,
     // Errors Msgs
@@ -69,5 +80,6 @@ export const useGlobalStore = defineStore("global", () => {
     haveErrorOnFields,
     addLoadingRequest,
     removeLoadingRequest,
+    uploadFiles
   };
 });

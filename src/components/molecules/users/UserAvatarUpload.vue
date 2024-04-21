@@ -16,6 +16,7 @@
         ></i>
       </b-button>
     </UserAvatar>
+
     <input
       ref="file"
       type="file"
@@ -65,7 +66,9 @@ async function upload() {
   formData.append("files[]", file.value.files[0]);
   const res = await globalStore.uploadFiles(formData);
 
-  emits("change", res[0]);
+  if (res[0]) {
+    emits("change", res[0]);
+  }
 }
 </script>
 

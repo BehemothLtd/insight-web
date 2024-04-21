@@ -33,6 +33,7 @@ export const ClientGQL = gql`
       name
       showOnHomePage
       lockVersion
+      avatarUrl
     }
   }
 `;
