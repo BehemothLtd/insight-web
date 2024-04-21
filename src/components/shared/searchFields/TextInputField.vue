@@ -1,6 +1,6 @@
 <template>
   <input
-    v-model="searchText"
+    v-model="inputValue"
     :placeholder="placeHolder"
     :class="usingClasses"
     type="text"
@@ -10,7 +10,7 @@
 <script setup>
 import { computed } from "vue";
 
-const searchText = defineModel()
+const inputValue = defineModel()
 
 const props = defineProps({
   classes: {
@@ -43,6 +43,7 @@ defineExpose({
 });
 
 function clear() {
-  searchText.value = null;
+  inputValue.value = null;
+  emit("updated", null);
 }
 </script>

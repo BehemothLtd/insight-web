@@ -3,7 +3,6 @@ import { ref } from "vue";
 import { useLocalStorage } from "@vueuse/core";
 
 import { get } from "lodash";
-import axios from "@/apis/axios";
 
 export const useGlobalStore = defineStore("global", () => {
   const theme = ref(useLocalStorage("theme", "light"));
@@ -53,16 +52,6 @@ export const useGlobalStore = defineStore("global", () => {
     loadingRequests.value = loadingRequests.value.filter(
       (rq_id) => rq_id != id,
     );
-  }
-
-  async function uploadFiles(data) {
-    const response = await axios(
-      null,
-      { data },
-      { loading: true, toast: false, requestType: "upload" },
-    );
-
-    return response;
   }
 
   return {

@@ -30,12 +30,12 @@
           <td>{{ client.id }}</td>
           <td class="text-left">
             <div class="d-flex">
-              <!-- <UserAvatarUpload
+              <UserAvatarUpload
               class="mr-3"
                 :user="client"
-                :permission="false"
+                :permission="true"
                 avatar-size="avatar-sm"
-              /> -->
+              />
 
               {{ client.name }}
             </div>

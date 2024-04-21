@@ -10,6 +10,7 @@ export const ClientsGQL = gql`
         createdAt
         updatedAt
         lockVersion
+        avatarUrl
       }
       metadata {
         total
