@@ -67,7 +67,7 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, inject } from "vue";
 
 defineProps({
   clients: {
@@ -78,13 +78,13 @@ defineProps({
 
 defineEmits(["open-detail", "delete"]);
 // ===========PERMISSION========
-// const hasPermissionOn = inject("hasPermissionOn");
+const hasPermissionOn = inject("hasPermissionOn");
 
-// const writePermission = computed(() => hasPermissionOn("clients", "write"));
+const writePermission = computed(() => hasPermissionOn("clients", "write"));
 
-// const deletePermission = computed(() => hasPermissionOn("clients", "delete"));
+const deletePermission = computed(() => hasPermissionOn("clients", "delete"));
 
-const writePermission = computed(() => true);
+// const writePermission = computed(() => true);
 
-const deletePermission = computed(() => true);
+// const deletePermission = computed(() => true);
 </script>

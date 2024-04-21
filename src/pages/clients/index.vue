@@ -58,6 +58,8 @@ import {
 } from "@/apis/repositories/clientRepository";
 import useModal from "@/composable/modal";
 
+const hasPermissionOn = inject("hasPermissionOn");
+
 const Swal = inject("Swal");
 
 const { modal, showModal, hideModal } = useModal();
@@ -71,9 +73,7 @@ const { goQueryInput, updatePage, updateQuery } = useGoQuery({
   query: query,
 });
 
-// const writePermission = computed(() => hasPermissionOn("clients", "write"));
-
-const writePermission = computed(() => true);
+const writePermission = computed(() => hasPermissionOn("clients", "write"));
 
 const list = ref([]);
 const metadata = ref({});
