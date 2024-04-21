@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-export const FetchUserGeneralInfoGQL = gql`
+export const UserGeneralInfoGQL = gql`
   query {
     SelfGeneralInfo {
       id
@@ -17,6 +17,38 @@ export const FetchUserGeneralInfoGQL = gql`
         timeGraphOnProjects {
           labels
           series
+        }
+      }
+    }
+  }
+`;
+
+export const SelfInfoGQL = gql`
+  query {
+    SelfProfile {
+      id
+      email
+      fullName
+      name
+      about
+      avatarUrl
+      createdAt
+      companyLevelId
+      address
+      birthday
+      gender
+      phone
+      timingActiveAt
+      timingDeactiveAt
+      slackId
+      projectAssignees {
+        active
+        title
+        joinDate
+        leaveDate
+        name
+        project {
+          name
         }
       }
     }
@@ -68,6 +100,75 @@ export const SelfThisWeekIssuesStateGQL = gql`
       series {
         done
         notDone
+      }
+    }
+  }
+`;
+
+export const UsersGQL = gql`
+  query Users($input: PagyInput!, $query: UsersQuery!) {
+    Users(input: $input, query: $query) {
+      collection {
+        id
+        email
+        fullName
+        name
+        about
+        avatarUrl
+        createdAt
+        companyLevelId
+        state
+        address
+        birthday
+        gender
+        phone
+        timingActiveAt
+        timingDeactiveAt
+        slackId
+      }
+      metadata {
+        total
+        perPage
+        page
+        pages
+        count
+        next
+        prev
+        from
+        to
+      }
+    }
+  }
+`;
+
+export const UserGQL = gql`
+  query User($id: ID!) {
+    User(id: $id) {
+      id
+      email
+      fullName
+      name
+      about
+      avatarUrl
+      createdAt
+      companyLevelId
+      state
+      address
+      birthday
+      gender
+      phone
+      timingActiveAt
+      timingDeactiveAt
+      slackId
+      projectAssignees {
+        active
+        title
+        joinDate
+        leaveDate
+        name
+        project {
+          name
+        }
       }
     }
   }

@@ -1,5 +1,5 @@
 <template>
-  <!-- <Loading></Loading> -->
+  <Loading></Loading>
 
   <DefaultLayout v-if="route.meta.authRequired">
     <router-view v-slot="{ Component, route }">
@@ -19,7 +19,7 @@
 
 <script setup>
 import DefaultLayout from "@/layouts/default.vue";
-import api from "@/apis/axios.js"
+import Loading from "@/components/molecules/common/Loading.vue";
 
 import { useRoute } from "vue-router";
 const route = useRoute();

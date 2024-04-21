@@ -28,8 +28,8 @@
 </template>
 
 <script setup>
-import { useGlobalStore } from "@/stores/global";
 import { ref } from "vue";
+import { Upload } from "@/apis/repositories";
 
 defineProps({
   user: {
@@ -51,8 +51,6 @@ defineProps({
   },
 });
 
-const globalStore = useGlobalStore();
-
 const file = ref({});
 
 function openFileInput() {
@@ -64,11 +62,9 @@ const emits = defineEmits(["change"]);
 async function upload() {
   const formData = new FormData();
   formData.append("files[]", file.value.files[0]);
-  const res = await globalStore.uploadFiles(formData);
 
-  if (res[0]) {
-    emits("change", res[0]);
-  }
+  const res = await Upload(formData);
+  emits("change", res[0]);
 }
 </script>
 

@@ -4,12 +4,11 @@
     :placeholder="placeHolder"
     :class="usingClasses"
     type="text"
-    @input="$emit('updated', $event.target.value)"
   />
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { computed } from "vue";
 
 const searchText = defineModel()
 
@@ -26,6 +25,10 @@ const props = defineProps({
     default: "",
   },
 });
+
+const emit = defineEmits(["updated"]);
+
+const inputValue = defineModel();
 
 const usingClasses = computed(() => {
   if (props.classes) return props.classes;

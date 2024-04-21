@@ -71,6 +71,7 @@ export const useGlobalStore = defineStore("global", () => {
     errorMessage,
     validationErrors,
     selectOptions,
+    loadingRequests,
 
     // methods
     // uploadImages,
