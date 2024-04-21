@@ -108,8 +108,7 @@ async function deleteClient(id) {
 
 onMounted(async () => {
   await fetchClients();
-  showModal()
-});
+  });
 
 function onPageChange(page) {
   updatePage(page, fetchClients);
@@ -131,7 +130,6 @@ function refreshList(){
 }
 
 function onSubmitForm(){
-  console.log('aaa')
   hideModal();
   refreshList();
 }

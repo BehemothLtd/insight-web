@@ -28,8 +28,6 @@ const props = defineProps({
 
 const emit = defineEmits(["updated"]);
 
-const inputValue = defineModel();
-
 const usingClasses = computed(() => {
   if (props.classes) return props.classes;
   else return "form-control w-100";

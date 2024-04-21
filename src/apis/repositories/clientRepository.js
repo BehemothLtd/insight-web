@@ -1,7 +1,11 @@
 import api from "@/apis/axios";
 
 import { ClientsGQL, ClientGQL } from "@/apis/resolvers";
-import { ClientDeleteGQL, ClientCreateGQL, ClientUpdateGQL } from "@/apis/mutations";
+import {
+  ClientDeleteGQL,
+  ClientCreateGQL,
+  ClientUpdateGQL,
+} from "@/apis/mutations";
 
 export function FetchClients(params = { input: {}, query: {} }) {
   return api(ClientsGQL, {
@@ -22,7 +26,7 @@ export function DeleteClient(id) {
     {
       id,
     },
-    { toast: true },
+    { toast: true, toastMessage: "Delete Client Successfully" },
   );
 }
 
@@ -32,17 +36,17 @@ export function CreateClient(input) {
     {
       input,
     },
-    { toast: true },
+    { toast: true, toastMessage: "Create Client Successfully" },
   );
 }
 
-export function UpdateClient({id,input}) {
+export function UpdateClient({ id, input }) {
   return api(
     ClientUpdateGQL,
     {
       id,
       input,
     },
-    { toast: true },
+    { toast: true, toastMessage: "Update Client Successfully" },
   );
 }

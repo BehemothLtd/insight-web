@@ -53,7 +53,6 @@
           </div>
         </div>
       </div>
-      <h3>{{ clientFormData }}</h3>
     </div>
   </div>
 </template>
