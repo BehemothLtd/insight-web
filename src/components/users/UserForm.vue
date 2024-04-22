@@ -226,7 +226,7 @@ import {
   selectOptionsState,
   selectOptionsGender,
   selectOptionCompanyLevel,
-} from "@/ultilities/selectOptions.js";
+} from "@/utilities/selectOptions.js";
 
 defineProps({
   emailDisable: {

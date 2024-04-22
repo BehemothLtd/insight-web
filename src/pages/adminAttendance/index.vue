@@ -157,7 +157,7 @@ import {
   DestroyAttendance,
 } from "@/apis/repositories";
 import useModal from "@/composable/modal";
-import filters from "@/ultilities/filters";
+import filters from "@/utilities/filters";
 
 const { modal, showModal, hideModal } = useModal();
 const Swal = inject("Swal");
