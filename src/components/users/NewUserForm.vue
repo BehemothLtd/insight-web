@@ -16,7 +16,7 @@
       <div class="col-4">
         <div class="mb-3">
           <FormValidator
-            name="full_name"
+            name="FullName"
             label="Full Name"
             required
           >
@@ -31,7 +31,7 @@
       <div class="col-4">
         <div class="mb-3">
           <FormValidator
-            name="email"
+            name="Email"
             label="E-mail"
             required
           >
@@ -47,7 +47,7 @@
       <div class="col-4">
         <div class="mb-3">
           <FormValidator
-            name="slack_id"
+            name="SlackId"
             label="Slack ID"
             required
           >
@@ -65,7 +65,7 @@
       <div class="col-12">
         <div class="mb-3">
           <FormValidator
-            name="about"
+            name="About"
             label="About"
           >
             <textarea
