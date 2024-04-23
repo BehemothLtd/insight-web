@@ -1,7 +1,10 @@
 import api from "@/apis/axios";
 
-import { FetchProjectListGQL, FetchProjectGQL } from "@/apis/resolvers";
-import { CreateProjectGQL } from "@/apis/mutations";
+import {
+  FetchProjectListGQL,
+  FetchProjectBasicInfoGQL,
+} from "@/apis/resolvers";
+import { CreateProjectGQL, UpdateProjectGQL } from "@/apis/mutations";
 
 export function FetchProjectList(params = { input: {}, query: {} }) {
   return api(
@@ -24,11 +27,24 @@ export function CreateProject(input = {}) {
   );
 }
 
-export function FetchProject(id) {
+export function FetchProjectBasicInfo(id) {
   return api(
-    FetchProjectGQL,
+    FetchProjectBasicInfoGQL,
     {
       id: id,
+    },
+    {
+      loading: true,
+    },
+  );
+}
+
+export function UpdateProject(id, input = {}) {
+  return api(
+    UpdateProjectGQL,
+    {
+      id: id,
+      input: input,
     },
     {
       loading: true,

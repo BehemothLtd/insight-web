@@ -26,3 +26,30 @@ export const CreateProjectGQL = gql`
     }
   }
 `;
+
+export const UpdateProjectGQL = gql`
+  mutation ($id: ID!, $input: ProjectUpdateInput!) {
+    ProjectUpdate(id: $id, input: $input) {
+      project {
+        id
+        name
+        code
+        description
+        projectType
+        projectPriority
+        state
+        activedAt
+        inactivedAt
+        startedAt
+        endedAt
+        createdAt
+        updatedAt
+        sprintDuration
+        clientId
+        currentSprintId
+        logoUrl
+        lockVersion
+      }
+    }
+  }
+`;

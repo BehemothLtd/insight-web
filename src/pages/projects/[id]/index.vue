@@ -41,7 +41,7 @@ import { useRoute, useRouter } from "vue-router";
 import { useBreadcrumb } from "@bachdx/b-vuse";
 const { setBreadcrumb } = useBreadcrumb();
 
-import { FetchProject } from "@/apis/repositories";
+import { FetchProjectBasicInfo } from "@/apis/repositories";
 
 import ProjectSummary from "@/components/projects/[id]/ProjectSummary.vue";
 
@@ -74,7 +74,7 @@ const project = ref({});
 const currentTab = ref("BasicInformation");
 
 async function fetchProject() {
-  const result = await FetchProject(projectId);
+  const result = await FetchProjectBasicInfo(projectId);
   project.value = result.Project;
 }
 

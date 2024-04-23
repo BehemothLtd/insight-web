@@ -4,7 +4,7 @@
       <div class="col-lg-4">
         <div>
           <FormValidator
-            name="name"
+            name="Name"
             label="Project Name"
             required
           >
@@ -21,7 +21,7 @@
       <div class="col-lg-4">
         <div>
           <FormValidator
-            name="code"
+            name="Code"
             label="Project Code"
             required
           >
@@ -59,7 +59,7 @@
     <div class="row mb-3">
       <div class="col-lg-12">
         <FormValidator
-          name="code"
+          name="Description"
           label="Project Description"
           required
         >
@@ -76,7 +76,7 @@
     <div class="form-group row mb-3">
       <div class="col-lg-6">
         <FormValidator
-          name="client_id"
+          name="ClientId"
           label="Client"
         >
           <el-select-v2
@@ -94,7 +94,7 @@
     <div class="row mb-3">
       <div class="col-lg-6">
         <FormValidator
-          name="state"
+          name="State"
           label="Project State"
           required
         >
@@ -157,7 +157,7 @@
         class="col-lg-6"
       >
         <FormValidator
-          name="sprint_duration"
+          name="SprintDuration"
           label="Sprint Duration"
           required
         >
@@ -178,12 +178,14 @@
       <div class="col-lg-6">
         <FormValidator
           label="Start Date"
-          name="start_at"
+          name="StartedAt"
         >
           <DatePicker
             v-model="project.startedAt"
             :enable-time-picker="false"
             :disabled="!writePermission"
+            format="dd-MM-yyyy"
+            modelType="dd-MM-yyyy"
           />
         </FormValidator>
       </div>
@@ -191,12 +193,14 @@
       <div class="col-lg-6">
         <FormValidator
           label="End Date"
-          name="ended_at"
+          name="EndedAt"
         >
           <DatePicker
             v-model="project.endedAt"
             :enable-time-picker="false"
             :disabled="!writePermission"
+            format="dd-MM-yyyy"
+            modelType="dd-MM-yyyy"
           />
         </FormValidator>
       </div>
@@ -238,7 +242,7 @@
       title-class="font-18"
       hide-footer
     >
-      <ProjectUploadImage />
+      <!-- <ProjectUploadImage /> -->
 
       <div class="modal-footer pb-0">
         <button
@@ -262,13 +266,15 @@
 </template>
 
 <script setup>
-import { inject, ref, onMounted } from "vue";
+import { inject, ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
 
 import router from "@/router/index";
+const route = useRoute();
 
-import { FetchSelectOptions } from "@/apis/repositories";
+import { FetchSelectOptions, UpdateProject } from "@/apis/repositories";
 
+const projectId = route.params.id;
 const project = defineModel();
 const clientOptions = ref([]);
 
@@ -306,7 +312,27 @@ function onUploadModalShow() {
     uploadFileInput.value.fileKeys = [];
   }
 }
-async function update() {}
+
+const projectFormValue = computed(() => {
+  const projectValue = project.value;
+
+  return {
+    name: projectValue.name,
+    description: projectValue.description,
+    projectPriority: projectValue.projectPriority,
+    clientId: projectValue.clientId,
+    state: projectValue.state,
+    projectType: projectValue.projectType,
+    sprintDuration: projectValue.sprintDuration,
+    startedAt: projectValue.startedAt,
+    endedAt: projectValue.endedAt,
+    lockVersion: projectValue.lockVersion,
+  };
+});
+
+async function update() {
+  await UpdateProject(projectId, projectFormValue.value);
+}
 
 async function uploadImage() {}
 
