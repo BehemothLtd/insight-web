@@ -1,13 +1,17 @@
 <template>
   <div class="col-12 col-xl-8">
     <div class="card">
-      <!-- <ProjectSummaryUpdate
+      <ProjectSummaryUpdate
         v-if="modifying"
+        v-model="project"
         :write-permission="projectWritePermission"
         :delete-permission="projectDeletePermission"
-      /> -->
+      />
 
-      <ProjectSummaryShow v-model="project" />
+      <ProjectSummaryShow
+        v-else
+        v-model="project"
+      />
 
       <div
         v-if="projectWritePermission || projectDeletePermission"
