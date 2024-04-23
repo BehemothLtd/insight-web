@@ -1,6 +1,6 @@
 import api from "@/apis/axios";
 
-import { FetchProjectListGQL } from "@/apis/resolvers";
+import { FetchProjectListGQL, FetchProjectGQL } from "@/apis/resolvers";
 import { CreateProjectGQL } from "@/apis/mutations";
 
 export function FetchProjectList(params = { input: {}, query: {} }) {
@@ -21,5 +21,17 @@ export function CreateProject(input = {}) {
       input: input,
     },
     { loading: true, toastMessage: "Create Project Successfully" },
+  );
+}
+
+export function FetchProject(id) {
+  return api(
+    FetchProjectGQL,
+    {
+      id: id,
+    },
+    {
+      loading: true,
+    },
   );
 }
