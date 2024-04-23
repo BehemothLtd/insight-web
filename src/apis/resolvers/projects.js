@@ -44,3 +44,44 @@ export const FetchProjectListGQL = gql`
     }
   }
 `;
+
+export const FetchProjectGQL = gql`
+  query ($id: ID!) {
+    Project(id: $id) {
+      id
+      name
+      code
+      description
+      projectType
+      projectPriority
+      state
+      activedAt
+      inactivedAt
+      startedAt
+      endedAt
+      createdAt
+      updatedAt
+      sprintDuration
+      clientId
+      currentSprintId
+      logoUrl
+      lockVersion
+      projectAssignees {
+        id
+        active
+        joinDate
+        leaveDate
+        developmentRoleId
+        userId
+        name
+        title
+        lockVersion
+      }
+      projectIssueStatuses {
+        id
+        position
+        issueStatusId
+      }
+    }
+  }
+`;
