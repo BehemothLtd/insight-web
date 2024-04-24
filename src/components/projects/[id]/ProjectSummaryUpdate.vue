@@ -276,7 +276,11 @@ import { useRoute } from "vue-router";
 import router from "@/router/index";
 const route = useRoute();
 
-import { FetchSelectOptions, UpdateProject } from "@/apis/repositories";
+import {
+  FetchSelectOptions,
+  UpdateProject,
+  DeleteProject,
+} from "@/apis/repositories";
 import { ProjectSprintDurationOptions } from "@/constants";
 
 const projectId = route.params.id;
@@ -364,7 +368,7 @@ async function deleteProject() {
   });
 
   if (confirmation.isConfirmed) {
-    // const result = await projectStore.deleteProject(project.value.id);
+    const result = await DeleteProject(projectId);
 
     if (result) router.push("/projects");
   }

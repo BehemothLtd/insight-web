@@ -4,7 +4,11 @@ import {
   FetchProjectListGQL,
   FetchProjectBasicInfoGQL,
 } from "@/apis/resolvers";
-import { CreateProjectGQL, UpdateProjectGQL } from "@/apis/mutations";
+import {
+  CreateProjectGQL,
+  UpdateProjectGQL,
+  DeleteProjectGQL,
+} from "@/apis/mutations";
 
 export function FetchProjectList(params = { input: {}, query: {} }) {
   return api(
@@ -49,6 +53,19 @@ export function UpdateProject(id, input = {}) {
     {
       loading: true,
       toastMessage: "Project Updated Successfully",
+    },
+  );
+}
+
+export function DeleteProject(id) {
+  return api(
+    DeleteProjectGQL,
+    {
+      id: id,
+    },
+    {
+      loading: true,
+      toastMessage: "Project Deleted Successfully",
     },
   );
 }

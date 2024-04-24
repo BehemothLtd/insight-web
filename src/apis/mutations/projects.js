@@ -53,3 +53,9 @@ export const UpdateProjectGQL = gql`
     }
   }
 `;
+
+export const DeleteProjectGQL = gql`
+  mutation ($id: ID!) {
+    ProjectDestroy(id: $id)
+  }
+`;
