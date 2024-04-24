@@ -16,16 +16,20 @@
         </thead>
         <tbody>
           <tr
-            v-for="deviceType in deviceTypes"
-            :key="deviceType.id"
+            v-for="deviceTypeItem in deviceTypes"
+            :key="deviceTypeItem.id"
           >
-            <td class="device-type-row">{{ deviceType.name }}</td>
-            <td class="device-type-row">{{ deviceType.devicesCount }}</td>
+            <td class="device-type-row">{{ deviceTypeItem.name }}</td>
+            <td class="device-type-row">{{ deviceTypeItem.devicesCount }}</td>
             <td v-if="writePermission">
-              <span @click="showDeviceType(deviceType.id)">
+              <span @click="showDeviceTypeModal(deviceTypeItem.id)">
                 <i class="mdi mdi-pencil font-size-18 text-success"> </i>
               </span>
-              <span @click="destroyDeviceType(deviceType.id, deviceType.name)">
+              <span
+                @click="
+                  destroyDeviceType(deviceTypeItem.id, deviceTypeItem.name)
+                "
+              >
                 <i class="mdi mdi-delete font-size-18 text-danger ml-4"></i>
               </span>
             </td>
@@ -39,22 +43,73 @@
       @change="onPageChange"
     ></Pagination>
 
-    <DeviceTypeModal
-      v-if="isShowUpdateModal"
-      v-model="isShowUpdateModal"
+    <b-modal
+      ref="modal"
       title="Update Device Type"
-      @close="isShowUpdateModal = false"
-      @submit="updateDeviceType"
-    ></DeviceTypeModal>
+      title-class="font-18"
+    >
+      <form class="outer-repeater">
+        <div
+          data-repeater-list="outer-group"
+          class="outer"
+        >
+          <div
+            data-repeater-item
+            class="outer"
+          >
+            <div class="form-group row mb-4">
+              <div class="col-lg-12">
+                <FormValidator
+                  name="name"
+                  label="Name"
+                  required
+                >
+                  <input
+                    v-model="deviceType.name"
+                    class="form-control"
+                    type="text"
+                  />
+                </FormValidator>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <template #footer>
+        <div class="modal-footer pb-0 border-0">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+            @click="hideModal()"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            @click="updateDeviceType"
+          >
+            Save
+          </button>
+        </div>
+      </template>
+    </b-modal>
   </div>
 </template>
 
 <script setup>
 import { onMounted, ref, inject } from "vue";
 import { useGoQuery } from "@bachdx/b-vuse";
-import { DestroyDeviceType } from "@/apis/repositories";
-import { useDeviceTypesStore } from "@/stores/deviceTypes";
-import { storeToRefs } from "pinia";
+import { omit } from "lodash";
+import {
+  FetchDeviceTypes,
+  FetchDeviceType,
+  UpdateDeviceType,
+  DestroyDeviceType,
+} from "@/apis/repositories";
+import useModal from "@/composable/modal";
 
 defineProps({
   writePermission: {
@@ -64,33 +119,51 @@ defineProps({
   },
 });
 
-const deviceTypesStore = useDeviceTypesStore();
+const { modal, showModal, hideModal } = useModal();
+
 const Swal = inject("Swal");
 
-const { deviceTypes } = storeToRefs(deviceTypesStore);
-const { updatePage } = useGoQuery({
+const { goQueryInput, updatePage } = useGoQuery({
   perPage: 20,
 });
 
+const deviceTypes = ref([]);
+const deviceType = ref({});
 const metadata = ref({});
-const isShowUpdateModal = ref(false);
 
-function onPageChange(page) {
-  updatePage(page, deviceTypesStore.fetchListDeviceTypes);
+async function fetchListDeviceTypes() {
+  const result = await FetchDeviceTypes({
+    input: goQueryInput.pagyInput,
+  });
+
+  deviceTypes.value = result.DeviceTypes.collection;
+  metadata.value = result.DeviceTypes.metadata;
 }
 
-function showDeviceType(id) {
-  isShowUpdateModal.value = true;
+async function showDeviceType(id) {
+  const result = await FetchDeviceType(id);
 
-  deviceTypesStore.showDeviceType(id);
+  deviceType.value = result.DeviceType;
+}
+
+function onPageChange(page) {
+  updatePage(page, fetchListDeviceTypes);
+}
+
+async function showDeviceTypeModal(id) {
+  await showDeviceType(id);
+
+  showModal();
 }
 
 async function updateDeviceType() {
-  const data = await deviceTypesStore.updateDeviceType();
+  const id = deviceType.value.id;
+  const input = omit(deviceType.value, "id");
+  const result = await UpdateDeviceType(id, input);
 
-  if (data) {
-    isShowUpdateModal.value = false;
-    deviceTypesStore.fetchListDeviceTypes();
+  if (result) {
+    await fetchListDeviceTypes();
+    hideModal();
   }
 }
 
@@ -106,12 +179,12 @@ async function destroyDeviceType(id, name) {
 
   if (confirmation.isConfirmed) {
     await DestroyDeviceType(id);
-    deviceTypesStore.fetchListDeviceTypes();
+    fetchListDeviceTypes();
   }
 }
 
 onMounted(async () => {
-  await deviceTypesStore.fetchListDeviceTypes();
+  await fetchListDeviceTypes();
 });
 </script>
 
