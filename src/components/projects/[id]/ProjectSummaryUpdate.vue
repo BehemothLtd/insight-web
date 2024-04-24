@@ -167,8 +167,12 @@
             :disabled="!writePermission"
           >
             <option :value="null">Choose Duration</option>
-            <option :value="1">One Week</option>
-            <option :value="2">Two Week</option>
+            <option
+              v-for="option in ProjectSprintDurationOptions"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
           </select>
         </FormValidator>
       </div>
@@ -273,6 +277,7 @@ import router from "@/router/index";
 const route = useRoute();
 
 import { FetchSelectOptions, UpdateProject } from "@/apis/repositories";
+import { ProjectSprintDurationOptions } from "@/constants";
 
 const projectId = route.params.id;
 const project = defineModel();

@@ -103,7 +103,7 @@
             <i class="bx bx-calendar me-1 text-primary"></i>Start Date
           </h5>
           <p class="text-muted mb-0">
-            {{ filters.fullDate(project.startedAt) }}
+            {{ project.startedAt }}
           </p>
         </div>
       </div>
@@ -114,7 +114,7 @@
             <i class="bx bx-calendar me-1 text-primary"></i>End Date
           </h5>
           <p class="text-muted mb-0">
-            {{ filters.fullDate(project.endedAt) }}
+            {{ project.endedAt }}
           </p>
         </div>
       </div>

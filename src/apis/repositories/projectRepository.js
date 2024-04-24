@@ -48,6 +48,7 @@ export function UpdateProject(id, input = {}) {
     },
     {
       loading: true,
+      toastMessage: "Project Updated Successfully",
     },
   );
 }
