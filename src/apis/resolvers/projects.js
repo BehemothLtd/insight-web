@@ -63,6 +63,14 @@ export const FetchProjectBasicInfoGQL = gql`
       currentSprintId
       logoUrl
       lockVersion
+      logo {
+        url
+        key
+      }
+      files {
+        url
+        key
+      }
     }
   }
 `;
