@@ -246,7 +246,7 @@
       title-class="font-18"
       hide-footer
     >
-      <!-- <ProjectUploadImage /> -->
+      <ProjectUploadImage v-model="project" />
 
       <div class="modal-footer pb-0">
         <button
@@ -260,7 +260,7 @@
         <button
           type="button"
           class="btn btn-primary"
-          @click="uploadImage"
+          @click="uploadImages"
         >
           Save
         </button>
@@ -272,6 +272,7 @@
 <script setup>
 import { inject, ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
+import { map } from "lodash";
 
 import router from "@/router/index";
 const route = useRoute();
@@ -280,7 +281,9 @@ import {
   FetchSelectOptions,
   UpdateProject,
   DeleteProject,
+  UploadProjectImages,
 } from "@/apis/repositories";
+
 import { ProjectSprintDurationOptions } from "@/constants";
 
 const projectId = route.params.id;
@@ -312,14 +315,6 @@ const uploadModalShow = ref(false);
 
 function onUploadModalShow() {
   uploadModalShow.value = true;
-  if (uploadFileInput.value.fileKeys) {
-    uploadFileInput.value.fileKeys.forEach((key) => {
-      uploadFileInput.value.images = uploadFileInput.value.images.filter(
-        (item) => item.key !== key,
-      );
-    });
-    uploadFileInput.value.fileKeys = [];
-  }
 }
 
 const projectFormValue = computed(() => {
@@ -343,7 +338,21 @@ async function update() {
   await UpdateProject(projectId, projectFormValue.value);
 }
 
-async function uploadImage() {}
+async function uploadImages() {
+  let result = await UploadProjectImages(
+    projectId,
+    project.value.logo.key,
+    map(project.value.files, "key"),
+  );
+
+  if (result) {
+    const resultData = result.ProjectUploadImages.project;
+
+    project.value.logoUrl = resultData.logo.url;
+    project.value.logo = resultData.logo;
+    project.value.files = resultData.files;
+  }
+}
 
 async function deleteProject() {
   const confirmation = await Swal.fire({

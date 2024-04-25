@@ -4,10 +4,12 @@ import {
   FetchProjectListGQL,
   FetchProjectBasicInfoGQL,
 } from "@/apis/resolvers";
+
 import {
   CreateProjectGQL,
   UpdateProjectGQL,
   DeleteProjectGQL,
+  ProjectUploadImagesGQL,
 } from "@/apis/mutations";
 
 export function FetchProjectList(params = { input: {}, query: {} }) {
@@ -66,6 +68,23 @@ export function DeleteProject(id) {
     {
       loading: true,
       toastMessage: "Project Deleted Successfully",
+    },
+  );
+}
+
+export function UploadProjectImages(id, logoKey = "", fileKeys = []) {
+  return api(
+    ProjectUploadImagesGQL,
+    {
+      id: id,
+      input: {
+        logoKey: logoKey,
+        fileKeys: fileKeys,
+      },
+    },
+    {
+      loading: true,
+      toastMessage: "Project Upload Images Successfully",
     },
   );
 }

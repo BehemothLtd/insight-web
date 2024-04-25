@@ -59,3 +59,21 @@ export const DeleteProjectGQL = gql`
     ProjectDestroy(id: $id)
   }
 `;
+
+export const ProjectUploadImagesGQL = gql`
+  mutation ($id: ID!, $input: ProjectUploadImagesInput!) {
+    ProjectUploadImages(id: $id, input: $input) {
+      project {
+        id
+        logo {
+          key
+          url
+        }
+        files {
+          key
+          url
+        }
+      }
+    }
+  }
+`;
