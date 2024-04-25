@@ -2,7 +2,10 @@
   <div>
     <div class="btn-create-device">
       <!-- <NewDevice v-if="tabIndex == 0"></NewDevice> -->
-      <NewDeviceType v-if="tabIndex == 1"></NewDeviceType>
+      <NewDeviceType
+        v-if="tabIndex == 1"
+        @submit="deviceTypeListRef.fetchListDeviceTypes()"
+      ></NewDeviceType>
     </div>
     <b-card no-body>
       <b-tabs
@@ -17,6 +20,7 @@
         <b-tab title="Device Types">
           <DeviceTypeList
             v-if="tabIndex == 1"
+            ref="deviceTypeListRef"
             :write-permission="writePermission"
           ></DeviceTypeList>
         </b-tab>
@@ -32,6 +36,7 @@ import { useBreadcrumb } from "@bachdx/b-vuse";
 const { setBreadcrumb } = useBreadcrumb();
 
 const tabIndex = ref(0);
+const deviceTypeListRef = ref();
 
 const hasPermissionOn = inject("hasPermissionOn");
 const writePermission = computed(() => hasPermissionOn("devices", "write"));
