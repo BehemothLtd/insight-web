@@ -335,7 +335,10 @@ const projectFormValue = computed(() => {
 });
 
 async function update() {
-  await UpdateProject(projectId, projectFormValue.value);
+  const result = await UpdateProject(projectId, projectFormValue.value);
+  if (result) {
+    project.value = result.ProjectUpdate.project;
+  }
 }
 
 async function uploadImages() {

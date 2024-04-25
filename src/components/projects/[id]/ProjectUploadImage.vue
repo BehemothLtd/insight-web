@@ -115,7 +115,9 @@ async function uploadLogo() {
 
   if (res) {
     project.value.logoUrl = res[0].url;
-    project.value.logo.key = res[0].key;
+    if (!project.value.logo) {
+      project.value.logo = { key: res[0].key };
+    }
   }
 }
 
@@ -130,6 +132,10 @@ async function uploadFiles() {
     const res = await Upload(formData);
 
     if (res) {
+      if (!project.value.files) {
+        project.value.files = [];
+      }
+
       res.forEach((file) => {
         project.value.files.push({
           url: file.url,
