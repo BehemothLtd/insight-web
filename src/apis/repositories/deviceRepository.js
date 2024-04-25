@@ -6,6 +6,7 @@ import {
   UpdateDeviceTypeGQL,
   DestroyDeviceTypeGQL,
   CreateDeviceTypeGQL,
+  DevicesGQL,
 } from "@/apis/resolvers";
 
 // Queries
@@ -38,5 +39,12 @@ export function DestroyDeviceType(id) {
 export function CreateDeviceType(input) {
   return api(CreateDeviceTypeGQL, {
     input,
+  });
+}
+
+export function FetchDeviceList(params = { input: {}, query: {} }) {
+  return api(DevicesGQL, {
+    input: params.input,
+    query: params.query,
   });
 }

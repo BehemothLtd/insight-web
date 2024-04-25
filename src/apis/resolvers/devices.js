@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { METADATA_FIELDS } from "@/apis/fragment/shared";
 
 export const DeviceTypesGQL = gql`
   query DeviceTypes($input: PagyInput) {
@@ -9,18 +10,12 @@ export const DeviceTypesGQL = gql`
         devicesCount
       }
       metadata {
-        total
-        perPage
-        page
-        pages
-        count
-        next
-        prev
-        from
-        to
+        ...MetadataFragment
       }
     }
   }
+
+  ${METADATA_FIELDS}
 `;
 
 export const DeviceTypeGQL = gql`
@@ -58,4 +53,28 @@ export const CreateDeviceTypeGQL = gql`
       }
     }
   }
+`;
+
+export const DevicesGQL = gql`
+  query Devices($input: PagyInput, $query: DevicesQuery) {
+    Devices(input: $input, query: $query) {
+      collection {
+        id
+        code
+        name
+        seller
+        state
+        description
+        deviceType {
+          id
+          name
+        }
+      }
+      metadata {
+        ...MetadataFragment
+      }
+    }
+  }
+
+  ${METADATA_FIELDS}
 `;
