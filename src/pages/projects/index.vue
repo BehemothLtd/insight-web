@@ -23,6 +23,11 @@
           v-if="viewMode == 'list'"
         />
       </Transition>
+
+      <Pagination
+        :meta="metadata"
+        @change="onPageChange"
+      ></Pagination>
     </div>
   </div>
 </template>
@@ -137,4 +142,9 @@ function resetQuerySearch() {
 onMounted(async () => {
   await fetchList();
 });
+
+function onPageChange(page) {
+  updatePage(page);
+  fetchList();
+}
 </script>

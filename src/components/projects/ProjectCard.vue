@@ -59,7 +59,7 @@
                     title="Started at"
                   >
                     <i class="bx bx bx-calendar-check"></i>
-                    {{ filters.fullDate(project.startedAt) }}
+                    {{ project.startedAt }}
                   </div>
                   <div
                     v-if="project.state == 'inactive'"
@@ -68,7 +68,7 @@
                   >
                     &nbsp;~
                     <i class="bx bx-calendar-x"></i>
-                    {{ filters.fullDate(project.inactivedAt) }}
+                    {{ project.inactivedAt }}
                   </div>
                 </div>
               </li>
