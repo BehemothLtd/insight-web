@@ -285,6 +285,7 @@ import {
 } from "@/apis/repositories";
 
 import { ProjectSprintDurationOptions } from "@/constants";
+import { ProjectBasicInfoForm } from "@/formModels";
 
 const projectId = route.params.id;
 const project = defineModel();
@@ -317,25 +318,10 @@ function onUploadModalShow() {
   uploadModalShow.value = true;
 }
 
-const projectFormValue = computed(() => {
-  const projectValue = project.value;
-
-  return {
-    name: projectValue.name,
-    description: projectValue.description,
-    projectPriority: projectValue.projectPriority,
-    clientId: projectValue.clientId,
-    state: projectValue.state,
-    projectType: projectValue.projectType,
-    sprintDuration: projectValue.sprintDuration,
-    startedAt: projectValue.startedAt,
-    endedAt: projectValue.endedAt,
-    lockVersion: projectValue.lockVersion,
-  };
-});
-
 async function update() {
-  const result = await UpdateProject(projectId, projectFormValue.value);
+  const form = new ProjectBasicInfoForm(project.value);
+
+  const result = await UpdateProject(projectId, form);
   if (result) {
     project.value = result.ProjectUpdate.project;
   }
