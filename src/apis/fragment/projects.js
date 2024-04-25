@@ -28,5 +28,14 @@ export const ProjectBasicFields = gql`
       url
       key
     }
+    projectAssignees {
+      id
+      active
+      user {
+        name
+        avatarUrl
+      }
+      title
+    }
   }
 `;
