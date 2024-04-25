@@ -183,6 +183,10 @@ async function destroyDeviceType(id, name) {
   }
 }
 
+defineExpose({
+  fetchListDeviceTypes,
+});
+
 onMounted(async () => {
   await fetchListDeviceTypes();
 });

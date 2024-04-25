@@ -71,6 +71,8 @@ import useModal from "@/composable/modal";
 
 const { modal, showModal, hideModal } = useModal();
 
+const emits = defineEmits(["submit"]);
+
 const deviceType = ref({});
 
 async function createDeviceType() {
@@ -78,6 +80,7 @@ async function createDeviceType() {
 
   if (data) {
     hideModal();
+    emits("submit");
   }
 }
 </script>
