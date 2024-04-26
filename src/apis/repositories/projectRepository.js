@@ -10,6 +10,7 @@ import {
   UpdateProjectGQL,
   DeleteProjectGQL,
   ProjectUploadImagesGQL,
+  ProjectCreateProjectAssigneeGQL,
 } from "@/apis/mutations";
 
 export function FetchProjectList(params = { input: {}, query: {} }) {
@@ -85,6 +86,20 @@ export function UploadProjectImages(id, logoKey = "", fileKeys = []) {
     {
       loading: true,
       toastMessage: "Project Upload Images Successfully",
+    },
+  );
+}
+
+export function AddProjectAssigneeToProject(id, input = {}) {
+  return api(
+    ProjectCreateProjectAssigneeGQL,
+    {
+      id: id,
+      input: input,
+    },
+    {
+      loading: true,
+      toastMessage: "Add Member To Project Successfully",
     },
   );
 }

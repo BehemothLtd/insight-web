@@ -2,6 +2,8 @@ import gql from "graphql-tag";
 
 import { ProjectBasicFields } from "@/apis/fragment/projects";
 
+import { ProjectAssigneeBasicFields } from "@/apis/fragment/projectAssignees";
+
 export const CreateProjectGQL = gql`
   mutation ($input: ProjectCreateInput!) {
     ProjectCreate(input: $input) {
@@ -47,4 +49,19 @@ export const ProjectUploadImagesGQL = gql`
       }
     }
   }
+`;
+
+export const ProjectCreateProjectAssigneeGQL = gql`
+  mutation ProjectCreateProjectAssignee(
+    $id: ID!
+    $input: ProjectModifyProjectAssigneeInput!
+  ) {
+    ProjectCreateProjectAssignee(id: $id, input: $input) {
+      projectAssignee {
+        ...ProjectAssigneeBasicFieldFragment
+      }
+    }
+  }
+
+  ${ProjectAssigneeBasicFields}
 `;

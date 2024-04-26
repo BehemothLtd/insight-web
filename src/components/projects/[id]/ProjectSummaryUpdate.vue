@@ -270,7 +270,7 @@
 </template>
 
 <script setup>
-import { inject, ref, onMounted, computed } from "vue";
+import { inject, ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { map } from "lodash";
 

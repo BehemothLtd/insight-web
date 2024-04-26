@@ -27,8 +27,8 @@
           title-class="font-18"
           hide-footer
         >
-          <!-- <ProjectAssigneeForm
-            :form="form"
+          <ProjectAssigneeForm
+            v-model="form"
             :title="form.id ? 'Edit Member' : 'New Member'"
             :write-permission="writePermission"
           />
@@ -52,7 +52,7 @@
             >
               Submit
             </button>
-          </div> -->
+          </div>
         </b-modal>
 
         <table class="table align-middle table-nowrap">
@@ -64,12 +64,12 @@
               @click.stop.prevent="editProjectAssignee(assignee)"
             >
               <td style="width: 50px">
-                <UserAvatar :user="assignee"></UserAvatar>
+                <UserAvatar :user="assignee.user"></UserAvatar>
               </td>
 
               <td>
                 <h5 class="font-size-14 m-0">
-                  <a class="text-dark">{{ assignee.name }}</a>
+                  <a class="text-dark">{{ assignee.user.name }}</a>
                 </h5>
               </td>
 
@@ -109,13 +109,20 @@
 </template>
 
 <script setup>
-import { ref, onMounted, inject, computed, onUnmounted } from "vue";
-import { storeToRefs } from "pinia";
+import { ref, inject, computed } from "vue";
 
 import { cloneDeep } from "lodash";
 
 import useModal from "@/composable/modal";
 const { modal, showModal, hideModal } = useModal();
+
+import { useRoute } from "vue-router";
+const route = useRoute();
+const projectId = route.params.id;
+
+import { AddProjectAssigneeToProject } from "@/apis/repositories";
+
+import { ProjectAssigneeForm as ProjectAssigneeFormModel } from "@/formModels";
 
 // ===========PERMISSION========
 const hasPermissionOn = inject("hasPermissionOn");
@@ -128,37 +135,16 @@ const deletePermission = computed(() =>
   hasPermissionOn("project_assignees", "delete"),
 );
 
-const form = ref({
-  developmentRoleId: null,
-});
+const form = ref({});
 
 const project = defineModel();
 
 const Swal = inject("Swal");
 
 async function submit() {
-  if (form.value.id) {
-    const result = await projectAssigneeStore.updateProjectAssignee(
-      form.value.id,
-      props.projectId,
-      form.value,
-    );
+  const formData = new ProjectAssigneeFormModel(form.value);
 
-    if (result) {
-      hideModal();
-      form.value = {};
-    }
-  } else {
-    const result = await projectAssigneeStore.createProjectAssignee(
-      props.projectId,
-      form.value,
-    );
-
-    if (result) {
-      hideModal();
-      form.value = {};
-    }
-  }
+  await AddProjectAssigneeToProject(projectId, formData);
 }
 
 function editProjectAssignee(assignee) {
