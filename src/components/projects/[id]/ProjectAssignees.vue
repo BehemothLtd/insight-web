@@ -120,7 +120,10 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 const projectId = route.params.id;
 
-import { AddProjectAssigneeToProject } from "@/apis/repositories";
+import {
+  AddProjectAssigneeToProject,
+  DeleteProjectAssigneeInProject,
+} from "@/apis/repositories";
 
 import { ProjectAssigneeForm as ProjectAssigneeFormModel } from "@/formModels";
 
@@ -168,17 +171,26 @@ async function deleteProjectAssignee(assignee) {
   const confirmation = await Swal.fire({
     title: "Notice !",
     icon: "warning",
-    html: `Are you sure want to delete <b> ${assignee.name} </b> in project ? `,
+    html: `Are you sure want to delete <b>${assignee.user.name}</b> with role of <b> ${assignee.title} </b> in project ? `,
     showCancelButton: true,
     confirmButtonText: "Yes",
     cancelButtonText: "No",
   });
 
   if (confirmation.isConfirmed) {
-    await projectAssigneeStore.deleteProjectAssignee(
+    let result = await DeleteProjectAssigneeInProject(
+      project.value.id,
       assignee.id,
-      props.projectId,
     );
+
+    if (result) {
+      const deletedIdx = project.value.projectAssignees.findIndex(
+        (item) => item.id == assignee.id,
+      );
+      if (deletedIdx !== -1) {
+        project.value.projectAssignees.splice(deletedIdx, 1);
+      }
+    }
   }
 }
 </script>

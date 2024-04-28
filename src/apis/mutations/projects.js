@@ -65,3 +65,9 @@ export const ProjectCreateProjectAssigneeGQL = gql`
 
   ${ProjectAssigneeBasicFields}
 `;
+
+export const ProjectDeleteProjectAssigneeGQL = gql`
+  mutation ProjectDeleteProjectAssignee($projectId: ID!, $id: ID!) {
+    ProjectDeleteProjectAssignee(projectId: $projectId, id: $id)
+  }
+`;
