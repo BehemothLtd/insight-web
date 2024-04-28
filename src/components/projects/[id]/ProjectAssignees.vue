@@ -144,7 +144,14 @@ const Swal = inject("Swal");
 async function submit() {
   const formData = new ProjectAssigneeFormModel(form.value);
 
-  await AddProjectAssigneeToProject(projectId, formData);
+  let result = await AddProjectAssigneeToProject(projectId, formData);
+
+  if (result.ProjectCreateProjectAssignee) {
+    project.value.projectAssignees.push(
+      result.ProjectCreateProjectAssignee.projectAssignee,
+    );
+    hideModal();
+  }
 }
 
 function editProjectAssignee(assignee) {
