@@ -123,6 +123,7 @@ const projectId = route.params.id;
 import {
   AddProjectAssigneeToProject,
   DeleteProjectAssigneeInProject,
+  UpdateProjectAssigneeInProject,
 } from "@/apis/repositories";
 
 import { ProjectAssigneeForm as ProjectAssigneeFormModel } from "@/formModels";
@@ -147,13 +148,33 @@ const Swal = inject("Swal");
 async function submit() {
   const formData = new ProjectAssigneeFormModel(form.value);
 
-  let result = await AddProjectAssigneeToProject(projectId, formData);
-
-  if (result.ProjectCreateProjectAssignee) {
-    project.value.projectAssignees.push(
-      result.ProjectCreateProjectAssignee.projectAssignee,
+  if (formData.id) {
+    let result = await UpdateProjectAssigneeInProject(
+      projectId,
+      formData.id,
+      formData,
     );
-    hideModal();
+
+    if (result?.ProjectUpdateProjectAssignee) {
+      const updatedIdx = project.value.projectAssignees.findIndex(
+        (item) => item.id == formData.id,
+      );
+      if (updatedIdx !== -1) {
+        project.value.projectAssignees[updatedIdx] =
+          result.ProjectUpdateProjectAssignee.projectAssignee;
+      }
+
+      hideModal();
+    }
+  } else {
+    let result = await AddProjectAssigneeToProject(projectId, formData);
+
+    if (result?.ProjectCreateProjectAssignee) {
+      project.value.projectAssignees.push(
+        result.ProjectCreateProjectAssignee.projectAssignee,
+      );
+      hideModal();
+    }
   }
 }
 

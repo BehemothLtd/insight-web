@@ -13,8 +13,12 @@
             class="w-100"
             :options="userOptions"
             :reduce="(option) => option.value"
+            label="label"
             :disabled="!writePermission"
           >
+            <template #selected-option="value">
+              {{ setSelectedOption(userOptions, value) }}
+            </template>
           </VSelect>
         </FormValidator>
       </div>
@@ -32,6 +36,9 @@
             :reduce="(option) => option.value"
             :disabled="!writePermission"
           >
+            <template #selected-option="value">
+              {{ setSelectedOption(developmentRoleOptions, value) }}
+            </template>
           </VSelect>
         </FormValidator>
       </div>
@@ -106,6 +113,8 @@
 import { onMounted, ref } from "vue";
 
 import { FetchSelectOptions } from "@/apis/repositories";
+
+import { setSelectedOption } from "@/utilities/helpers";
 
 defineProps({
   title: {

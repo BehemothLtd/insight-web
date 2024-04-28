@@ -1,5 +1,6 @@
 export class ProjectAssigneeForm {
   constructor(projectAssignee) {
+    this.id = projectAssignee?.id ?? null;
     this.userId = projectAssignee?.userId ?? null;
     this.developmentRoleId = projectAssignee?.developmentRoleId ?? null;
     this.active = projectAssignee?.active ?? false;

@@ -11,6 +11,7 @@ import {
   DeleteProjectGQL,
   ProjectUploadImagesGQL,
   ProjectCreateProjectAssigneeGQL,
+  ProjectUpdateProjectAssigneeGQL,
   ProjectDeleteProjectAssigneeGQL,
 } from "@/apis/mutations";
 
@@ -101,6 +102,21 @@ export function AddProjectAssigneeToProject(id, input = {}) {
     {
       loading: true,
       toastMessage: "Add Member To Project Successfully",
+    },
+  );
+}
+
+export function UpdateProjectAssigneeInProject(projectId, id, input = {}) {
+  return api(
+    ProjectUpdateProjectAssigneeGQL,
+    {
+      id: id,
+      projectId: projectId,
+      input: input,
+    },
+    {
+      loading: true,
+      toastMessage: "Update Member In Project Successfully",
     },
   );
 }

@@ -2,6 +2,7 @@ import gql from "graphql-tag";
 
 import { ProjectBasicFields } from "@/apis/fragment/projects";
 import { METADATA_FIELDS } from "@/apis/fragment/shared";
+import { ProjectAssigneeBasicFields } from "@/apis/fragment/projectAssignees";
 
 export const FetchProjectListGQL = gql`
   query ($input: PagyInput!, $query: ProjectsQuery!) {
@@ -45,8 +46,12 @@ export const FetchProjectBasicInfoGQL = gql`
   query ($id: ID!) {
     Project(id: $id) {
       ...ProjectBasicFieldFragment
+      projectAssignees {
+        ...ProjectAssigneeBasicFieldFragment
+      }
     }
   }
 
   ${ProjectBasicFields}
+  ${ProjectAssigneeBasicFields}
 `;
