@@ -14,36 +14,37 @@
         <b-tabs
           content-class="mt-3"
           lazy
+          v-model="currentTabIdx"
         >
           <b-tab
             v-for="tab in tabs"
             :key="tab.label"
             :title="tab.label"
-            :active="currentTab == tab.hashKey"
-            @click="currentTab = tab.hashKey"
+            @click="changeTab(tab)"
           >
           </b-tab>
         </b-tabs>
 
-        <ProjectSummary
-          v-model="project"
-          v-if="currentTab == 'BasicInformation'"
-        />
+        <div v-show="currentTabIdx == 0">
+          <ProjectSummary v-model="project" />
+        </div>
+
+        <div v-show="currentTabIdx == 1">
+          <ProjectIssueStatuses v-model="project" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref, computed } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import { useBreadcrumb } from "@bachdx/b-vuse";
 const { setBreadcrumb } = useBreadcrumb();
 
 import { FetchProjectBasicInfo } from "@/apis/repositories";
-
-import ProjectSummary from "@/components/projects/[id]/ProjectSummary.vue";
 
 setBreadcrumb({
   title: "Project",
@@ -71,29 +72,43 @@ const router = useRouter();
 const projectId = route.params.id;
 const project = ref({});
 
-const currentTab = ref("BasicInformation");
+const currentTabIdx = ref(0);
 
 async function fetchProject() {
   const result = await FetchProjectBasicInfo(projectId);
   project.value = result.Project;
 }
 
+watch(() => route.hash, setInitialTab);
+
 onMounted(async () => {
+  setInitialTab();
+
   await fetchProject();
 });
 
-const tabs = computed(() => {
-  let defaultTabs = [
-    {
-      label: "Basic Information",
-      hashKey: "BasicInformation",
-      component: ProjectSummary,
-      active: true,
-    },
-  ];
+function setInitialTab() {
+  const hash = route.hash.replace("#", "");
+  currentTabIdx.value = tabs.find((tab) => tab.hashKey === hash)?.idx || 0;
+}
 
-  return defaultTabs;
-});
+const tabs = [
+  {
+    label: "Basic Information",
+    idx: 0,
+    hashKey: "BasicInformation",
+  },
+  {
+    label: "Issue Statuses",
+    idx: 1,
+    hashKey: "IssueStatuses",
+  },
+];
+
+function changeTab(tab) {
+  currentTabIdx.value = tab.idx;
+  router.push({ hash: `#${tab.hashKey}` });
+}
 </script>
 
 <style lang="scss" scoped>

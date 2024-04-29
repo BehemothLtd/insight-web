@@ -13,6 +13,7 @@ import {
   ProjectCreateProjectAssigneeGQL,
   ProjectUpdateProjectAssigneeGQL,
   ProjectDeleteProjectAssigneeGQL,
+  ProjectUpdateProjectIssueStatusOrderGQL,
 } from "@/apis/mutations";
 
 export function FetchProjectList(params = { input: {}, query: {} }) {
@@ -131,6 +132,20 @@ export function DeleteProjectAssigneeInProject(projectId, id) {
     {
       loading: true,
       toastMessage: "Remove Member in Project Successfully",
+    },
+  );
+}
+
+export function ProjectUpdateProjectIssueStatusOrder(projectId, newOrderIds) {
+  return api(
+    ProjectUpdateProjectIssueStatusOrderGQL,
+    {
+      id: projectId,
+      input: newOrderIds,
+    },
+    {
+      loading: true,
+      toastMessage: "Updated New Issue Status Order",
     },
   );
 }
