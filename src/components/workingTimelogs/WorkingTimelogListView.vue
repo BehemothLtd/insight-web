@@ -20,7 +20,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { useGoQuery, useBreadcrumb } from "@bachdx/b-vuse";
+import { useGoQuery } from "@bachdx/b-vuse";
 import useDynamicSearch from "@/composable/dynamicSearch";
 import SearchField from "@/types/searchField";
 
@@ -53,7 +53,7 @@ searchFieldsList.value = [
 ];
 
 const query = ref({});
-const { goQueryInput, updatePage, updateQuery } = useGoQuery({
+const { goQueryInput, updateQuery } = useGoQuery({
   perPage: 50,
   query: query,
   page: 1,

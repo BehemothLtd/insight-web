@@ -32,5 +32,7 @@ export default async function fetchData() {
       analysesProjectsIssueStatus: data.AnalysesProjectsIssueStatus,
       selfThisWeekIssuesState: data.SelfThisWeekIssuesState,
     };
-  } catch {}
+  } catch (e) {
+    console.log(e);
+  }
 }

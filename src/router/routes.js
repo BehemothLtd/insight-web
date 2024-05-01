@@ -4,6 +4,7 @@ import AdminAttendance from "./AdminAttendance";
 import userRoutes from "./userRoutes";
 import deviceRoutes from "./deviceRoutes";
 import workingTimelogRouters from "./workingTimelogRouters";
+import leaveDayRequestRoutes from "./leaveDayRequestRoutes";
 
 export default [
   {
@@ -28,6 +29,7 @@ export default [
   },
 
   ...ProjectRoutes,
+  ...leaveDayRequestRoutes,
 
   // Admin
   ...AdminAttendance,
