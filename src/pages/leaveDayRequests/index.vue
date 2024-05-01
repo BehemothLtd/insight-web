@@ -32,6 +32,7 @@
         :leave-day-requests="list"
         :user-id="currentUser.id"
         @show-detail="leaveDayRequestDetail"
+        @change-state="changeState"
       ></LeaveDayRequestList>
       <div>
         <Pagination
@@ -62,13 +63,14 @@
 
 <script setup>
 import { useBreadcrumb, useGoQuery } from "@bachdx/b-vuse";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, inject } from "vue";
 import {
   FetchListLeaveDayRequest,
   GetLeaveDayRequest,
   CreateLeaveDayRequest,
   UpdateLeaveDayRequest,
   DeleteLeaveDayRequest,
+  LeaveDayRequestChangeState,
 } from "@/apis/repositories";
 import { useAuthStore } from "@/stores/auth";
 import { FetchSelectOptions } from "@/apis/repositories";
@@ -79,6 +81,8 @@ import filters from "@/utilities/filters";
 import useModal from "@/composable/modal";
 
 const { setBreadcrumb } = useBreadcrumb();
+const Swal = inject("Swal");
+
 const { modal, showModal, hideModal } = useModal();
 
 const query = ref({});
@@ -207,6 +211,22 @@ function handleClose() {
 
 function onPageChange(page) {
   updatePage(page, fetchListLeaveDayRequest);
+}
+
+async function changeState(id, state) {
+  const confirmation = await Swal.fire({
+    title: "Notice !",
+    icon: "warning",
+    html: `This request will be ${state}? `,
+    showCancelButton: true,
+    confirmButtonText: "Yes",
+    cancelButtonText: "Cancel",
+  });
+  if (confirmation.isConfirmed) {
+    await LeaveDayRequestChangeState(id, state);
+
+    fetchListLeaveDayRequest();
+  }
 }
 
 setBreadcrumb({

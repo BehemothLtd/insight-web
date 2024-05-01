@@ -51,3 +51,9 @@ export const DeleteLeaveDayRequestGQL = gql`
     LeaveDayRequestDelete(id: $id)
   }
 `;
+
+export const LeaveDayRequestChangeStateGQL = gql`
+  mutation LeaveDayRequestStateChange($id: ID!, $requestState: String!) {
+    LeaveDayRequestStateChange(id: $id, requestState: $requestState)
+  }
+`;

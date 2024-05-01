@@ -6,6 +6,7 @@ import {
   CreateLeaveDayRequestGQL,
   UpdateLeaveDayRequestGQL,
   DeleteLeaveDayRequestGQL,
+  LeaveDayRequestChangeStateGQL,
 } from "@/apis/mutations/leaveDayRequest";
 
 export function FetchListLeaveDayRequest(params = { input: {}, query: {} }) {
@@ -43,6 +44,20 @@ export function DeleteLeaveDayRequest(id) {
     {
       loading: true,
       toastMessage: "Delete Leave Day Request Successfully",
+    },
+  );
+}
+
+export function LeaveDayRequestChangeState(id, state) {
+  return api(
+    LeaveDayRequestChangeStateGQL,
+    {
+      id: id,
+      requestState: state,
+    },
+    {
+      loading: true,
+      toastMessage: "Change Leave Day Request State Successfully",
     },
   );
 }
