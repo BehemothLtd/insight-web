@@ -50,7 +50,6 @@
       >
         <LeaveDayRequestForm
           v-model="form"
-          :request-types="requestTypes"
           @create="create"
           @update="update"
           @delete="onDelete"
@@ -77,6 +76,8 @@ import { FetchSelectOptions } from "@/apis/repositories";
 import useDynamicSearch from "@/composable/dynamicSearch";
 import SearchField from "@/types/searchField";
 import { LeaveDayRequestForm as LeaveDayRequestFormModel } from "@/formModels";
+import { LeaveDayRequestTypes } from "@/constants";
+
 import filters from "@/utilities/filters";
 import useModal from "@/composable/modal";
 
@@ -96,12 +97,6 @@ const list = ref([]);
 const metadata = ref({});
 const userOptions = ref([]);
 const form = ref({});
-const requestTypes = [
-  { value: "day_off", label: "Day off" },
-  { value: "wfh", label: "Wfh" },
-  { value: "insurance", label: "Insurance" },
-  { value: "personal_days_off", label: "Personal days off" },
-];
 
 const { searchFieldsList, searchComponents } = useDynamicSearch();
 searchFieldsList.value = [
@@ -112,7 +107,7 @@ searchFieldsList.value = [
       "mdi mdi-magnify",
       searchComponents.SingleSelectField,
       {
-        selectOptions: requestTypes,
+        selectOptions: LeaveDayRequestTypes,
       },
     ),
     new SearchField(

@@ -16,7 +16,7 @@
             class="w-100"
             filterable
             clearable
-            :options="requestTypes"
+            :options="LeaveDayRequestTypes"
             :searchable="true"
           />
         </form-validator>
@@ -110,7 +110,7 @@
             allow-create
             placeholder="Reason..."
             clearable
-            :options="reasons"
+            :options="LeaveDayRequestReasons"
             :searchable="true"
           />
         </form-validator>
@@ -171,30 +171,12 @@
 
 <script setup>
 import { ref } from "vue";
-
-defineProps({
-  requestTypes: {
-    type: Array,
-    default: () => [],
-  },
-});
+import { LeaveDayRequestTypes, LeaveDayRequestReasons } from "@/constants";
 
 const startTime = ref({ hours: 8, minutes: 30 });
 const endTime = ref({ hours: 18, minutes: 30 });
 const leaveDayRequest = defineModel();
 const emits = defineEmits(["create", "update", "delete"]);
-
-const reasons = [
-  { value: "Lý do sức khỏe", label: "Lý do sức khỏe" },
-  { value: "Công việc đột xuất", label: "Công việc đột xuất" },
-  {
-    value: "Công việc cá nhân / gia đình",
-    label: "Công việc cá nhân / gia đình",
-  },
-  { value: "Khám / chữa bệnh", label: "Khám / chữa bệnh" },
-  { value: "Hiếu hỉ / ma chay", label: "Hiếu hỉ / ma chay" },
-  { value: "Xe hỏng/ báo thức hỏng", label: "Xe hỏng/ báo thức hỏng" },
-];
 
 // =============METHODS=========
 function calculateTimeOff(from, to) {
