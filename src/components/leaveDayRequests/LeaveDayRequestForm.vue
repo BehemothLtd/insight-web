@@ -176,7 +176,7 @@ import { LeaveDayRequestTypes, LeaveDayRequestReasons } from "@/constants";
 const startTime = ref({ hours: 8, minutes: 30 });
 const endTime = ref({ hours: 18, minutes: 30 });
 const leaveDayRequest = defineModel();
-const emits = defineEmits(["create", "update", "delete"]);
+const emits = defineEmits(["create", "update", "delete", "close"]);
 
 // =============METHODS=========
 function calculateTimeOff(from, to) {
