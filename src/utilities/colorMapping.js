@@ -1,14 +1,14 @@
-import { useGlobalStore } from "@/stores/global";
-const globalStore = useGlobalStore();
+import { DevicesStatusColorsMapping } from "@/constants";
 
 const defaultColor = "#6c757d";
 
 export default function getColorByCodes(target, code) {
-  const settingColorsCode = globalStore.colorsMapping;
+  const targetMapping = {
+    devices: DevicesStatusColorsMapping,
+  };
 
-  if (settingColorsCode && settingColorsCode[target]) {
-    return settingColorsCode[target][code] || defaultColor;
-  } else {
-    return defaultColor;
-  }
+  const targetColors = targetMapping[target];
+  const targetColor = targetColors.find((item) => item.label === code);
+
+  return targetColor ? targetColor.value : defaultColor;
 }

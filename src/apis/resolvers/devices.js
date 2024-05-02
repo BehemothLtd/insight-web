@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { METADATA_FIELDS } from "@/apis/fragment/shared";
+import { METADATA_FIELDS } from "@/apis/fragment";
 
 export const DeviceTypesGQL = gql`
   query DeviceTypes($input: PagyInput) {
@@ -27,34 +27,6 @@ export const DeviceTypeGQL = gql`
   }
 `;
 
-export const UpdateDeviceTypeGQL = gql`
-  mutation DeviceTypeUpdate($id: ID!, $input: DeviceTypeInput!) {
-    DeviceTypeUpdate(id: $id, input: $input) {
-      deviceType {
-        id
-        name
-      }
-    }
-  }
-`;
-
-export const DestroyDeviceTypeGQL = gql`
-  mutation DeviceTypeDestroy($id: ID!) {
-    DeviceTypeDestroy(id: $id)
-  }
-`;
-
-export const CreateDeviceTypeGQL = gql`
-  mutation DeviceTypeCreate($input: DeviceTypeInput!) {
-    DeviceTypeCreate(input: $input) {
-      deviceType {
-        id
-        name
-      }
-    }
-  }
-`;
-
 export const DevicesGQL = gql`
   query Devices($input: PagyInput, $query: DevicesQuery) {
     Devices(input: $input, query: $query) {
@@ -64,11 +36,11 @@ export const DevicesGQL = gql`
         name
         seller
         state
-        description
+        deviceTypeId
         deviceType {
-          id
           name
         }
+        description
       }
       metadata {
         ...MetadataFragment

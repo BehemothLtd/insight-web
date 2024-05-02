@@ -1,13 +1,11 @@
 import api from "@/apis/axios";
 
+import { DeviceTypesGQL, DeviceTypeGQL, DevicesGQL } from "@/apis/resolvers";
 import {
-  DeviceTypesGQL,
-  DeviceTypeGQL,
   UpdateDeviceTypeGQL,
   DestroyDeviceTypeGQL,
   CreateDeviceTypeGQL,
-  DevicesGQL,
-} from "@/apis/resolvers";
+} from "@/apis/mutations";
 
 // Queries
 export function FetchDeviceTypes(params = { input: {} }) {
