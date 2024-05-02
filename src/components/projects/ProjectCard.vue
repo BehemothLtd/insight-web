@@ -1,6 +1,6 @@
 <template>
   <div class="col-md-4 col-sm-6">
-    <router-link :to="`/projects/${project.id}`">
+    <router-link :to="`/projects/${project.id}#BasicInformation`">
       <div class="card project-card-item">
         <div class="card-body">
           <div class="d-flex justify-content-between w-100">

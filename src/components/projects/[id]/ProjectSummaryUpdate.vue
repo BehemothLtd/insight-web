@@ -246,7 +246,7 @@
       title-class="font-18"
       hide-footer
     >
-      <!-- <ProjectUploadImage /> -->
+      <ProjectUploadImage v-model="project" />
 
       <div class="modal-footer pb-0">
         <button
@@ -260,7 +260,7 @@
         <button
           type="button"
           class="btn btn-primary"
-          @click="uploadImage"
+          @click="uploadImages"
         >
           Save
         </button>
@@ -270,8 +270,9 @@
 </template>
 
 <script setup>
-import { inject, ref, onMounted, computed } from "vue";
+import { inject, ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import { map } from "lodash";
 
 import router from "@/router/index";
 const route = useRoute();
@@ -280,8 +281,11 @@ import {
   FetchSelectOptions,
   UpdateProject,
   DeleteProject,
+  UploadProjectImages,
 } from "@/apis/repositories";
+
 import { ProjectSprintDurationOptions } from "@/constants";
+import { ProjectBasicInfoForm } from "@/formModels";
 
 const projectId = route.params.id;
 const project = defineModel();
@@ -312,38 +316,32 @@ const uploadModalShow = ref(false);
 
 function onUploadModalShow() {
   uploadModalShow.value = true;
-  if (uploadFileInput.value.fileKeys) {
-    uploadFileInput.value.fileKeys.forEach((key) => {
-      uploadFileInput.value.images = uploadFileInput.value.images.filter(
-        (item) => item.key !== key,
-      );
-    });
-    uploadFileInput.value.fileKeys = [];
+}
+
+async function update() {
+  const form = new ProjectBasicInfoForm(project.value);
+
+  const result = await UpdateProject(projectId, form);
+  if (result) {
+    project.value = result.ProjectUpdate.project;
   }
 }
 
-const projectFormValue = computed(() => {
-  const projectValue = project.value;
+async function uploadImages() {
+  let result = await UploadProjectImages(
+    projectId,
+    project.value.logo.key,
+    map(project.value.files, "key"),
+  );
 
-  return {
-    name: projectValue.name,
-    description: projectValue.description,
-    projectPriority: projectValue.projectPriority,
-    clientId: projectValue.clientId,
-    state: projectValue.state,
-    projectType: projectValue.projectType,
-    sprintDuration: projectValue.sprintDuration,
-    startedAt: projectValue.startedAt,
-    endedAt: projectValue.endedAt,
-    lockVersion: projectValue.lockVersion,
-  };
-});
+  if (result) {
+    const resultData = result.ProjectUploadImages.project;
 
-async function update() {
-  await UpdateProject(projectId, projectFormValue.value);
+    project.value.logoUrl = resultData.logo.url;
+    project.value.logo = resultData.logo;
+    project.value.files = resultData.files;
+  }
 }
-
-async function uploadImage() {}
 
 async function deleteProject() {
   const confirmation = await Swal.fire({

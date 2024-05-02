@@ -10,6 +10,8 @@
 <script setup>
 import { computed } from "vue";
 
+const inputValue = defineModel()
+
 const props = defineProps({
   classes: {
     type: String,
@@ -25,8 +27,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["updated"]);
-
-const inputValue = defineModel();
 
 const usingClasses = computed(() => {
   if (props.classes) return props.classes;

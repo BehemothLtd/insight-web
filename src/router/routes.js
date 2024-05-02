@@ -1,3 +1,4 @@
+import ClientsRoute from "./clientRoutes"; 
 import ProjectRoutes from "./projectRoutes";
 
 import AdminAttendance from "./AdminAttendance";
@@ -26,10 +27,9 @@ export default [
     meta: { authRequired: true },
     component: () => import("@/pages/users/profile.vue"),
   },
-
+  ...ClientsRoute,
   ...ProjectRoutes,
-
-  // Admin
+  // Admin 
   ...AdminAttendance,
   ...userRoutes,
   ...deviceRoutes,
