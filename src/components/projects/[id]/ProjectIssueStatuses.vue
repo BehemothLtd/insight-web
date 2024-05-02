@@ -95,7 +95,10 @@ const newOrder = ref([]);
 const project = defineModel();
 import draggable from "vuedraggable";
 
-import { ProjectUpdateProjectIssueStatusOrder } from "@/apis/repositories";
+import {
+  ProjectUpdateProjectIssueStatusOrder,
+  ProjectDeleteProjectIssueStatus,
+} from "@/apis/repositories";
 const route = useRoute();
 const router = useRouter();
 
@@ -129,12 +132,36 @@ async function updateOrder() {
   });
 
   if (confirmation.isConfirmed) {
-    await ProjectUpdateProjectIssueStatusOrder(
+    let result = await ProjectUpdateProjectIssueStatusOrder(
       project.value.id,
       newOrder.value,
     );
 
-    refreshPage();
+    if (result) {
+      refreshPage();
+    }
+  }
+}
+
+async function destroy(projectIssueStatus) {
+  const confirmation = await Swal.fire({
+    title: "Notice !",
+    html: `Do you want to delete project issue status: <b>${projectIssueStatus.issueStatus.title}</b>`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Submit",
+    cancelButtonText: "Cancel",
+  });
+
+  if (confirmation) {
+    let result = await ProjectDeleteProjectIssueStatus(
+      project.value.id,
+      projectIssueStatus.id,
+    );
+
+    if (result) {
+      refreshPage();
+    }
   }
 }
 

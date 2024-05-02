@@ -14,6 +14,7 @@ import {
   ProjectUpdateProjectAssigneeGQL,
   ProjectDeleteProjectAssigneeGQL,
   ProjectUpdateProjectIssueStatusOrderGQL,
+  ProjectDeleteProjectIssueStatusGQL,
 } from "@/apis/mutations";
 
 export function FetchProjectList(params = { input: {}, query: {} }) {
@@ -146,6 +147,20 @@ export function ProjectUpdateProjectIssueStatusOrder(projectId, newOrderIds) {
     {
       loading: true,
       toastMessage: "Updated New Issue Status Order",
+    },
+  );
+}
+
+export function ProjectDeleteProjectIssueStatus(projectId, id) {
+  return api(
+    ProjectDeleteProjectIssueStatusGQL,
+    {
+      projectId,
+      id,
+    },
+    {
+      loading: true,
+      toastMessage: "Deleted Status Successfully",
     },
   );
 }
