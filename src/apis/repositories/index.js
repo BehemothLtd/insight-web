@@ -1,4 +1,5 @@
-export * from "./attendanceRepository";
+export * from "./attendanceRepository"; 
+export * from "./clientRepository";
 export * from "./userRepository";
 export * from "./fileRepository";
 export * from "./projectRepository";
