@@ -1,7 +1,6 @@
 export class LeaveDayRequestForm {
   constructor(leaveDayRequest) {
-    // this.id = leaveDayRequest?.id ?? null;
-    this.requestType = leaveDayRequest?.requestType ?? null;
+    this.requestType = leaveDayRequest?.requestType ?? "";
     this.from = leaveDayRequest?.from ?? null;
     this.to = leaveDayRequest?.to ?? null;
     this.timeOff = leaveDayRequest?.timeOff ?? 0;

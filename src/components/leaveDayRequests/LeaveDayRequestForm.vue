@@ -8,7 +8,7 @@
       <b-col cols="11">
         <form-validator
           label="Request Type"
-          name="request_type"
+          name="requestType"
           required
         >
           <el-select-v2
@@ -78,7 +78,7 @@
       <b-col cols="11">
         <form-validator
           label="Time Off"
-          name="time_off"
+          name="timeOff"
           required
         >
           <input
