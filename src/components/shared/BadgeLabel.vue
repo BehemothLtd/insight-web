@@ -35,7 +35,7 @@ const props = defineProps({
   extraClasses: {
     type: Array,
     required: false,
-    default: [],
+    default: () => [],
   },
 
   target: {
@@ -53,6 +53,7 @@ const props = defineProps({
   color: {
     type: String,
     required: false,
+    default: "",
   },
 });
 
