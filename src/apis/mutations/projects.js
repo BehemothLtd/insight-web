@@ -97,3 +97,15 @@ export const ProjectUpdateProjectIssueStatusOrderGQL = gql`
     ProjectUpdateProjectIssueStatusOrder(id: $id, input: $input)
   }
 `;
+
+export const ProjectDeleteProjectIssueStatusGQL = gql`
+  mutation ProjectDeleteProjectIssueStatus($projectId: ID!, $id: ID!) {
+    ProjectDeleteProjectIssueStatus(projectId: $projectId, id: $id)
+  }
+`;
+
+export const ProjectCreateProjectIssueStatusGQL = gql`
+  mutation ProjectCreateProjectIssueStatus($projectId: ID!, $id: ID!) {
+    ProjectCreateProjectIssueStatus(projectId: $projectId, id: $id)
+  }
+`;

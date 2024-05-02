@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { METADATA_FIELDS } from "@/apis/fragment";
 
 export const DeviceTypesGQL = gql`
   query DeviceTypes($input: PagyInput) {
@@ -9,18 +10,12 @@ export const DeviceTypesGQL = gql`
         devicesCount
       }
       metadata {
-        total
-        perPage
-        page
-        pages
-        count
-        next
-        prev
-        from
-        to
+        ...MetadataFragment
       }
     }
   }
+
+  ${METADATA_FIELDS}
 `;
 
 export const DeviceTypeGQL = gql`
@@ -32,30 +27,26 @@ export const DeviceTypeGQL = gql`
   }
 `;
 
-export const UpdateDeviceTypeGQL = gql`
-  mutation DeviceTypeUpdate($id: ID!, $input: DeviceTypeInput!) {
-    DeviceTypeUpdate(id: $id, input: $input) {
-      deviceType {
+export const DevicesGQL = gql`
+  query Devices($input: PagyInput, $query: DevicesQuery) {
+    Devices(input: $input, query: $query) {
+      collection {
         id
+        code
         name
+        seller
+        state
+        deviceTypeId
+        deviceType {
+          name
+        }
+        description
+      }
+      metadata {
+        ...MetadataFragment
       }
     }
   }
-`;
 
-export const DestroyDeviceTypeGQL = gql`
-  mutation DeviceTypeDestroy($id: ID!) {
-    DeviceTypeDestroy(id: $id)
-  }
-`;
-
-export const CreateDeviceTypeGQL = gql`
-  mutation DeviceTypeCreate($input: DeviceTypeInput!) {
-    DeviceTypeCreate(input: $input) {
-      deviceType {
-        id
-        name
-      }
-    }
-  }
+  ${METADATA_FIELDS}
 `;

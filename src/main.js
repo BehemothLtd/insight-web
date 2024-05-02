@@ -64,6 +64,11 @@ const { hasPermissionOn, blockAccess } = usePermission();
 app.config.globalProperties.hasPermissionOn = hasPermissionOn;
 app.config.globalProperties.blockAccess = blockAccess;
 
+// show error log
+app.config.errorHandler = (err, instance, info) => {
+  console.log(err) 
+}
+
 // globalProperties can only use for options API
 app.provide("Swal", Swal);
 app.provide("hasPermissionOn", hasPermissionOn);

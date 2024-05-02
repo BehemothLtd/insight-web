@@ -13,8 +13,12 @@
         card
       >
         <b-tab title="Devices">
-          <!-- <DeviceSearch></DeviceSearch>
-          <DeviceList v-if="tabIndex == 0"></DeviceList> -->
+          <!-- <DeviceSearch></DeviceSearch> -->
+          <DeviceList
+            v-if="tabIndex == 0"
+            ref="deviceListRef"
+            :write-permission="writePermission"
+          ></DeviceList>
         </b-tab>
 
         <b-tab title="Device Types">
@@ -36,6 +40,7 @@ import { useBreadcrumb } from "@bachdx/b-vuse";
 const { setBreadcrumb } = useBreadcrumb();
 
 const tabIndex = ref(0);
+const deviceListRef = ref();
 const deviceTypeListRef = ref();
 
 const hasPermissionOn = inject("hasPermissionOn");
