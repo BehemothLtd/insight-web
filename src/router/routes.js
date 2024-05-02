@@ -1,10 +1,11 @@
-import ClientsRoute from "./clientRoutes"; 
+import ClientsRoute from "./clientRoutes";
 import ProjectRoutes from "./projectRoutes";
 
 import AdminAttendance from "./AdminAttendance";
 import userRoutes from "./userRoutes";
 import deviceRoutes from "./deviceRoutes";
 import workingTimelogRouters from "./workingTimelogRouters";
+import leaveDayRequestRoutes from "./leaveDayRequestRoutes";
 
 export default [
   {
@@ -29,7 +30,9 @@ export default [
   },
   ...ClientsRoute,
   ...ProjectRoutes,
-  // Admin 
+  ...leaveDayRequestRoutes,
+
+  // Admin
   ...AdminAttendance,
   ...userRoutes,
   ...deviceRoutes,

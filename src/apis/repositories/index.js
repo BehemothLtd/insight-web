@@ -7,3 +7,4 @@ export * from "./selectOptionsRepository";
 export * from "./attendanceRepository";
 export * from "./deviceRepository";
 export * from "./workingTimelogRepository";
+export * from "./leaveDayRequestRepository";
