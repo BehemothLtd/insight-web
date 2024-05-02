@@ -13,6 +13,7 @@
       <button
         class="btn btn-primary ms-auto"
         type="button"
+        @click="createNewProjectIssueStatus"
       >
         <i class="bx bx-plus-circle me-2"></i> New project issue status
       </button>
@@ -98,6 +99,7 @@ import draggable from "vuedraggable";
 import {
   ProjectUpdateProjectIssueStatusOrder,
   ProjectDeleteProjectIssueStatus,
+  ProjectCreateProjectIssueStatus,
 } from "@/apis/repositories";
 const route = useRoute();
 const router = useRouter();
@@ -163,6 +165,11 @@ async function destroy(projectIssueStatus) {
       refreshPage();
     }
   }
+}
+
+async function createNewProjectIssueStatus() {
+  // TODO: open modal, ...
+  await ProjectCreateProjectIssueStatus(project.value.id, "1");
 }
 
 function refreshPage() {
