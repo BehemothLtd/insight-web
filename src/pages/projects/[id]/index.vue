@@ -21,15 +21,16 @@
             :key="tab.label"
             :title="tab.label"
             @click="changeTab(tab)"
+            :disabled="tab.disabled"
           >
           </b-tab>
         </b-tabs>
 
-        <div v-show="currentTabIdx == 0">
+        <div v-show="currentTabIdx == TAB_IDX['basicInfo']">
           <ProjectSummary v-model="project" />
         </div>
 
-        <div v-show="currentTabIdx == 1">
+        <div v-show="currentTabIdx == TAB_IDX['issueStatuses']">
           <ProjectIssueStatuses v-model="project" />
         </div>
       </div>
@@ -38,7 +39,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import { useBreadcrumb } from "@bachdx/b-vuse";
@@ -82,28 +83,56 @@ async function fetchProject() {
 watch(() => route.hash, setInitialTab);
 
 onMounted(async () => {
-  setInitialTab();
-
   await fetchProject();
+  setInitialTab();
 });
 
 function setInitialTab() {
   const hash = route.hash.replace("#", "");
-  currentTabIdx.value = tabs.find((tab) => tab.hashKey === hash)?.idx || 0;
+  currentTabIdx.value =
+    tabs.value.find((tab) => tab.hashKey === hash)?.idx || TAB_IDX["basicInfo"];
 }
 
-const tabs = [
+const TAB_IDX = {
+  board: 0,
+  issues: 1,
+  basicInfo: 2,
+  issueStatuses: 3,
+  sprints: 4,
+};
+
+const tabs = computed(() => [
+  {
+    label: "Board",
+    idx: TAB_IDX["board"],
+    hashKey: "Board",
+    disabled: false,
+  },
+  {
+    label: "Issues",
+    idx: TAB_IDX["issues"],
+    hashKey: "Issues",
+    disabled: false,
+  },
   {
     label: "Basic Information",
-    idx: 0,
+    idx: TAB_IDX["basicInfo"],
     hashKey: "BasicInformation",
+    disabled: false,
   },
   {
     label: "Issue Statuses",
-    idx: 1,
+    idx: TAB_IDX["issueStatuses"],
     hashKey: "IssueStatuses",
+    disabled: false,
   },
-];
+  {
+    label: "Sprints",
+    idx: TAB_IDX["sprints"],
+    hashKey: "Sprints",
+    disabled: project.value.projectType == "kanban",
+  },
+]);
 
 function changeTab(tab) {
   currentTabIdx.value = tab.idx;
