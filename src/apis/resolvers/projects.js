@@ -1,7 +1,6 @@
 import gql from "graphql-tag";
 
 import { ProjectBasicFields } from "@/apis/fragment/projects";
-import {} from "@/apis/fragment/shared";
 import {
   ProjectAssigneeBasicFields,
   ProjectIssueStatusBasicFields,

@@ -8,7 +8,11 @@ export default function getColorByCodes(target, code) {
   };
 
   const targetColors = targetMapping[target];
-  const targetColor = targetColors.find((item) => item.label === code);
 
-  return targetColor ? targetColor.value : defaultColor;
+  if (targetColors) {
+    const targetColor = targetColors.find((item) => item.label === code);
+    return targetColor ? targetColor.value : defaultColor;
+  }
+
+  return defaultColor;
 }
