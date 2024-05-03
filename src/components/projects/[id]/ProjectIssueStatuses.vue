@@ -13,11 +13,58 @@
       <button
         class="btn btn-primary ms-auto"
         type="button"
-        @click="createNewProjectIssueStatus"
+        @click="showModal"
       >
         <i class="bx bx-plus-circle me-2"></i> New project issue status
       </button>
     </div>
+
+    <b-modal
+      ref="modal"
+      centered
+      title="New project issue status"
+      title-class="font-18"
+      hide-footer
+    >
+      <FormValidator
+        name="issue_status_id"
+        label="Select issue status"
+        required
+      >
+        <el-select-v2
+          v-model="issueStatusId"
+          class="w-100"
+          :options="issueStatusOptions"
+          filterable
+        />
+      </FormValidator>
+
+      <div class="my-2 text-end">
+        <router-link
+          class="text-small text-muted my-2"
+          to="/issue_statuses"
+        >
+          Go to issue statues manage</router-link
+        >
+      </div>
+      <div class="modal-footer pb-0">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          @click="hideModal"
+        >
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          @click="createNewProjectIssueStatus"
+        >
+          Save
+        </button>
+      </div>
+    </b-modal>
 
     <div class="table-responsive">
       <table
@@ -84,23 +131,39 @@
 </template>
 
 <script setup>
-import { ref, inject } from "vue";
+import { ref, inject, onMounted } from "vue";
 import { cloneDeep } from "lodash";
 import { useRoute, useRouter } from "vue-router";
+
+import useModal from "@/composable/modal";
+
+const { modal, showModal, hideModal } = useModal();
 
 const Swal = inject("Swal");
 
 const updating = ref(false);
 const newOrder = ref([]);
+const issueStatusId = ref(null);
+const issueStatusOptions = ref([]);
 
 const project = defineModel();
 import draggable from "vuedraggable";
+
+onMounted(async () => {
+  const result = await FetchSelectOptions("issueStatus");
+
+  if (result.SelectOptions) {
+    issueStatusOptions.value = result.SelectOptions.IssueStatusOptions;
+  }
+});
 
 import {
   ProjectUpdateProjectIssueStatusOrder,
   ProjectDeleteProjectIssueStatus,
   ProjectCreateProjectIssueStatus,
+  FetchSelectOptions,
 } from "@/apis/repositories";
+
 const route = useRoute();
 const router = useRouter();
 
@@ -156,7 +219,7 @@ async function destroy(projectIssueStatus) {
   });
 
   if (confirmation) {
-    let result = await ProjectDeleteProjectIssueStatus(
+    const result = await ProjectDeleteProjectIssueStatus(
       project.value.id,
       projectIssueStatus.id,
     );
@@ -168,8 +231,15 @@ async function destroy(projectIssueStatus) {
 }
 
 async function createNewProjectIssueStatus() {
-  // TODO: open modal, ...
-  await ProjectCreateProjectIssueStatus(project.value.id, "1");
+  const result = await ProjectCreateProjectIssueStatus(
+    project.value.id,
+    issueStatusId.value.toString(),
+  );
+
+  if (result) {
+    hideModal();
+    refreshPage();
+  }
 }
 
 function refreshPage() {
