@@ -1,6 +1,6 @@
 <template>
   <div class="col-md-4 col-sm-6">
-    <router-link :to="`/projects/${project.id}`">
+    <router-link :to="`/projects/${project.id}#BasicInformation`">
       <div class="card project-card-item">
         <div class="card-body">
           <div class="d-flex justify-content-between w-100">
@@ -59,7 +59,7 @@
                     title="Started at"
                   >
                     <i class="bx bx bx-calendar-check"></i>
-                    {{ filters.fullDate(project.startedAt) }}
+                    {{ project.startedAt }}
                   </div>
                   <div
                     v-if="project.state == 'inactive'"
@@ -68,7 +68,7 @@
                   >
                     &nbsp;~
                     <i class="bx bx-calendar-x"></i>
-                    {{ filters.fullDate(project.inactivedAt) }}
+                    {{ project.inactivedAt }}
                   </div>
                 </div>
               </li>

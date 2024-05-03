@@ -203,9 +203,7 @@ async function submit() {
       ])
     ) {
       currentStep.value = 1;
-    } else if (
-      globalStore.haveErrorOnFields(["projectIssueStatusesAttributes"])
-    ) {
+    } else if (globalStore.haveErrorOnFields(["projectIssueStatuses"])) {
       currentStep.value = 2;
     }
   }
