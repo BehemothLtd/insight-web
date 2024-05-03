@@ -3,6 +3,7 @@ import ProjectRoutes from "./projectRoutes";
 import AdminAttendance from "./AdminAttendance";
 import userRoutes from "./userRoutes";
 import deviceRoutes from "./deviceRoutes";
+import ProjectExperienceRoute from "./projectExperiences";
 
 export default [
   {
@@ -27,6 +28,7 @@ export default [
   },
 
   ...ProjectRoutes,
+  ...ProjectExperienceRoute,
 
   // Admin
   ...AdminAttendance,

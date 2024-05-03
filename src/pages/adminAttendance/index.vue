@@ -141,7 +141,7 @@ async function fetchList() {
 }
 
 function onPageChange(page) {
-  updatePage({ page: page });
+  updatePage(page);
   fetchList();
 }
 

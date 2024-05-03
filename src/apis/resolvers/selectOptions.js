@@ -16,6 +16,10 @@ export const FetchSelectOptionsGQL = gql`
         label
         value
       }
+      ProjectOptions {
+        label
+        value
+      }
     }
   }
 `;
