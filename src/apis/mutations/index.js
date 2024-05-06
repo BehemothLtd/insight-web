@@ -4,3 +4,4 @@ export * from "./clients";
 export * from "./users";
 export * from "./projects";
 export * from "./device";
+export * from "./projectExperiences";

@@ -10,3 +10,4 @@ export * from "./workingTimelogRepository";
 export * from "./leaveDayRequestRepository";
 export * from "./issueRepository";
 export * from "./issueStatusRepository";
+export * from "./projectExperienceRepository";
