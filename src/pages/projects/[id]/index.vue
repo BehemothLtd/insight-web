@@ -34,8 +34,12 @@
           <ProjectIssueStatuses v-model="project" />
         </div>
 
-        <div v-show="currentTabIdx == TAB_IDX['issues']">
+        <div v-if="currentTabIdx == TAB_IDX['issues']">
           <ProjectIssues />
+        </div>
+
+        <div v-if="currentTabIdx == TAB_IDX['sprints']">
+          <ProjectSprints v-model="project" />
         </div>
       </div>
     </div>

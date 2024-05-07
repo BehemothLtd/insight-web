@@ -149,6 +149,13 @@ const issueStatusOptions = ref([]);
 const project = defineModel();
 import draggable from "vuedraggable";
 
+import {
+  ProjectUpdateProjectIssueStatusOrder,
+  ProjectDeleteProjectIssueStatus,
+  ProjectCreateProjectIssueStatus,
+  FetchSelectOptions,
+} from "@/apis/repositories";
+
 onMounted(async () => {
   const result = await FetchSelectOptions("issueStatus");
 
@@ -156,13 +163,6 @@ onMounted(async () => {
     issueStatusOptions.value = result.SelectOptions.IssueStatusOptions;
   }
 });
-
-import {
-  ProjectUpdateProjectIssueStatusOrder,
-  ProjectDeleteProjectIssueStatus,
-  ProjectCreateProjectIssueStatus,
-  FetchSelectOptions,
-} from "@/apis/repositories";
 
 const route = useRoute();
 const router = useRouter();
