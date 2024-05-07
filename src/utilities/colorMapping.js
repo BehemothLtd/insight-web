@@ -1,10 +1,11 @@
-import { DevicesStatusColorsMapping } from "@/constants";
+import { DevicesStatusColorsMapping, IssuePriority } from "@/constants";
 
 const defaultColor = "#6c757d";
 
 export default function getColorByCodes(target, code) {
   const targetMapping = {
     devices: DevicesStatusColorsMapping,
+    issuePriority: IssuePriority,
   };
 
   const targetColors = targetMapping[target];

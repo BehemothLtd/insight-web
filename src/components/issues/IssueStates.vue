@@ -21,7 +21,8 @@
         :text="issue.priority"
         icon="bx bx-stats"
         :extra-classes="['mt-1 ml-1']"
-        :color="issue.colorCode"
+        :code="issue.priority"
+        target="issuePriority"
       ></BadgeLabel>
 
       <BadgeLabel
