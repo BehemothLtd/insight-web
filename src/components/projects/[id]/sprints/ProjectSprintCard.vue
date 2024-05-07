@@ -64,7 +64,12 @@
         </div>
         <div class="table-responsive table-content">
           <table class="table table-nowrap align-middle mb-0">
-            <tbody id="active-issue-list">
+            <tbody
+              id="active-issue-list"
+              :class="{
+                dragging: isDraggingSprintIssue && draggableSprint != sprint.id,
+              }"
+            >
               <IssueBasicRow
                 v-for="issue in issues"
                 :key="issue.id"
@@ -75,6 +80,7 @@
               </IssueBasicRow>
 
               <Pagination
+                v-if="metadata.pages && metadata.pages > 1"
                 :meta="metadata"
                 @change="onPageChange"
               ></Pagination>
@@ -89,6 +95,7 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import { useGoQuery } from "@bachdx/b-vuse";
+import { storeToRefs } from "pinia";
 
 import { FetchProjectIssuesList } from "@/apis/repositories";
 
@@ -102,12 +109,17 @@ const props = defineProps({
     required: true,
   },
 });
+// ================STORE================
+import { useProjectIssueStore } from "@/stores/projectIssue";
+const projectIssueStore = useProjectIssueStore();
+const { isDraggingSprintIssue, draggableSprint } =
+  storeToRefs(projectIssueStore);
 
 const visible = ref(false);
 const projectSprintLoading = ref(false);
 const query = ref({ projectSprintIdEq: props.sprint.id });
 
-const { goQueryInput, updatePage, updateQuery } = useGoQuery({
+const { goQueryInput, updatePage } = useGoQuery({
   perPage: 10,
   query: query,
 });

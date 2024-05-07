@@ -1,5 +1,10 @@
 <template>
-  <tr class="cursor-pointer">
+  <tr
+    class="cursor-pointer"
+    :draggable="draggable"
+    @dragstart="startDrag"
+    @dragend="endDrag"
+  >
     <td>
       <IssueTitle
         :issue="issue"
@@ -22,6 +27,9 @@
 </template>
 
 <script setup>
+import useDragging from "@/composable/dragging";
+const { toggleDragging } = useDragging();
+
 const props = defineProps({
   issue: {
     type: Object,
@@ -41,6 +49,23 @@ const props = defineProps({
     default: null,
   },
 });
+
+function endDrag() {
+  toggleDragging(props.issue.projectSprintId);
+  emits("drop");
+}
+
+function startDrag(event) {
+  event.dataTransfer.dropEffect = "move";
+  event.dataTransfer.effectAllowed = "move";
+
+  event.dataTransfer.setData("issueId", props.issue.id);
+  event.dataTransfer.setData("issueTitle", props.issue.title);
+  if (props.issue.projectSprintId)
+    event.dataTransfer.setData("sprintId", props.issue.projectSprintId);
+
+  toggleDragging(props.issue.projectSprintId);
+}
 </script>
 
 <style lang="scss" scoped>
