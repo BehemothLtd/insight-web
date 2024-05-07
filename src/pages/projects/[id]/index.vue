@@ -33,6 +33,10 @@
         <div v-show="currentTabIdx == TAB_IDX['issueStatuses']">
           <ProjectIssueStatuses v-model="project" />
         </div>
+
+        <div v-show="currentTabIdx == TAB_IDX['issues']">
+          <ProjectIssues />
+        </div>
       </div>
     </div>
   </div>
