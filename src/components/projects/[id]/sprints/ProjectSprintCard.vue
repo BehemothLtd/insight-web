@@ -13,6 +13,7 @@
         :aria-expanded="visible ? true : false"
         :aria-controls="`accordion-${sprint.id}`"
         variant="success"
+        @click.prevent="toggleVisible"
       >
         <div class="d-flex algin-items-center">
           <Transition name="fade">
@@ -56,7 +57,7 @@
         <div class="d-flex my-2">
           <div class="col">
             <p class="text-muted mb-0">
-              <b>{{ sprint.issues ? sprint.issues.length : 0 }}</b>
+              <b>{{ metadata ? metadata.total : 0 }}</b>
               issues
             </p>
           </div>
@@ -65,13 +66,18 @@
           <table class="table table-nowrap align-middle mb-0">
             <tbody id="active-issue-list">
               <IssueBasicRow
-                v-for="issue in sprint.issues"
+                v-for="issue in issues"
                 :key="issue.id"
                 :issue="issue"
                 :sprint-id="sprint.id"
                 :draggable="writePermission"
               >
               </IssueBasicRow>
+
+              <Pagination
+                :meta="metadata"
+                @change="onPageChange"
+              ></Pagination>
             </tbody>
           </table>
         </div>
@@ -81,17 +87,67 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, watch } from "vue";
+import { useGoQuery } from "@bachdx/b-vuse";
 
-defineProps({
+import { FetchProjectIssuesList } from "@/apis/repositories";
+
+const props = defineProps({
   sprint: {
     type: Object,
+    required: true,
+  },
+  writePermission: {
+    type: Boolean,
     required: true,
   },
 });
 
 const visible = ref(false);
 const projectSprintLoading = ref(false);
+const query = ref({ projectSprintIdEq: props.sprint.id });
+
+const { goQueryInput, updatePage, updateQuery } = useGoQuery({
+  perPage: 10,
+  query: query,
+});
+
+const issues = ref([]);
+const metadata = ref({});
+
+onMounted(async () => {
+  if (props.sprint.active) {
+    visible.value = true;
+  }
+});
+
+watch(visible, async (val) => {
+  if (val) {
+    fetchIssuesList();
+  }
+});
+
+function onPageChange(page) {
+  updatePage(page);
+  fetchIssuesList();
+}
+
+async function fetchIssuesList() {
+  const result = await FetchProjectIssuesList(
+    props.sprint.projectId,
+    goQueryInput.pagyInput,
+    goQueryInput.query,
+  );
+
+  if (result) {
+    issues.value = result.ProjectIssues.collection;
+    metadata.value = result.ProjectIssues.metadata;
+  }
+}
+
+function toggleVisible() {
+  visible.value = !visible.value;
+}
 </script>
 
 <style scoped lang="scss">

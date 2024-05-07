@@ -109,7 +109,9 @@ searchFieldsList.value = [
   // ],
 ];
 
-const query = ref({});
+const defaultQuery = { projectSprintIdEq: "" };
+
+const query = ref(defaultQuery);
 const { goQueryInput, updatePage, updateQuery } = useGoQuery({
   perPage: 10,
   query: query,
@@ -131,7 +133,7 @@ async function fetchList() {
 }
 
 function resetQuerySearch() {
-  updateQuery({});
+  updateQuery(defaultQuery);
 }
 
 onMounted(async () => {
