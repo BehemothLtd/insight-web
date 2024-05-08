@@ -39,7 +39,10 @@
 </template>
 
 <script setup>
-const isDraggingIssue = false;
+import { storeToRefs } from "pinia";
+import { useProjectIssueStore } from "@/stores/projectIssue";
+const projectIssueStore = useProjectIssueStore();
+const { isDraggingIssue } = storeToRefs(projectIssueStore);
 
 // ================PROPS===============
 defineProps({

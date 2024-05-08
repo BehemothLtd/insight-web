@@ -50,6 +50,8 @@ const props = defineProps({
   },
 });
 
+const emits = defineEmits(["drop"]);
+
 function endDrag() {
   toggleDragging(props.issue.projectSprintId);
   emits("drop");

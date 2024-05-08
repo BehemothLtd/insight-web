@@ -20,7 +20,10 @@
       @drop="dropIssue"
       @dragover.prevent
     >
-      <IssueList :issues="nonSprintIssues" />
+      <IssueList
+        :issues="nonSprintIssues"
+        :draggable="sprintWritePermission"
+      />
 
       <Pagination
         v-if="metadata.pages && metadata.pages > 1"
@@ -35,6 +38,8 @@
 import { inject, computed, ref, onMounted } from "vue";
 
 import { useGoQuery } from "@bachdx/b-vuse";
+
+const Swal = inject("Swal");
 
 import {
   FetchProjectSprints,
