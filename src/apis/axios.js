@@ -96,6 +96,10 @@ api.interceptors.response.use(
   },
   function (error) {
     if (error.config.loading) hideLoading(error.config.id);
+    if (error.code == "ERR_NETWORK") {
+      Toast.error({ title: "Please check server connection" });
+      return;
+    }
 
     const errCode = get(error, "response.status");
 
