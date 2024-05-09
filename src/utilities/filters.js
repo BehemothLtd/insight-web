@@ -72,7 +72,7 @@ export default {
   },
 
   formatDate: (date) => {
-    return date ? moment(date).format("YYYY/MM/DD") : "";
+    return date ? moment(date).format("YYYY-MM-DD") : "";
   },
 
   formatDateHourMinute: (date) => {

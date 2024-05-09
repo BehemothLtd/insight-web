@@ -1,4 +1,4 @@
-import { l } from "vite/dist/node/types.d-aGj9QkWt";
+import filters from "@/utilities/filters.js";
 
 export class UserForm {
   constructor(user) {
@@ -10,10 +10,10 @@ export class UserForm {
     this.createdAt = user?.createdAt ?? "";
     this.companyLevelId = user?.companyLevelId ?? null;
     this.state = user?.state ?? null;
-    this.address = user?.address ?? "";
-    this.birthday = user?.birthday ?? null;
+    this.address = user?.address ?? null;
+    this.birthday = filters.formatDate(user?.birthday) ?? null;
     this.gender = user?.gender ?? null;
-    this.phone = user?.phone ?? "";
+    this.phone = user?.phone ?? null;
     this.timingActiveAt = user?.timingActiveAt ?? null;
     this.timingDeactiveAt = user?.timingDeactiveAt ?? null;
     this.slackId = user?.slackId ?? "";
