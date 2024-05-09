@@ -17,6 +17,5 @@ export class UserForm {
     this.timingActiveAt = user?.timingActiveAt ?? null;
     this.timingDeactiveAt = user?.timingDeactiveAt ?? null;
     this.slackId = user?.slackId ?? "";
-    this.projectAssignees = user?.projectAssignees ?? null;
   }
 }
