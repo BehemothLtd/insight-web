@@ -36,9 +36,9 @@
               <!-- <span @click="showDevice(deviceItem.id)">
                 <i class="mdi mdi-pencil font-size-18 text-success"> </i>
               </span> -->
-              <!-- <span @click="destroyDevice(deviceItem.id, deviceItem.name)">
+              <span @click="destroyDevice(deviceItem.id, deviceItem.name)">
                 <i class="mdi mdi-delete font-size-18 text-danger ml-4"></i>
-              </span> -->
+              </span>
             </td>
           </tr>
         </tbody>
@@ -63,7 +63,7 @@
 <script setup>
 import { onMounted, ref, inject } from "vue";
 import { useGoQuery } from "@bachdx/b-vuse";
-import { FetchDeviceList } from "@/apis/repositories";
+import { FetchDeviceList, DestroyDevice } from "@/apis/repositories";
 
 defineProps({
   writePermission: {
@@ -73,6 +73,7 @@ defineProps({
   },
 });
 
+const Swal = inject("Swal");
 const { goQueryInput, updatePage } = useGoQuery({
   perPage: 20,
 });
@@ -92,6 +93,22 @@ async function fetchListDevices() {
 
 function onPageChange(page) {
   updatePage(page, fetchListDevices);
+}
+
+async function destroyDevice(id, name) {
+  const confirmation = await Swal.fire({
+    title: "Notice !",
+    text: `Are you sure want to delete ${name} ? `,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Submit",
+    cancelButtonText: "Cancel",
+  });
+
+  if (confirmation.isConfirmed) {
+    await DestroyDevice(id);
+    fetchListDevices();
+  }
 }
 
 defineExpose({

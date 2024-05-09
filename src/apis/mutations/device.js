@@ -27,3 +27,9 @@ export const CreateDeviceTypeGQL = gql`
     }
   }
 `;
+
+export const DestroyDeviceGQL = gql`
+  mutation DeviceDestroy($id: ID!) {
+    DeviceDestroy(id: $id)
+  }
+`;
