@@ -76,6 +76,8 @@ import { GetUser, UserUpdate } from "@/apis/repositories";
 import { useRoute } from "vue-router";
 import { useBreadcrumb } from "@bachdx/b-vuse";
 
+import { UserForm as UserFormModel } from "@/formModels";
+
 const props = defineProps({
   user: Object,
 });
@@ -94,7 +96,8 @@ const { setBreadcrumb } = useBreadcrumb();
 // =========== FUNCTION ===========
 async function updateUser() {
   try {
-    const result = await UserUpdate(userId.value, userDetail.value);
+    const formData = new UserFormModel(userDetail.value);
+    const result = await UserUpdate(userId.value, formData);
 
     userDetail.value = result.UserUpdate.user;
   } catch {}
