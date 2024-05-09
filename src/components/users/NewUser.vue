@@ -82,6 +82,8 @@ import { ref, inject, computed } from "vue";
 import { UserCreate } from "@/apis/repositories";
 import Toast from "@/utilities/toast";
 
+import { UserForm as UserFormModel } from "@/formModels";
+
 const emits = defineEmits(["onCreate"]);
 
 // ===========PERMISSION========
@@ -106,7 +108,8 @@ function closeModal() {
 }
 
 async function submitNewUser() {
-  const result = await UserCreate(userDetail.value);
+  const formData = new UserFormModel(userDetail.value);
+  const result = await UserCreate(formData);
 
   if (result) {
     userInfo.value = result.UserCreate;
