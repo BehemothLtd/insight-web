@@ -5,6 +5,7 @@ import {
   UpdateDeviceTypeGQL,
   DestroyDeviceTypeGQL,
   CreateDeviceTypeGQL,
+  DestroyDeviceGQL,
 } from "@/apis/mutations";
 
 // Queries
@@ -30,6 +31,12 @@ export function UpdateDeviceType(id, input) {
 
 export function DestroyDeviceType(id) {
   return api(DestroyDeviceTypeGQL, {
+    id,
+  });
+}
+
+export function DestroyDevice(id) {
+  return api(DestroyDeviceGQL, {
     id,
   });
 }
