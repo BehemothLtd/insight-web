@@ -11,7 +11,7 @@
           :sprint="sprint"
           :key="sprint.id"
           :write-permission="sprintWritePermission"
-          @add-issue="fetchIssuesList"
+          @moved-issue-to="movedIssueIntoSprint"
         >
         </ProjectSprintCard>
       </div>
@@ -137,16 +137,20 @@ async function dropIssue(e) {
     );
 
     if (result) {
-      fetchIssuesList();
-
-      const targetSprint = find(
-        sprintRefs.value,
-        (sprint) => sprint.id == sprintId,
-      );
-      if (targetSprint) {
-        targetSprint.fetchIssuesList();
-      }
+      movedIssueIntoSprint(sprintId);
     }
+  }
+}
+
+async function movedIssueIntoSprint(sprintId) {
+  fetchIssuesList();
+
+  const targetSprint = find(
+    sprintRefs.value,
+    (sprint) => sprint.id == sprintId,
+  );
+  if (targetSprint) {
+    targetSprint.fetchIssuesList();
   }
 }
 </script>

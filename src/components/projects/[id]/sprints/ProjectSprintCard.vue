@@ -209,7 +209,7 @@ async function dropIssue(e) {
 
     if (result) {
       fetchIssuesList();
-      emit("addIssue");
+      emit("movedIssueTo", sprintId);
     }
   }
 }
