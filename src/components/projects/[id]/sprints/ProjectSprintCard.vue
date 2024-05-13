@@ -160,6 +160,8 @@ async function fetchIssuesList() {
 function toggleVisible() {
   visible.value = !visible.value;
 }
+
+defineExpose({ fetchIssuesList, id: props.sprint.id });
 </script>
 
 <style scoped lang="scss">

@@ -7,6 +7,7 @@
       >
         <ProjectSprintCard
           v-for="sprint in sprints"
+          ref="sprintRefs"
           :sprint="sprint"
           :key="sprint.id"
           :write-permission="sprintWritePermission"
@@ -36,15 +37,18 @@
 
 <script setup>
 import { inject, computed, ref, onMounted } from "vue";
-
 import { useGoQuery } from "@bachdx/b-vuse";
+import { find } from "lodash";
 
 const Swal = inject("Swal");
 
 import {
   FetchProjectSprints,
   FetchProjectIssuesList,
+  RemoveIssueOutOfSprint,
 } from "@/apis/repositories";
+
+const sprintRefs = ref([]);
 
 const query = ref({ projectSprintIdEq: null });
 
@@ -125,7 +129,16 @@ async function dropIssue(e) {
   });
 
   if (confirmation.isConfirmed) {
-    console.log("jkelwqjklewqjkl");
+    await RemoveIssueOutOfSprint(project.value.id, sprintId, issueId);
+    fetchIssuesList();
+
+    const targetSprint = find(
+      sprintRefs.value,
+      (sprint) => sprint.id == sprintId,
+    );
+    if (targetSprint) {
+      targetSprint.fetchIssuesList();
+    }
   }
 }
 </script>
