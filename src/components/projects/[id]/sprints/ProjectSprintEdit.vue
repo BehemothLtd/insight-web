@@ -4,7 +4,7 @@
     href="#"
     class="mr-2"
     title="Edit"
-    @click.prevent="show()"
+    @click.prevent="showModal"
   >
     <i class="bx bx bx-edit-alt font-size-16"></i>
 
@@ -16,10 +16,7 @@
       title-class="font-18"
       hide-footer
     >
-      <ProjectSprintForm
-        v-if="editSprint"
-        :form="editSprint"
-      />
+      <ProjectSprintForm :form="editSprint" />
 
       <div class="modal-footer pb-0">
         <button
@@ -45,8 +42,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
-import { cloneDeep, pick } from "lodash";
+import { ref } from "vue";
+import { cloneDeep } from "lodash";
+
+import { ProjectSprintForm as PSForm } from "@/formModels";
+import { UpdateProjectSprint } from "@/apis/repositories";
 
 const props = defineProps({
   sprint: {
@@ -55,21 +55,22 @@ const props = defineProps({
   },
 });
 
-const editSprint = ref({});
-
-onMounted(() => {});
+const editSprint = ref(cloneDeep(props.sprint));
 
 import useModal from "@/composable/modal";
 const { modal, showModal, hideModal } = useModal();
 
-function show() {
-  editSprint.value = cloneDeep(props.sprint.value);
-  showModal();
-}
-
 async function submit() {
+  const form = new PSForm(editSprint.value);
+
+  const result = await UpdateProjectSprint(
+    props.sprint.projectId,
+    props.sprint.id,
+    form,
+  );
+
   if (result) {
-    // editSprint.value = cloneDeep(sprintDetail.value);
+    editSprint.value = cloneDeep(result.ProjectSprintUpdate.projectSprint);
   }
 }
 </script>
