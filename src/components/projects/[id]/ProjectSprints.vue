@@ -15,6 +15,7 @@
           v-for="sprint in sprints"
           ref="sprintRefs"
           :sprint="sprint"
+          :project="project"
           :key="sprint.id"
           :write-permission="sprintWritePermission"
           @moved-issue-to="movedIssueIntoSprint"

@@ -16,3 +16,19 @@ export const CreateProjectSprintGQL = gql`
 
   ${ProjectSprintBasicFields}
 `;
+
+export const UpdateProjectSprintGQL = gql`
+  mutation ProjectSprintUpdate(
+    $id: ID!
+    $projectId: ID!
+    $input: ProjectSprintFormInput!
+  ) {
+    ProjectSprintUpdate(id: $id, projectId: $projectId, input: $input) {
+      projectSprint {
+        ...ProjectSprintBasicFieldFragment
+      }
+    }
+  }
+
+  ${ProjectSprintBasicFields}
+`;

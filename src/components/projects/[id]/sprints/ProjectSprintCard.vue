@@ -63,6 +63,12 @@
               issues
             </p>
           </div>
+
+          <ProjectSprintActions
+            :sprint="sprint"
+            :project="project"
+            @reload="fetchIssuesList"
+          />
         </div>
         <div class="table-responsive table-content">
           <table class="table table-nowrap align-middle mb-0">
@@ -111,6 +117,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  project: {
+    type: Object,
+    required: true,
+  },
   writePermission: {
     type: Boolean,
     required: true,
@@ -152,6 +162,8 @@ function onPageChange(page) {
 }
 
 async function fetchIssuesList() {
+  projectSprintLoading.value = true;
+
   const result = await FetchProjectIssuesList(
     props.sprint.projectId,
     goQueryInput.pagyInput,
@@ -161,6 +173,7 @@ async function fetchIssuesList() {
   if (result) {
     issues.value = result.ProjectIssues.collection;
     metadata.value = result.ProjectIssues.metadata;
+    projectSprintLoading.value = false;
   }
 }
 
