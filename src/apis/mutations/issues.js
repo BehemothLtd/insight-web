@@ -5,3 +5,9 @@ export const RemoveIssueOutOfSprintGQL = gql`
     ProjectSprintRemoveIssue(projectId: $projectId, id: $id, issueId: $issueId)
   }
 `;
+
+export const MoveIssueIntoSprintGQL = gql`
+  mutation ProjectSprintAddIssue($projectId: ID!, $id: ID!, $issueId: ID!) {
+    ProjectSprintAddIssue(projectId: $projectId, id: $id, issueId: $issueId)
+  }
+`;

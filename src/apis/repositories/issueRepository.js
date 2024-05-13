@@ -2,7 +2,10 @@ import api from "@/apis/axios";
 
 import { FetchProjectIssuesListGQL } from "@/apis/resolvers/issues";
 
-import { RemoveIssueOutOfSprintGQL } from "@/apis/mutations/issues";
+import {
+  RemoveIssueOutOfSprintGQL,
+  MoveIssueIntoSprintGQL,
+} from "@/apis/mutations/issues";
 
 export function FetchProjectIssuesList(projectId, pagyInput = {}, query = {}) {
   return api(
@@ -17,9 +20,25 @@ export function FetchProjectIssuesList(projectId, pagyInput = {}, query = {}) {
 }
 
 export function RemoveIssueOutOfSprint(projectId, sprintId, issueId) {
-  return api(RemoveIssueOutOfSprintGQL, {
-    projectId,
-    id: sprintId,
-    issueId,
-  });
+  return api(
+    RemoveIssueOutOfSprintGQL,
+    {
+      projectId,
+      id: sprintId,
+      issueId,
+    },
+    { loading: true, toastMessage: "Remove Issue Out of sprint successfully" },
+  );
+}
+
+export function MoveIssueIntoSprint(projectId, sprintId, issueId) {
+  return api(
+    MoveIssueIntoSprintGQL,
+    {
+      projectId,
+      id: sprintId,
+      issueId,
+    },
+    { loading: true, toastMessage: "Move Issue into sprint successfully" },
+  );
 }

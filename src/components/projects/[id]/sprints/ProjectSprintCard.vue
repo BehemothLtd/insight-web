@@ -2,6 +2,8 @@
   <b-card
     no-body
     class="mb-3 mt-3"
+    @drop="dropIssue"
+    @dragover.prevent
   >
     <b-card-header
       header-tag="header"
@@ -93,11 +95,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, inject } from "vue";
 import { useGoQuery } from "@bachdx/b-vuse";
 import { storeToRefs } from "pinia";
 
-import { FetchProjectIssuesList } from "@/apis/repositories";
+import {
+  FetchProjectIssuesList,
+  MoveIssueIntoSprint,
+} from "@/apis/repositories";
+
+const Swal = inject("Swal");
 
 const props = defineProps({
   sprint: {
@@ -162,6 +169,50 @@ function toggleVisible() {
 }
 
 defineExpose({ fetchIssuesList, id: props.sprint.id });
+const emit = defineEmits(["addIssue"]);
+
+async function dropIssue(e) {
+  const issueId = e.dataTransfer.getData("issueId");
+  const issueTitle = e.dataTransfer.getData("issueTitle");
+  const sprintId = e.dataTransfer.getData("sprintId");
+
+  if (sprintId == props.sprint.id) {
+    return Swal.fire({
+      title: "Notice !",
+      icon: "warning",
+      confirmButtonText: "Sure",
+      html: "You cant drag like that",
+      showCancelButton: false,
+    });
+  }
+
+  const confirmation = await Swal.fire({
+    title: "Notice !",
+    icon: "warning",
+    html:
+      "Are you sure want to move" +
+      `<b> ${issueTitle} </b>` +
+      `to sprint <b> ${props.sprint.title} </b> ? `,
+    showCancelButton: true,
+    confirmButtonText: "Confirm",
+    confirmButtonAriaLabel: "Thumbs up, great!",
+    cancelButtonText: "Cancel",
+    cancelButtonAriaLabel: "Thumbs down",
+  });
+
+  if (confirmation.isConfirmed) {
+    const result = await MoveIssueIntoSprint(
+      props.sprint.projectId,
+      props.sprint.id,
+      issueId,
+    );
+
+    if (result) {
+      fetchIssuesList();
+      emit("addIssue");
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

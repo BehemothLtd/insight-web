@@ -11,6 +11,7 @@
           :sprint="sprint"
           :key="sprint.id"
           :write-permission="sprintWritePermission"
+          @add-issue="fetchIssuesList"
         >
         </ProjectSprintCard>
       </div>
@@ -129,15 +130,22 @@ async function dropIssue(e) {
   });
 
   if (confirmation.isConfirmed) {
-    await RemoveIssueOutOfSprint(project.value.id, sprintId, issueId);
-    fetchIssuesList();
-
-    const targetSprint = find(
-      sprintRefs.value,
-      (sprint) => sprint.id == sprintId,
+    const result = await RemoveIssueOutOfSprint(
+      project.value.id,
+      sprintId,
+      issueId,
     );
-    if (targetSprint) {
-      targetSprint.fetchIssuesList();
+
+    if (result) {
+      fetchIssuesList();
+
+      const targetSprint = find(
+        sprintRefs.value,
+        (sprint) => sprint.id == sprintId,
+      );
+      if (targetSprint) {
+        targetSprint.fetchIssuesList();
+      }
     }
   }
 }
