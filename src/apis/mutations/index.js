@@ -6,3 +6,4 @@ export * from "./projects";
 export * from "./device";
 export * from "./projectExperiences";
 export * from "./issues";
+export * from "./projectSprints";

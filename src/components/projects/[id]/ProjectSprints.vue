@@ -5,6 +5,12 @@
         class="accordion"
         role="tablist"
       >
+        <ProjectSprintCreate
+          :projectId="project.id"
+          v-if="sprintWritePermission"
+          @created="newSprintCreated"
+        />
+
         <ProjectSprintCard
           v-for="sprint in sprints"
           ref="sprintRefs"
@@ -75,12 +81,15 @@ const nonSprintIssues = ref([]);
 const metadata = ref({});
 
 onMounted(async () => {
+  await fetchSprints();
+  await fetchIssuesList();
+});
+
+async function fetchSprints() {
   FetchProjectSprints(project.value.id).then((result) => {
     sprints.value = result.ProjectSprints;
   });
-
-  await fetchIssuesList();
-});
+}
 
 async function fetchIssuesList() {
   const result = await FetchProjectIssuesList(
@@ -152,5 +161,9 @@ async function movedIssueIntoSprint(sprintId) {
   if (targetSprint) {
     targetSprint.fetchIssuesList();
   }
+}
+
+function newSprintCreated() {
+  fetchSprints();
 }
 </script>
