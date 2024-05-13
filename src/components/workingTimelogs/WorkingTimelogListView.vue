@@ -6,7 +6,6 @@
         :query="query"
         search-title=""
         @search="fetchList"
-        @reset="resetQuerySearch"
       >
       </BasicDataFilter>
 
@@ -70,10 +69,6 @@ async function fetchList() {
 
   workingTimelogs.value = result.WorkingTimelogs.collection;
   metadata.value = result.WorkingTimelogs.metadata;
-}
-
-function resetQuerySearch() {
-  updateQuery({});
 }
 
 onMounted(async () => {

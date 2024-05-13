@@ -6,6 +6,7 @@ export default class SearchField {
     component,
     options = new SearchFieldOptions(),
     classes,
+    defaultValue = null,
   ) {
     this.title = title;
     this.icon = icon;
@@ -13,6 +14,7 @@ export default class SearchField {
     this.component = component;
     this.options = options;
     this.classes = classes;
+    this.defaultValue = defaultValue;
   }
 }
 

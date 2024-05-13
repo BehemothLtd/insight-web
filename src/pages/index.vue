@@ -33,8 +33,8 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-
 import { useBreadcrumb } from "@bachdx/b-vuse";
+
 const { setBreadcrumb } = useBreadcrumb();
 
 import fetchData from "@/dataFetcher/homePage.js";

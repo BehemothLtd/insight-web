@@ -3,68 +3,42 @@
     <div class="col-md-6 position-relative mb-3 mb-md-0">
       <i class="mdi mdi-calendar-check-outline"></i>
       <DatePicker
-        v-model="startDate"
+        v-model="searchDateRange[0]"
         :enable-time-picker="false"
         placeholder="Start Date"
-        @cleared="startDate = ''"
+        @cleared="searchDateRange[0] = ''"
       />
     </div>
 
     <div class="col-md-6 position-relative">
       <i class="mdi mdi-calendar-check-outline"></i>
       <DatePicker
-        v-model="endDate"
+        v-model="searchDateRange[1]"
         :enable-time-picker="false"
         placeholder="End Date"
-        @cleared="endDate = ''"
+        @cleared="searchDateRange[1] = ''"
       />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
-
 const props = defineProps({
   classes: {
     type: String,
     required: false,
     default: "form-control w-100 p-1",
   },
-  options: {
-    type: Object,
-    default: () => {
-      return {
-        dateRangeDefault: ["", ""],
-      };
-    },
-  },
 });
 
-const startDate = ref(props.options.dateRangeDefault[0]);
-const endDate = ref(props.options.dateRangeDefault[1]);
-
-const emit = defineEmits(["updated"]);
+const searchDateRange = defineModel();
 
 defineExpose({
   clear,
 });
 
 function clear() {
-  startDate.value = "";
-  endDate.value = "";
-}
-
-watch(startDate, () => {
-  emitUpdate();
-});
-
-watch(endDate, () => {
-  emitUpdate();
-});
-
-function emitUpdate() {
-  emit("updated", [startDate.value, endDate.value]);
+  searchDateRange.value = ["", ""];
 }
 </script>
 
