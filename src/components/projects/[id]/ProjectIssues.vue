@@ -3,7 +3,6 @@
     :search-fields-list="searchFieldsList"
     :query="query"
     @search="fetchList"
-    @reset="resetQuerySearch"
   />
   <IssueList
     :issues="issues"

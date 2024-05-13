@@ -7,7 +7,6 @@
         :search-fields-list="searchFieldsList"
         :query="query"
         @search="fetchList"
-        @reset="resetQuerySearch"
       />
 
       <Transition name="fade">
@@ -133,10 +132,6 @@ async function fetchList() {
 
   projects.value = result.Projects.collection;
   metadata.value = result.Projects.metadata;
-}
-
-function resetQuerySearch() {
-  updateQuery({});
 }
 
 onMounted(async () => {

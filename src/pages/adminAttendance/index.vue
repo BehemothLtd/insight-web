@@ -3,7 +3,6 @@
     :search-fields-list="searchFieldsList"
     :query="query"
     @search="fetchList"
-    @reset="resetQuerySearch"
   />
 
   <div class="text-right p-4">
@@ -143,10 +142,6 @@ async function fetchList() {
 function onPageChange(page) {
   updatePage(page);
   fetchList();
-}
-
-function resetQuerySearch() {
-  updateQuery({});
 }
 
 // =========DETAILS ATTENDANCE=========

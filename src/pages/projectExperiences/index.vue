@@ -3,7 +3,6 @@
     :search-fields-list="searchFieldsList"
     :query="query"
     @search="fetchList"
-    @reset="resetQuerySearch"
   />
 
   <ProjectExperience
@@ -93,10 +92,6 @@ async function fetchList() {
 function onPageChange(page) {
   updatePage(page);
   fetchList();
-}
-
-function resetQuerySearch() {
-  updateQuery({});
 }
 
 // ===========LIFE CYCLE===============

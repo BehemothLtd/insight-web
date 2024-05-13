@@ -6,7 +6,6 @@
         :search-fields-list="searchFieldsList"
         :query="query"
         @search="searchList"
-        @reset="resetQuerySearch"
       />
 
       <NewUser
@@ -113,10 +112,6 @@ function onPageChange(page) {
 
 function searchList() {
   fetchListUser();
-}
-
-function resetQuerySearch() {
-  updateQuery({});
 }
 
 async function toggleActiveUser(id) {
