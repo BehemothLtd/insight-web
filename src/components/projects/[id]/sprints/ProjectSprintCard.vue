@@ -68,6 +68,7 @@
             :sprint="sprint"
             :project="project"
             @reload="fetchIssuesList"
+            @updated="$emit('sprintUpdated')"
           />
         </div>
         <div class="table-responsive table-content">
@@ -182,7 +183,7 @@ function toggleVisible() {
 }
 
 defineExpose({ fetchIssuesList, id: props.sprint.id });
-const emit = defineEmits(["movedIssueTo"]);
+const emit = defineEmits(["movedIssueTo", "sprintUpdated"]);
 
 async function dropIssue(e) {
   const issueId = e.dataTransfer.getData("issueId");

@@ -60,6 +60,8 @@ const editSprint = ref(cloneDeep(props.sprint));
 import useModal from "@/composable/modal";
 const { modal, showModal, hideModal } = useModal();
 
+const emit = defineEmits(["updated"]);
+
 async function submit() {
   const form = new PSForm(editSprint.value);
 
@@ -71,6 +73,7 @@ async function submit() {
 
   if (result) {
     editSprint.value = cloneDeep(result.ProjectSprintUpdate.projectSprint);
+    emit("updated");
   }
 }
 </script>

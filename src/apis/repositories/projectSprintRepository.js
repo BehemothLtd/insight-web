@@ -31,7 +31,7 @@ export function CreateProjectSprint(projectId, input = {}) {
   );
 }
 
-export function UpdateProjectSprint(id, projectId, input = {}) {
+export function UpdateProjectSprint(projectId, id, input = {}) {
   return api(
     UpdateProjectSprintGQL,
     {
