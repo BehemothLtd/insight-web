@@ -169,7 +169,7 @@ function toggleVisible() {
 }
 
 defineExpose({ fetchIssuesList, id: props.sprint.id });
-const emit = defineEmits(["addIssue"]);
+const emit = defineEmits(["movedIssueTo"]);
 
 async function dropIssue(e) {
   const issueId = e.dataTransfer.getData("issueId");
