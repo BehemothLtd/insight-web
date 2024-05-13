@@ -9,6 +9,7 @@
           {{ searchTitle }}
         </div>
       </template>
+
       <div class="">
         <div
           v-for="(row, index) in searchFieldsList"
@@ -52,7 +53,7 @@
             <button
               name="button"
               class="btn btn-primary ml-2"
-              @click="$emit('search')"
+              @click="onSearch"
             >
               Search
             </button>
@@ -65,6 +66,14 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+
+const route = useRoute();
+const router = useRouter();
+
+setTimeout(() => {
+  console.log(route.query);
+}, 1000);
 
 const props = defineProps({
   searchFieldsList: {
@@ -86,8 +95,10 @@ const emits = defineEmits(["reset", "search"]);
 const childs = ref(null);
 
 props.searchFieldsList.forEach((listOfField) => {
+  const routeQuery = route.query;
+
   listOfField.forEach((field) => {
-    props.query[field.ransacker] = null;
+    props.query[field.ransacker] = routeQuery[field.ransacker] || null;
   });
 });
 
@@ -96,7 +107,15 @@ function clear() {
     child.clear();
   });
 
+  router.push({ query: {}, hash: route.hash });
+
   emits("reset");
+}
+
+function onSearch() {
+  router.push({ query: props.query, hash: route.hash });
+
+  emits("search");
 }
 </script>
 <style lang="scss" scoped>
