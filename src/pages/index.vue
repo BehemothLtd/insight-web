@@ -33,9 +33,8 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-
 import { useBreadcrumb } from "@bachdx/b-vuse";
-import { useBreadcrumb as br } from "@/b-vuse/index"
+
 const { setBreadcrumb } = useBreadcrumb();
 
 import fetchData from "@/dataFetcher/homePage.js";
@@ -44,8 +43,6 @@ const analysesTotalSummarize = ref(null);
 const userRecentTasks = ref([]);
 const analysesProjectsIssueStatus = ref(null);
 const selfThisWeekIssuesState = ref(null);
-
-console.log("dataß",br)
 
 onMounted(async () => {
   const result = await fetchData();

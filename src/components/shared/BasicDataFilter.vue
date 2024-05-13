@@ -71,10 +71,6 @@ import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
 const router = useRouter();
 
-setTimeout(() => {
-  console.log(route.query);
-}, 1000);
-
 const props = defineProps({
   searchFieldsList: {
     type: Array,
