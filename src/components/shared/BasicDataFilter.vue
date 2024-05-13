@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h3>{{ query }}</h3>
     <b-card header-class="d-flex align-items-center justify-content-between">
       <template
         v-if="searchTitle"
@@ -29,7 +28,6 @@
                 :title="searchField.title"
                 :options="searchField.options"
                 :classes="searchField.options.classes"
-                @updated="(value) => onUpdated(searchField, value)"
                 v-model="props.query[searchField.ransacker]"
               />
               <i :class="searchField.icon"></i>
@@ -101,16 +99,10 @@ props.searchFieldsList.forEach((listOfField) => {
   });
 });
 
-function onUpdated(searchField, value) {
-  props.query[searchField.ransacker] = value;
-}
-
 function clear() {
   childs.value.forEach((child) => {
     child.clear();
   });
-
-  emits("reset");
 
   router.push({ query: {}, hash: route.hash });
 }
