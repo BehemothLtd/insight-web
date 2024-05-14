@@ -5,6 +5,8 @@ import { FetchProjectSprintsGQL } from "@/apis/resolvers";
 import {
   CreateProjectSprintGQL,
   UpdateProjectSprintGQL,
+  DeleteProjectSprintGQL,
+  ActiveProjectSprintGQL,
 } from "@/apis/mutations";
 
 export function FetchProjectSprints(id) {
@@ -42,6 +44,34 @@ export function UpdateProjectSprint(projectId, id, input = {}) {
     {
       loading: true,
       toastMessage: "Update Sprint Successfully",
+    },
+  );
+}
+
+export function DeleteProjectSprint(id, projectId) {
+  return api(
+    DeleteProjectSprintGQL,
+    {
+      id,
+      projectId,
+    },
+    {
+      loading: true,
+      toastMessage: "Delete Sprint Successfully",
+    },
+  );
+}
+
+export function ActiveProjectSprint(id, projectId) {
+  return api(
+    ActiveProjectSprintGQL,
+    {
+      id,
+      projectId,
+    },
+    {
+      loading: true,
+      toastMessage: "Active Sprint Successfully",
     },
   );
 }

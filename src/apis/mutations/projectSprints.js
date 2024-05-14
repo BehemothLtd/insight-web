@@ -32,3 +32,15 @@ export const UpdateProjectSprintGQL = gql`
 
   ${ProjectSprintBasicFields}
 `;
+
+export const DeleteProjectSprintGQL = gql`
+  mutation ProjectSprintDestroy($id: ID!, $projectId: ID!) {
+    ProjectSprintDestroy(id: $id, projectId: $projectId)
+  }
+`;
+
+export const ActiveProjectSprintGQL = gql`
+  mutation ProjectSprintActive($id: ID!, $projectId: ID!) {
+    ProjectSprintActive(id: $id, projectId: $projectId)
+  }
+`;

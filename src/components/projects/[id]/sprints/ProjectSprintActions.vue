@@ -23,18 +23,24 @@
       title="Delete"
       @click.prevent="deleteSprint"
     >
-      <i class="bx bx-trash font-size-16"></i>
+      <i
+        class="bx bx-trash font-size-16"
+        style="color: red"
+      ></i>
     </a>
 
     <a
-      v-if="!project.currentSprintId && sprintWritePermission"
+      v-if="sprint.id != project.currentSprintId && sprintWritePermission"
       v-b-tooltip.hover
       type="button"
       class="mr-2"
       title="Start this sprint"
       @click.prevent="activeSprint"
     >
-      <i class="bx bx-play font-size-16"></i>
+      <i
+        class="bx bx-play font-size-16"
+        style="color: green"
+      ></i>
     </a>
 
     <a
@@ -54,6 +60,12 @@
 import { inject, computed } from "vue";
 
 const Swal = inject("Swal");
+import { useRoute, useRouter } from "vue-router";
+
+import { ActiveProjectSprint, DeleteProjectSprint } from "@/apis/repositories";
+
+import { useProjectSprintStore } from "@/stores/projectSprint";
+const projectSprintStore = useProjectSprintStore();
 
 const props = defineProps({
   sprint: {
@@ -66,6 +78,9 @@ const props = defineProps({
   },
 });
 
+const route = useRoute();
+const router = useRouter();
+
 // ===========PERMISSION========
 const hasPermissionOn = inject("hasPermissionOn");
 
@@ -77,15 +92,61 @@ const sprintDeletePermission = computed(() =>
   hasPermissionOn("project_sprints", "delete"),
 );
 
-async function activeSprint() {}
+async function activeSprint() {
+  const confirmation = await Swal.fire({
+    icon: "warning",
+    html: `Active <b> ${props.sprint.title} </b> sprint?`,
+    showCancelButton: true,
+    confirmButtonText: "Yes",
+    cancelButtonText: "Cancel",
+  });
+
+  if (!confirmation.isConfirmed) {
+    return;
+  }
+
+  const result = await ActiveProjectSprint(
+    props.sprint.id,
+    props.sprint.projectId,
+  );
+
+  if (result) {
+    router.go(route.name);
+  }
+}
 
 async function deactiveSprint() {}
 async function completeSprint() {}
 
 async function refreshWholeProjectIssueRelatedData() {}
 
-async function deleteSprint() {}
+async function deleteSprint() {
+  const confirmation = await Swal.fire({
+    title: "Warning !",
+    icon: "warning",
+    html:
+      "Are you sure want to delete sprint" + `<b> ${props.sprint.title} </b> ?`,
+    text: "You won't be able to revert this!",
+    showCancelButton: true,
+    confirmButtonText: "Yes",
+    cancelButtonText: "Cancel",
+  });
+
+  if (!confirmation.isConfirmed) {
+    return;
+  }
+
+  const result = await DeleteProjectSprint(
+    props.sprint.id,
+    props.sprint.projectId,
+  );
+
+  if (result) {
+    projectSprintStore.fetchProjectSprints(props.sprint.projectId);
+  }
+}
 </script>
+
 <style lang="scss" scoped>
 .sprint-btn {
   padding: 2px 8px;
