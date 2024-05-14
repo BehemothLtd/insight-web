@@ -115,7 +115,6 @@ async function activeSprint() {
   }
 }
 
-async function deactiveSprint() {}
 async function completeSprint() {}
 
 async function refreshWholeProjectIssueRelatedData() {}
