@@ -15,3 +15,10 @@ export const selectOptionCompanyLevel = [
   { value: "3", label: "Middle" },
   { value: "4", label: "Senior" },
 ];
+
+export const selectOptionDeviceState = [
+  { label: "Available", value: "available" },
+  { label: "Using", value: "using" },
+  { label: "Discharged", value: "discharged" },
+  { label: "Fixing", value: "fixing" },
+];

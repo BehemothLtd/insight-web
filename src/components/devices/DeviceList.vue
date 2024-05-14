@@ -1,5 +1,12 @@
 <template>
   <div>
+    <BasicDataFilter
+      v-if="searchFieldsList.length > 0"
+      :search-fields-list="searchFieldsList"
+      :query="query"
+      @search="fetchListDevices"
+    />
+
     <div class="table-responsive">
       <table class="table table-centered table-nowrap table-hover">
         <thead class="thead-light">
@@ -61,9 +68,17 @@
 </template>
 
 <script setup>
+import useDynamicSearch from "@/composable/dynamicSearch";
+import SearchField from "@/types/searchField";
+
 import { onMounted, ref, inject } from "vue";
 import { useGoQuery } from "@bachdx/b-vuse";
-import { FetchDeviceList, DestroyDevice } from "@/apis/repositories";
+import { selectOptionDeviceState } from "@/utilities/selectOptions.js";
+import {
+  FetchDeviceList,
+  DestroyDevice,
+  FetchSelectOptions,
+} from "@/apis/repositories";
 
 defineProps({
   writePermission: {
@@ -74,17 +89,64 @@ defineProps({
 });
 
 const Swal = inject("Swal");
-const { goQueryInput, updatePage } = useGoQuery({
-  perPage: 20,
-});
 
 const devices = ref([]);
 const device = ref({});
+const deviceTypeOptions = ref([]);
+const userOptions = ref([]);
 const metadata = ref({});
+const query = ref({});
+
+const { searchFieldsList, searchComponents } = useDynamicSearch();
+const { goQueryInput, updatePage } = useGoQuery({
+  perPage: 20,
+  query: query,
+});
+
+searchFieldsList.value = [
+  [
+    new SearchField(
+      "Name",
+      "nameCont",
+      "mdi mdi-magnify",
+      searchComponents.TextInputField,
+    ),
+    new SearchField(
+      "Device Type",
+      "deviceTypeIdIn",
+      "mdi mdi-laptop",
+      searchComponents.MultipleSelectField,
+      {
+        selectOptions: deviceTypeOptions,
+      },
+    ),
+  ],
+  [
+    new SearchField(
+      "User",
+      "userIdIn",
+      "mdi mdi-account-outline",
+      searchComponents.MultipleSelectField,
+      {
+        selectOptions: userOptions,
+      },
+    ),
+    new SearchField(
+      "State",
+      "stateIn",
+      "mdi mdi-information",
+      searchComponents.MultipleSelectField,
+      {
+        selectOptions: selectOptionDeviceState,
+      },
+    ),
+  ],
+];
 
 async function fetchListDevices() {
   const result = await FetchDeviceList({
     input: goQueryInput.pagyInput,
+    query: goQueryInput.query,
   });
 
   devices.value = result.Devices.collection;
@@ -111,11 +173,23 @@ async function destroyDevice(id, name) {
   }
 }
 
+async function fetchSelectOptions() {
+  const result = await FetchSelectOptions(["deviceType", "user"]);
+
+  if (result.SelectOptions) {
+    deviceTypeOptions.value = result.SelectOptions.DeviceTypeOptions;
+    userOptions.value = result.SelectOptions.UserOptions;
+  }
+}
+
 defineExpose({
   fetchListDevices,
 });
 
 onMounted(async () => {
+  query.value = {};
+
+  await fetchSelectOptions();
   await fetchListDevices();
 });
 </script>

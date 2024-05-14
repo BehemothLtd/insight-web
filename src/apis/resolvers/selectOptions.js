@@ -24,6 +24,10 @@ export const FetchSelectOptionsGQL = gql`
         label
         value
       }
+      DeviceTypeOptions {
+        label
+        value
+      }
     }
   }
 `;
