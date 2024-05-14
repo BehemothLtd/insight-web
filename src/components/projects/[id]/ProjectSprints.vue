@@ -8,7 +8,6 @@
         <ProjectSprintCreate
           :projectId="project.id"
           v-if="sprintWritePermission"
-          @created="newSprintCreated"
         />
 
         <ProjectSprintCard
@@ -48,11 +47,16 @@
 import { inject, computed, ref, onMounted } from "vue";
 import { useGoQuery } from "@bachdx/b-vuse";
 import { find } from "lodash";
+import { storeToRefs } from "pinia";
 
 const Swal = inject("Swal");
 
+import { useProjectSprintStore } from "@/stores/projectSprint";
+
+const projectSprintStore = useProjectSprintStore();
+const { sprints } = storeToRefs(projectSprintStore);
+
 import {
-  FetchProjectSprints,
   FetchProjectIssuesList,
   RemoveIssueOutOfSprint,
 } from "@/apis/repositories";
@@ -78,7 +82,6 @@ const sprintWritePermission = computed(() =>
 
 const project = defineModel();
 
-const sprints = ref([]);
 const nonSprintIssues = ref([]);
 const metadata = ref({});
 
@@ -88,9 +91,7 @@ onMounted(async () => {
 });
 
 async function fetchSprints() {
-  FetchProjectSprints(project.value.id).then((result) => {
-    sprints.value = result.ProjectSprints;
-  });
+  projectSprintStore.fetchProjectSprints(project.value.id);
 }
 
 async function fetchIssuesList() {
@@ -163,9 +164,5 @@ async function movedIssueIntoSprint(sprintId) {
   if (targetSprint) {
     targetSprint.fetchIssuesList();
   }
-}
-
-function newSprintCreated() {
-  fetchSprints();
 }
 </script>

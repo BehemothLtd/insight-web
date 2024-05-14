@@ -51,9 +51,10 @@ const { modal, showModal, hideModal } = useModal();
 import { ProjectSprintForm as PSForm } from "@/formModels";
 import { CreateProjectSprint } from "@/apis/repositories";
 
-const newSprint = ref({});
+import { useProjectSprintStore } from "@/stores/projectSprint";
+const projectSprintStore = useProjectSprintStore();
 
-const emit = defineEmits(["created"]);
+const newSprint = ref({});
 
 const props = defineProps({
   projectId: {
@@ -68,7 +69,7 @@ async function submit() {
   const result = await CreateProjectSprint(props.projectId, form);
 
   if (result) {
-    emit("created");
+    projectSprintStore.fetchProjectSprints(props.projectId);
     hideModal();
   }
 }
