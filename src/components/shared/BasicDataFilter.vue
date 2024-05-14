@@ -25,10 +25,11 @@
               <component
                 :is="searchField.component"
                 ref="childs"
+                v-model="props.query[searchField.ransacker]"
                 :title="searchField.title"
                 :options="searchField.options"
                 :classes="searchField.options.classes"
-                v-model="props.query[searchField.ransacker]"
+                @updated="(value) => onUpdated(searchField, value)"
               />
               <i :class="searchField.icon"></i>
             </div>
@@ -98,6 +99,10 @@ props.searchFieldsList.forEach((listOfField) => {
       routeQuery[field.ransacker] || field.defaultValue;
   });
 });
+
+function onUpdated(searchField, value) {
+  props.query[searchField.ransacker] = value;
+}
 
 function clear() {
   childs.value.forEach((child) => {

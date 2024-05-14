@@ -26,7 +26,10 @@ const router = useRouter();
 const projectId = route.params.id;
 
 import { useGoQuery, useBreadcrumb } from "@bachdx/b-vuse";
-import { FetchProjectIssuesList } from "@/apis/repositories";
+import {
+  FetchProjectIssuesList,
+  FetchSelectOptions,
+} from "@/apis/repositories";
 
 const { setBreadcrumb } = useBreadcrumb();
 // ===========BREADCRUMB=========
@@ -53,6 +56,7 @@ setBreadcrumb({
 });
 
 const { searchFieldsList, searchComponents } = useDynamicSearch();
+const userOptions = ref([]);
 
 searchFieldsList.value = [
   [
@@ -88,6 +92,35 @@ searchFieldsList.value = [
         ],
       },
     ),
+    new SearchField(
+      "User",
+      "userIdIn",
+      "mdi mdi-cog-outline",
+      searchComponents.MultipleSelectField,
+      {
+        selectOptions: userOptions,
+      },
+    ),
+  ],
+  [
+    new SearchField(
+      "DeadLine minimum than",
+      "deadLineAtGteq",
+      "",
+      searchComponents.DateField,
+      {
+        modelFormat: "yyyy-MM-dd",
+      },
+    ),
+    new SearchField(
+      "DeadLine maximum Date",
+      "deadLineAtLteq",
+      "",
+      searchComponents.DateField,
+      {
+        modelFormat: "yyyy-MM-dd",
+      },
+    ),
   ],
   // [
   //   new SearchField(
@@ -108,7 +141,7 @@ searchFieldsList.value = [
   // ],
 ];
 
-const defaultQuery = { projectSprintIdEq: "" };
+const defaultQuery = { projectSprintIdEq: "", userIdIn: [] };
 
 const query = ref(defaultQuery);
 const { goQueryInput, updatePage, updateQuery } = useGoQuery({
@@ -136,6 +169,11 @@ function resetQuerySearch() {
 }
 
 onMounted(async () => {
+  const result = await FetchSelectOptions(["user"]);
+  if (result.SelectOptions) {
+    userOptions.value = result.SelectOptions.UserOptions;
+  }
+  userOptions.value.unshift({ label: "unassign", value: 0 });
   await fetchList();
 });
 
