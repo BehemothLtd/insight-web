@@ -18,7 +18,6 @@
           :key="sprint.id"
           :write-permission="sprintWritePermission"
           @moved-issue-to="movedIssueIntoSprint"
-          @sprintUpdated="fetchSprints"
         >
         </ProjectSprintCard>
       </div>

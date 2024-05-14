@@ -6,7 +6,7 @@
           <div class="col-md-6">
             <div class="mb-3">
               <FormValidator
-                name="startDate"
+                name="StartDate"
                 label="Start Date"
                 required
               >

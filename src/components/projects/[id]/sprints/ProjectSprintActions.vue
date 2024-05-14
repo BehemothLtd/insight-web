@@ -13,7 +13,6 @@
     <ProjectSprintEdit
       v-if="sprintWritePermission"
       :sprint="sprint"
-      @updated="$emit('updated')"
     />
 
     <a
@@ -66,8 +65,6 @@ const props = defineProps({
     required: true,
   },
 });
-
-defineEmits(["updated"]);
 
 // ===========PERMISSION========
 const hasPermissionOn = inject("hasPermissionOn");
