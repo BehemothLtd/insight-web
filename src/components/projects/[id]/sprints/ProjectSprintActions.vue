@@ -58,14 +58,21 @@
 
 <script setup>
 import { inject, computed } from "vue";
+import { storeToRefs } from "pinia";
 
 const Swal = inject("Swal");
 import { useRoute, useRouter } from "vue-router";
 
-import { ActiveProjectSprint, DeleteProjectSprint } from "@/apis/repositories";
+import {
+  ActiveProjectSprint,
+  DeleteProjectSprint,
+  ArchiveProjectSprint,
+} from "@/apis/repositories";
 
 import { useProjectSprintStore } from "@/stores/projectSprint";
 const projectSprintStore = useProjectSprintStore();
+
+const { sprints } = storeToRefs(projectSprintStore);
 
 const props = defineProps({
   sprint: {
@@ -115,7 +122,44 @@ async function activeSprint() {
   }
 }
 
-async function completeSprint() {}
+async function completeSprint() {
+  console.log(sprints.value);
+  console.log(props.sprint.id);
+  const sprintOptions = sprints.value
+    .filter((s) => Number(s.id) != props.sprint.id)
+    .reduce((a, v) => ({ ...a, [v.id]: v.title }), {});
+
+  const { value: selectedSprint } = await Swal.fire({
+    icon: "warning",
+    title: `You must finish all issue first or move all remaining issues to another sprint`,
+    input: "select",
+    inputOptions: sprintOptions,
+    inputPlaceholder: "Select sprint",
+    showCancelButton: true,
+    inputValidator: (value) => {
+      return new Promise((resolve) => {
+        if (value) {
+          resolve();
+        } else {
+          resolve(`You must select new sprint for all the remaining issues`);
+        }
+      });
+    },
+  });
+
+  if (!selectedSprint) {
+    return;
+  }
+
+  const result = await ArchiveProjectSprint(
+    props.sprint.id,
+    props.sprint.projectId,
+    `${selectedSprint}`,
+  );
+  if (result) {
+    router.go(route.name);
+  }
+}
 
 async function refreshWholeProjectIssueRelatedData() {}
 

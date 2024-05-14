@@ -7,6 +7,7 @@ import {
   UpdateProjectSprintGQL,
   DeleteProjectSprintGQL,
   ActiveProjectSprintGQL,
+  ArchiveProjectSprintGQL,
 } from "@/apis/mutations";
 
 export function FetchProjectSprints(id) {
@@ -72,6 +73,21 @@ export function ActiveProjectSprint(id, projectId) {
     {
       loading: true,
       toastMessage: "Active Sprint Successfully",
+    },
+  );
+}
+
+export function ArchiveProjectSprint(id, projectId, moveToId) {
+  return api(
+    ArchiveProjectSprintGQL,
+    {
+      id,
+      projectId,
+      moveToId,
+    },
+    {
+      loading: true,
+      toastMessage: "Archive Sprint Successfully",
     },
   );
 }

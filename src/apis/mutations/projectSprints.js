@@ -44,3 +44,9 @@ export const ActiveProjectSprintGQL = gql`
     ProjectSprintActive(id: $id, projectId: $projectId)
   }
 `;
+
+export const ArchiveProjectSprintGQL = gql`
+  mutation ProjectSprintArchive($id: ID!, $projectId: ID!, $moveToId: ID!) {
+    ProjectSprintArchive(id: $id, projectId: $projectId, moveToId: $moveToId)
+  }
+`;
