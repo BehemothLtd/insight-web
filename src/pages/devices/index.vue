@@ -13,7 +13,6 @@
         card
       >
         <b-tab title="Devices">
-          <!-- <DeviceSearch></DeviceSearch> -->
           <DeviceList
             v-if="tabIndex == 0"
             ref="deviceListRef"
