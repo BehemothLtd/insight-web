@@ -56,6 +56,7 @@
       :meta="metadata"
       @change="onPageChange"
     ></Pagination>
+    {{ userOptions }}
 
     <!-- <DeviceModal
       v-if="isShowUpdateModal"
@@ -74,26 +75,28 @@ import SearchField from "@/types/searchField";
 import { onMounted, ref, inject } from "vue";
 import { useGoQuery } from "@bachdx/b-vuse";
 import { selectOptionDeviceState } from "@/utilities/selectOptions.js";
-import {
-  FetchDeviceList,
-  DestroyDevice,
-  FetchSelectOptions,
-} from "@/apis/repositories";
+import { FetchDeviceList, DestroyDevice } from "@/apis/repositories";
 
-defineProps({
+const props = defineProps({
   writePermission: {
     type: Boolean,
     required: false,
     default: false,
+  },
+  deviceTypeOptions: {
+    type: Array,
+    required: true,
+  },
+  userOptions: {
+    type: Array,
+    required: true,
   },
 });
 
 const Swal = inject("Swal");
 
 const devices = ref([]);
-const device = ref({});
-const deviceTypeOptions = ref([]);
-const userOptions = ref([]);
+// const device = ref({});
 const metadata = ref({});
 const query = ref({});
 
@@ -117,7 +120,7 @@ searchFieldsList.value = [
       "mdi mdi-laptop",
       searchComponents.MultipleSelectField,
       {
-        selectOptions: deviceTypeOptions,
+        selectOptions: props.deviceTypeOptions,
       },
     ),
   ],
@@ -128,7 +131,7 @@ searchFieldsList.value = [
       "mdi mdi-account-outline",
       searchComponents.MultipleSelectField,
       {
-        selectOptions: userOptions,
+        selectOptions: props.userOptions,
       },
     ),
     new SearchField(
@@ -173,15 +176,6 @@ async function destroyDevice(id, name) {
   }
 }
 
-async function fetchSelectOptions() {
-  const result = await FetchSelectOptions(["deviceType", "user"]);
-
-  if (result.SelectOptions) {
-    deviceTypeOptions.value = result.SelectOptions.DeviceTypeOptions;
-    userOptions.value = result.SelectOptions.UserOptions;
-  }
-}
-
 defineExpose({
   fetchListDevices,
 });
@@ -189,7 +183,6 @@ defineExpose({
 onMounted(async () => {
   query.value = {};
 
-  await fetchSelectOptions();
   await fetchListDevices();
 });
 </script>
