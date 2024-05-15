@@ -1,7 +1,7 @@
 <template>
   <button
     class="btn btn-primary waves-effect waves-light"
-    @click="showModal()"
+    @click="openModal"
   >
     <i class="bx bx-plus-circle font-size-16 align-middle me-2"></i>
     New Device
@@ -60,58 +60,22 @@
                   >
                     <el-select-v2
                       v-model="device.state"
-                      class="w-100"
-                    ></el-select-v2>
-                  </FormValidator>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </b-tab>
-      <b-tab title="History"></b-tab>
-    </b-tabs>
-  </b-modal>
-
-  <!-- <b-modal
-    <b-tabs v-model="tabIndex">
-      <b-tab title="Information">
-        <form class="outer-repeater">
-          <div
-            data-repeater-list="outer-group"
-            class="outer"
-          >
-            <div
-              data-repeater-item
-              class="outer"
-            >
-              <div class="form-group row mb-4">
-                <div class="col-lg-12">
-
-                  <FormValidator
-                    name="state"
-                    label="State"
-                    required
-                    class="mt-2"
-                  >
-                    <el-select-v2
-                      v-model="device.state"
+                      :options="selectOptionDeviceState"
                       :disabled="deviceDischarged && !!device.id"
-                      :options="selectOptions.deviceStates"
                       class="w-100"
                       @change="changeState"
                     ></el-select-v2>
                   </FormValidator>
 
                   <FormValidator
-                    name="user_id"
+                    name="userId"
                     label="User"
                     required
                     class="mt-2"
                   >
                     <el-select-v2
                       v-model="selectedUser"
-                      :options="selectOptions.users"
+                      :options="userOptions"
                       class="w-100"
                       filterable
                       @change="changeUser"
@@ -120,14 +84,14 @@
                   </FormValidator>
 
                   <FormValidator
-                    name="device_type"
+                    name="deviceTypeId"
                     label="Device Type"
                     class="mt-2"
                     required
                   >
                     <el-select-v2
                       v-model="device.deviceTypeId"
-                      :options="selectOptions.deviceTypes"
+                      :options="deviceTypeOptions"
                       class="w-100"
                     ></el-select-v2>
                   </FormValidator>
@@ -160,6 +124,7 @@
           </div>
         </form>
       </b-tab>
+      <b-tab title="History"></b-tab>
     </b-tabs>
 
     <template #footer>
@@ -168,32 +133,81 @@
           type="button"
           class="btn btn-secondary"
           data-bs-dismiss="modal"
-          @click="$emit('close')"
+          @click="hideModal()"
         >
           Cancel
         </button>
         <button
+          v-if="tabIndex == 0"
           type="button"
           class="btn btn-primary"
-          @click="$emit('submit')"
-          v-if="tabIndex == 0"
+          @click="createDevice"
         >
           Save
         </button>
       </div>
     </template>
-  </b-modal> -->
+  </b-modal>
 </template>
 
 <script setup>
 import useModal from "@/composable/modal";
 
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { selectOptionDeviceState } from "@/utilities/selectOptions.js";
+import { CreateDevice } from "@/apis/repositories";
 
 const { modal, showModal, hideModal } = useModal();
 
+const emits = defineEmits(["submit"]);
+
+const props = defineProps({
+  deviceTypeOptions: {
+    type: Array,
+    required: true,
+  },
+  userOptions: {
+    type: Array,
+    required: true,
+  },
+});
+
 const tabIndex = ref(0);
 const device = ref({});
+const deviceDischarged = ref(false);
+
+const deviceTypeOptions = computed(() => props.deviceTypeOptions);
+const userOptions = computed(() => props.userOptions);
+const selectedUser = computed({
+  get() {
+    return userOptions.value.find((item) => item.value == device.value.userId);
+  },
+
+  set(newValue) {
+    device.value.userId = newValue;
+  },
+});
+
+function openModal() {
+  device.value = {};
+  showModal();
+}
+function changeState() {
+  if (["available", "discharged"].includes(device.value.state)) {
+    device.value.userId = null;
+  }
+}
+function changeUser() {
+  device.value.state = "using";
+}
+async function createDevice() {
+  const data = await CreateDevice(device.value);
+
+  if (data) {
+    hideModal();
+    emits("submit");
+  }
+}
 </script>
 
 <style lang="scss" scoped>

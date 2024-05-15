@@ -56,7 +56,6 @@
       :meta="metadata"
       @change="onPageChange"
     ></Pagination>
-    {{ userOptions }}
 
     <!-- <DeviceModal
       v-if="isShowUpdateModal"
@@ -72,7 +71,7 @@
 import useDynamicSearch from "@/composable/dynamicSearch";
 import SearchField from "@/types/searchField";
 
-import { onMounted, ref, inject } from "vue";
+import { onMounted, ref, inject, computed } from "vue";
 import { useGoQuery } from "@bachdx/b-vuse";
 import { selectOptionDeviceState } from "@/utilities/selectOptions.js";
 import { FetchDeviceList, DestroyDevice } from "@/apis/repositories";
@@ -106,6 +105,9 @@ const { goQueryInput, updatePage } = useGoQuery({
   query: query,
 });
 
+const deviceTypeOptions = computed(() => props.deviceTypeOptions);
+const userOptions = computed(() => props.userOptions);
+
 searchFieldsList.value = [
   [
     new SearchField(
@@ -120,7 +122,7 @@ searchFieldsList.value = [
       "mdi mdi-laptop",
       searchComponents.MultipleSelectField,
       {
-        selectOptions: props.deviceTypeOptions,
+        selectOptions: deviceTypeOptions,
       },
     ),
   ],
@@ -131,7 +133,7 @@ searchFieldsList.value = [
       "mdi mdi-account-outline",
       searchComponents.MultipleSelectField,
       {
-        selectOptions: props.userOptions,
+        selectOptions: userOptions,
       },
     ),
     new SearchField(

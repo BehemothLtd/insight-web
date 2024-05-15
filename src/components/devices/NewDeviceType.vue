@@ -2,7 +2,7 @@
   <div>
     <button
       class="btn btn-primary waves-effect waves-light"
-      @click="showModal()"
+      @click="openModal()"
     >
       <i class="bx bx-plus-circle font-size-16 align-middle me-2"></i>
       New Device Type
@@ -75,6 +75,10 @@ const emits = defineEmits(["submit"]);
 
 const deviceType = ref({});
 
+function openModal() {
+  deviceType.value = {};
+  showModal();
+}
 async function createDeviceType() {
   const data = await CreateDeviceType(deviceType.value);
 

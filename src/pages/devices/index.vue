@@ -1,7 +1,12 @@
 <template>
   <div>
     <div class="btn-create-device">
-      <NewDevice v-if="tabIndex == 0"></NewDevice>
+      <NewDevice
+        v-if="tabIndex == 0"
+        :device-type-options="deviceTypeOptions"
+        :user-options="userOptions"
+        @submit="deviceListRef.fetchListDevices()"
+      ></NewDevice>
       <NewDeviceType
         v-if="tabIndex == 1"
         @submit="deviceTypeListRef.fetchListDeviceTypes()"
