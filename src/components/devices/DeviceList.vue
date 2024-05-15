@@ -71,29 +71,31 @@
 import useDynamicSearch from "@/composable/dynamicSearch";
 import SearchField from "@/types/searchField";
 
-import { onMounted, ref, inject } from "vue";
+import { onMounted, ref, inject, computed } from "vue";
 import { useGoQuery } from "@bachdx/b-vuse";
 import { selectOptionDeviceState } from "@/utilities/selectOptions.js";
-import {
-  FetchDeviceList,
-  DestroyDevice,
-  FetchSelectOptions,
-} from "@/apis/repositories";
+import { FetchDeviceList, DestroyDevice } from "@/apis/repositories";
 
-defineProps({
+const props = defineProps({
   writePermission: {
     type: Boolean,
     required: false,
     default: false,
+  },
+  deviceTypeOptions: {
+    type: Array,
+    required: true,
+  },
+  userOptions: {
+    type: Array,
+    required: true,
   },
 });
 
 const Swal = inject("Swal");
 
 const devices = ref([]);
-const device = ref({});
-const deviceTypeOptions = ref([]);
-const userOptions = ref([]);
+// const device = ref({});
 const metadata = ref({});
 const query = ref({});
 
@@ -102,6 +104,9 @@ const { goQueryInput, updatePage } = useGoQuery({
   perPage: 20,
   query: query,
 });
+
+const deviceTypeOptions = computed(() => props.deviceTypeOptions);
+const userOptions = computed(() => props.userOptions);
 
 searchFieldsList.value = [
   [
@@ -173,15 +178,6 @@ async function destroyDevice(id, name) {
   }
 }
 
-async function fetchSelectOptions() {
-  const result = await FetchSelectOptions(["deviceType", "user"]);
-
-  if (result.SelectOptions) {
-    deviceTypeOptions.value = result.SelectOptions.DeviceTypeOptions;
-    userOptions.value = result.SelectOptions.UserOptions;
-  }
-}
-
 defineExpose({
   fetchListDevices,
 });
@@ -189,7 +185,6 @@ defineExpose({
 onMounted(async () => {
   query.value = {};
 
-  await fetchSelectOptions();
   await fetchListDevices();
 });
 </script>

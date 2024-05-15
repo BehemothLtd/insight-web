@@ -1,7 +1,12 @@
 <template>
   <div>
     <div class="btn-create-device">
-      <!-- <NewDevice v-if="tabIndex == 0"></NewDevice> -->
+      <NewDevice
+        v-if="tabIndex == 0"
+        :device-type-options="deviceTypeOptions"
+        :user-options="userOptions"
+        @submit="deviceListRef.fetchListDevices()"
+      ></NewDevice>
       <NewDeviceType
         v-if="tabIndex == 1"
         @submit="deviceTypeListRef.fetchListDeviceTypes()"
@@ -16,6 +21,8 @@
           <DeviceList
             v-if="tabIndex == 0"
             ref="deviceListRef"
+            :device-type-options="deviceTypeOptions"
+            :user-options="userOptions"
             :write-permission="writePermission"
           ></DeviceList>
         </b-tab>
@@ -33,14 +40,17 @@
 </template>
 
 <script setup>
-import { ref, inject, computed } from "vue";
+import { onMounted, ref, inject, computed } from "vue";
 import { useBreadcrumb } from "@bachdx/b-vuse";
+import { FetchSelectOptions } from "@/apis/repositories";
 
 const { setBreadcrumb } = useBreadcrumb();
 
 const tabIndex = ref(0);
 const deviceListRef = ref();
 const deviceTypeListRef = ref();
+const deviceTypeOptions = ref([]);
+const userOptions = ref([]);
 
 const hasPermissionOn = inject("hasPermissionOn");
 const writePermission = computed(() => hasPermissionOn("devices", "write"));
@@ -57,6 +67,19 @@ setBreadcrumb({
       href: "/devices",
     },
   ],
+});
+
+async function fetchSelectOptions() {
+  const result = await FetchSelectOptions(["deviceType", "user"]);
+
+  if (result.SelectOptions) {
+    deviceTypeOptions.value = result.SelectOptions.DeviceTypeOptions;
+    userOptions.value = result.SelectOptions.UserOptions;
+  }
+}
+
+onMounted(async () => {
+  await fetchSelectOptions();
 });
 </script>
 

@@ -33,3 +33,22 @@ export const DestroyDeviceGQL = gql`
     DeviceDestroy(id: $id)
   }
 `;
+
+export const CreateDeviceGQL = gql`
+  mutation DeviceCreate($input: DeviceInput!) {
+    DeviceCreate(input: $input) {
+      device {
+        id
+        code
+        name
+        seller
+        state
+        description
+        deviceType {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
