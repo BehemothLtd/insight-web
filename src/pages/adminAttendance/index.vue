@@ -152,18 +152,11 @@ import {
   DestroyAttendance,
 } from "@/apis/repositories";
 import useModal from "@/composable/modal";
-import filters from "@/utilities/filters";
+import { attendanceForm } from "@/formModels";
 
 const { modal, showModal, hideModal } = useModal();
 const Swal = inject("Swal");
 const attendance = ref({});
-const attendanceFormInput = computed(() => {
-  return {
-    userId: Number(attendance.value.userId) || 0,
-    checkinAt: filters.formatDateHourMinute(attendance.value.checkinAt),
-    checkoutAt: filters.formatDateHourMinute(attendance.value.checkoutAt),
-  };
-});
 
 async function showAttendance(id) {
   const result = await ShowAttendance(id);
@@ -179,7 +172,8 @@ function handleClose() {
 }
 
 async function create() {
-  const result = await CreateAttendance({ input: attendanceFormInput.value });
+  const attendanceFormInput = new attendanceForm(attendance.value);
+  const result = await CreateAttendance({ input: attendanceFormInput });
   if (result) {
     await fetchList();
     hideModal();
@@ -187,9 +181,10 @@ async function create() {
 }
 
 async function update(id) {
+  const attendanceFormInput = new attendanceForm(attendance.value);
   const result = await UpdateAttendance({
     id,
-    input: attendanceFormInput.value,
+    input: attendanceFormInput,
   });
   if (result) {
     await fetchList();

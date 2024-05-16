@@ -55,6 +55,7 @@ import {
   SelfUpdateProjectExperience,
   SelfDestroyProjectExperience,
 } from "@/apis/repositories";
+import { projectExperienceForm } from "@/formModels";
 
 defineProps({
   projectExperiences: {
@@ -79,13 +80,9 @@ function handleCloseModal() {
 
 // =========DETAILS PROJECT-EXPERIENCE=========
 const projectExperience = ref({});
-const projectExperienceFormInput = computed(() => {
-  return {
-    projectId: Number(projectExperience.value.projectId) || 0,
-    title: projectExperience.value.title || "",
-    description: projectExperience.value.description || "",
-  };
-});
+const projectExperienceFormInput = computed(
+  () => new projectExperienceForm(projectExperience.value),
+);
 
 async function showDetail(id) {
   const result = await ShowProjectExperience(id);
