@@ -1,4 +1,15 @@
 <template>
+  <div class="actions">
+    <button
+      v-b-tooltip.hover
+      title="Toggle filter"
+      class="btn btn-light mr-2"
+      @click="showFilters = !showFilters"
+    >
+      <i class="mdi mdi-filter"></i>
+    </button>
+  </div>
+
   <div class="row">
     <div class="col-lg-6 sprint-column">
       <div
@@ -28,6 +39,13 @@
       @drop="dropIssue"
       @dragover.prevent
     >
+      <IssueSearch
+        v-model="query"
+        @search="fetchIssuesList"
+        v-if="showFilters"
+      >
+      </IssueSearch>
+
       <IssueList
         :issues="nonSprintIssues"
         :draggable="sprintWritePermission"
@@ -83,6 +101,7 @@ const project = defineModel();
 
 const nonSprintIssues = ref([]);
 const metadata = ref({});
+const showFilters = ref(false);
 
 onMounted(async () => {
   await fetchSprints();
@@ -165,3 +184,20 @@ async function movedIssueIntoSprint(sprintId) {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.sprint-column {
+  height: calc(100vh - 380px);
+  overflow: auto;
+  padding: 20px 10px;
+  background-color: #f8f8f8;
+  border-radius: 5px;
+}
+.actions {
+  display: inline;
+  position: absolute;
+  right: 20px;
+  top: 85px;
+  text-align: right !important;
+}
+</style>
