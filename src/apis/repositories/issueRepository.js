@@ -1,6 +1,9 @@
 import api from "@/apis/axios";
 
-import { FetchProjectIssuesListGQL } from "@/apis/resolvers/issues";
+import {
+  FetchProjectIssuesListGQL,
+  FetchProjectIssueGQL,
+} from "@/apis/resolvers/issues";
 
 import {
   RemoveIssueOutOfSprintGQL,
@@ -40,5 +43,16 @@ export function MoveIssueIntoSprint(projectId, sprintId, issueId) {
       issueId,
     },
     { loading: true, toastMessage: "Move Issue into sprint successfully" },
+  );
+}
+
+export function FetchIssue(projectId, id) {
+  return api(
+    FetchProjectIssueGQL,
+    {
+      projectId,
+      id,
+    },
+    { loading: true },
   );
 }

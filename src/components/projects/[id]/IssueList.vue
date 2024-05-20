@@ -22,6 +22,7 @@
             :draggable="draggable"
             :issue="issue"
             :title-length="titleLength"
+            @click="issueModalStore.editIssue(projectId, issue.id)"
           >
           </IssueBasicRow>
           <tr v-else>
@@ -41,8 +42,14 @@
 <script setup>
 import { storeToRefs } from "pinia";
 import { useProjectIssueStore } from "@/stores/projectIssue";
+
 const projectIssueStore = useProjectIssueStore();
 const { isDraggingIssue } = storeToRefs(projectIssueStore);
+
+import { useRoute } from "vue-router";
+
+import { useIssueModalStore } from "@/stores/issueModal";
+const issueModalStore = useIssueModalStore();
 
 // ================PROPS===============
 defineProps({
@@ -73,7 +80,9 @@ defineProps({
   },
 });
 
-// ================EMITS===============
+const route = useRoute();
+
+const projectId = route.params.id;
 </script>
 
 <style lang="scss" scoped>
