@@ -4,6 +4,7 @@
     :query="query"
     @search="fetchList"
   />
+
   <IssueList
     :issues="issues"
     :draggable="false"
