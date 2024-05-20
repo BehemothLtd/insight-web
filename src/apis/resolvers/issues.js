@@ -17,3 +17,13 @@ export const FetchProjectIssuesListGQL = gql`
   ${METADATA_FIELDS}
   ${IssueBasicFields}
 `;
+
+export const FetchProjectIssueGQL = gql`
+  query ($projectId: ID!, $id: ID!) {
+    ProjectIssue(projectId: $projectId, id: $id) {
+      ...IssueBasicFieldFragment
+    }
+  }
+
+  ${IssueBasicFields}
+`;

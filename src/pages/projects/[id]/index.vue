@@ -44,6 +44,8 @@
       </div>
     </div>
   </div>
+
+  <IssueModal />
 </template>
 
 <script setup>
