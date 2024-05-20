@@ -27,12 +27,14 @@ export const useIssueModalStore = defineStore("issueModal", () => {
 
     if (result) {
       issue.value = result.ProjectIssue;
+      modalTitle.value = issue.value.title;
     }
   }
 
   return {
     issueModal,
     issue,
+    modalTitle,
 
     showIssueModal,
     hideIssueModal,

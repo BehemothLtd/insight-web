@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 
 export const FetchSelectOptionsGQL = gql`
-  query ($input: SelectOptionsInput!) {
-    SelectOptions(input: $input) {
+  query ($input: SelectOptionsInput!, $params: SelectOptionsParams) {
+    SelectOptions(input: $input, params: $params) {
       IssueStatusOptions {
         label
         value
@@ -25,6 +25,18 @@ export const FetchSelectOptionsGQL = gql`
         value
       }
       DeviceTypeOptions {
+        label
+        value
+      }
+      IssueTypeOptions {
+        label
+        value
+      }
+      IssuePriorityOptions {
+        label
+        value
+      }
+      ProjectIssueOptions {
         label
         value
       }

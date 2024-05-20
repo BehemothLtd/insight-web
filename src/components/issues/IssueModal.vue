@@ -12,11 +12,15 @@
   >
     <template #header>
       <h5 class="modal-title font-18 d-flex align-items-center gap-2">
-        <!-- {{ title }} -->
+        {{ modalTitle }}
       </h5>
     </template>
 
-    {{ issue }}
+    <IssueForm
+      v-model="issue"
+      :project="project"
+      v-if="issueModal"
+    />
   </b-modal>
 </template>
 
@@ -26,5 +30,12 @@ import { storeToRefs } from "pinia";
 import { useIssueModalStore } from "@/stores/issueModal";
 const issueModalStore = useIssueModalStore();
 
-const { issue, issueModal } = storeToRefs(issueModalStore);
+defineProps({
+  project: {
+    type: Object,
+    required: true,
+  },
+});
+
+const { issue, modalTitle, issueModal } = storeToRefs(issueModalStore);
 </script>

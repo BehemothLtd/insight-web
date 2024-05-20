@@ -27,7 +27,7 @@
 
       <BadgeLabel
         v-if="issue.deadline && showingCondition.deadline"
-        :text="filters.fullDate(issue.deadline)"
+        :text="issue.deadline"
         icon="bx bx-time-five"
         :extra-classes="['d-block mt-1 ml-1']"
         color="#960909"

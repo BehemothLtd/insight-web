@@ -16,7 +16,7 @@ export const IssueBasicFields = gql`
     createdAt
     updatedAt
     deadline
-    startedAt
+    startDate
     parentId
     projectId
     creatorId

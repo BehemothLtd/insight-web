@@ -45,7 +45,7 @@
     </div>
   </div>
 
-  <IssueModal />
+  <IssueModal :project="project" />
 </template>
 
 <script setup>
