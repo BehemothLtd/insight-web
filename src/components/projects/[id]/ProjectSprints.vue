@@ -183,6 +183,12 @@ async function movedIssueIntoSprint(sprintId) {
     targetSprint.fetchIssuesList();
   }
 }
+
+defineExpose({ onIssueUpdated });
+
+function onIssueUpdated(issue) {
+  fetchIssuesList();
+}
 </script>
 
 <style lang="scss" scoped>

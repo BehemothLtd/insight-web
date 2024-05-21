@@ -42,7 +42,7 @@
         <button
           type="button"
           class="btn btn-primary"
-          @click="handleClick"
+          @click="handleSave"
         >
           Save
         </button>
@@ -57,6 +57,11 @@ import { storeToRefs } from "pinia";
 import { useIssueModalStore } from "@/stores/issueModal";
 const issueModalStore = useIssueModalStore();
 
+import { useRoute } from "vue-router";
+const route = useRoute();
+
+const emits = defineEmits("submitted");
+
 defineProps({
   project: {
     type: Object,
@@ -65,4 +70,15 @@ defineProps({
 });
 
 const { issue, modalTitle, issueModal } = storeToRefs(issueModalStore);
+
+function handleSave() {
+  console.log(route.hash);
+
+  emits("submitted", {
+    event: "updated",
+    location: route.hash,
+  });
+
+  issueModalStore.hideIssueModal();
+}
 </script>

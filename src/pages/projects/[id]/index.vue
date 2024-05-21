@@ -39,13 +39,19 @@
         </div>
 
         <div v-if="currentTabIdx == TAB_IDX['sprints']">
-          <ProjectSprints v-model="project" />
+          <ProjectSprints
+            v-model="project"
+            ref="projectSprintsRef"
+          />
         </div>
       </div>
     </div>
   </div>
 
-  <IssueModal :project="project" />
+  <IssueModal
+    :project="project"
+    @submitted="handleIssueModalEvent"
+  />
 </template>
 
 <script setup>
@@ -74,6 +80,9 @@ setBreadcrumb({
     },
   ],
 });
+
+// ===========COMPONENT REFS===========
+const projectSprintsRef = ref(null);
 
 // ===========ROUTER=======
 const route = useRoute();
@@ -147,6 +156,19 @@ const tabs = computed(() => [
 function changeTab(tab) {
   currentTabIdx.value = tab.idx;
   router.push({ hash: `#${tab.hashKey}` });
+}
+
+function handleIssueModalEvent(eventLog) {
+  const event = eventLog.event;
+  const location = eventLog.location;
+
+  if (event == "updated") {
+    console.log(projectSprintsRef);
+
+    if (location == "Sprints") {
+      projectSprintsRef.value.onIssueUpdated();
+    }
+  }
 }
 </script>
 
