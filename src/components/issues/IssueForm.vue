@@ -39,6 +39,7 @@
                         :editor-id="`issue-editor`"
                         v-model="issue.description"
                         v-if="viewMode == 'edit'"
+                        ref="descriptionRef"
                       />
 
                       <MdPreview
@@ -264,6 +265,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
+import { onClickOutside } from "@vueuse/core";
 
 // =============COMPONENT==========
 import MarkdownEditor from "@/components/molecules/common/MarkdownEditor.vue";
@@ -340,6 +342,15 @@ function addAssignee() {
     developmentRoleId: null,
   });
 }
+
+function viewModeToEdit() {
+  viewMode.value = "edit";
+  console.log(viewMode.value);
+}
+
+const descriptionRef = ref(null);
+
+onClickOutside(descriptionRef, (_) => (viewMode.value = "view"));
 </script>
 
 <style lang="scss" scoped>

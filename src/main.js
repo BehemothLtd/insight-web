@@ -66,8 +66,8 @@ app.config.globalProperties.blockAccess = blockAccess;
 
 // show error log
 app.config.errorHandler = (err, instance, info) => {
-  console.log(err) 
-}
+  console.log(err);
+};
 
 // globalProperties can only use for options API
 app.provide("Swal", Swal);
