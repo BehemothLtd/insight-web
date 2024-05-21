@@ -123,6 +123,7 @@
           >
             <el-select-v2
               v-model="issue.issueStatusId"
+              :options="issueStatusOptions"
               class="w-100"
               filterable
               clearable
@@ -235,16 +236,21 @@ const issueTypeOptions = ref([]);
 const issuePriorityOptions = ref([]);
 const sprintOptions = ref([]);
 const issueOptions = ref([]);
+const issueStatusOptions = ref([]);
 
 const viewMode = ref("view");
 
 onMounted(() => {
-  FetchSelectOptions(["issueType", "issuePriority", "projectIssue"], {
-    projectId: props.project.id,
-  }).then((result) => {
+  FetchSelectOptions(
+    ["issueType", "issuePriority", "projectIssue", "projectIssueStatus"],
+    {
+      projectId: props.project.id,
+    },
+  ).then((result) => {
     issueTypeOptions.value = result.SelectOptions.IssueTypeOptions;
     issuePriorityOptions.value = result.SelectOptions.IssuePriorityOptions;
     issueOptions.value = result.SelectOptions.ProjectIssueOptions;
+    issueStatusOptions.value = result.SelectOptions.ProjectIssueStatusOptions;
   });
 
   if (props.project.projectType == "scrum") {

@@ -40,6 +40,10 @@ export const FetchSelectOptionsGQL = gql`
         label
         value
       }
+      ProjectIssueStatusOptions {
+        label
+        value
+      }
     }
   }
 `;
