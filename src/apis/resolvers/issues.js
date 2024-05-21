@@ -22,6 +22,11 @@ export const FetchProjectIssueGQL = gql`
   query ($projectId: ID!, $id: ID!) {
     ProjectIssue(projectId: $projectId, id: $id) {
       ...IssueBasicFieldFragment
+      issueAssignees {
+        id
+        userId
+        developmentRoleId
+      }
     }
   }
 

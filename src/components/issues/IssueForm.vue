@@ -1,5 +1,7 @@
 <template>
   <div class="row">
+    {{ issue }}
+
     <div class="issue-left-panel col-xl-8">
       <div class="card">
         <div class="card-body">
@@ -182,13 +184,40 @@
             <table class="table b-table">
               <thead>
                 <tr class="thead-light">
-                  <th>User</th>
-                  <th>Development Role</th>
+                  <th width="35%">User</th>
+                  <th width="40%">Role</th>
                   <th>Action</th>
                 </tr>
               </thead>
 
-              <tbody></tbody>
+              <tbody>
+                <tr
+                  v-for="(assignee, index) in issue.issueAssignees"
+                  :key="assignee.id"
+                >
+                  <td>
+                    <FormValidator
+                      :name="`issue_assignees_attributes.${index}.user_id`"
+                      required
+                    >
+                    </FormValidator>
+
+                    <el-select-v2
+                      v-model="assignee.userId"
+                      :options="projectAssigneeOptions"
+                      class="w-100"
+                      filterable
+                      clearable
+                    />
+
+                    <FormValidator
+                      :name="`issue_assignees_attributes.${index}.base`"
+                      required
+                    >
+                    </FormValidator>
+                  </td>
+                </tr>
+              </tbody>
             </table>
 
             <i
@@ -237,12 +266,19 @@ const issuePriorityOptions = ref([]);
 const sprintOptions = ref([]);
 const issueOptions = ref([]);
 const issueStatusOptions = ref([]);
+const projectAssigneeOptions = ref([]);
 
 const viewMode = ref("view");
 
 onMounted(() => {
   FetchSelectOptions(
-    ["issueType", "issuePriority", "projectIssue", "projectIssueStatus"],
+    [
+      "issueType",
+      "issuePriority",
+      "projectIssue",
+      "projectIssueStatus",
+      "projectAssignee",
+    ],
     {
       projectId: props.project.id,
     },
@@ -251,6 +287,7 @@ onMounted(() => {
     issuePriorityOptions.value = result.SelectOptions.IssuePriorityOptions;
     issueOptions.value = result.SelectOptions.ProjectIssueOptions;
     issueStatusOptions.value = result.SelectOptions.ProjectIssueStatusOptions;
+    projectAssigneeOptions.value = result.SelectOptions.ProjectAssigneeOptions;
   });
 
   if (props.project.projectType == "scrum") {
