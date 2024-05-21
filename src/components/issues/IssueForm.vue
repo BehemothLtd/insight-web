@@ -1,7 +1,5 @@
 <template>
   <div class="row">
-    {{ issue }}
-
     <div class="issue-left-panel col-xl-8">
       <div class="card">
         <div class="card-body">
@@ -184,9 +182,9 @@
             <table class="table b-table">
               <thead>
                 <tr class="thead-light">
-                  <th width="35%">User</th>
-                  <th width="40%">Role</th>
-                  <th>Action</th>
+                  <th width="45%">User</th>
+                  <th width="45%">Role</th>
+                  <th></th>
                 </tr>
               </thead>
 
@@ -216,6 +214,27 @@
                     >
                     </FormValidator>
                   </td>
+
+                  <td>
+                    <FormValidator
+                      :name="`issue_assignees_attributes.${index}.development_role_id`"
+                      required
+                    >
+                      <el-select-v2
+                        v-model="assignee.developmentRoleId"
+                        filterable
+                        clearable
+                        :options="developmentRoleOptions"
+                      />
+                    </FormValidator>
+                  </td>
+                  <td>
+                    <i
+                      class="mdi mdi-delete ml-2 text-danger"
+                      style="font-size: 24px; float: left; cursor: pointer"
+                      @click="deleteAssignee(assignee)"
+                    />
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -223,7 +242,7 @@
             <i
               class="btn btn-secondary mdi mdi-account-multiple-plus"
               style="font-size: 15px; float: left; cursor: pointer"
-              @click="addRow"
+              @click="addAssignee"
             />
           </div>
         </div>
@@ -267,6 +286,7 @@ const sprintOptions = ref([]);
 const issueOptions = ref([]);
 const issueStatusOptions = ref([]);
 const projectAssigneeOptions = ref([]);
+const developmentRoleOptions = ref([]);
 
 const viewMode = ref("view");
 
@@ -278,6 +298,7 @@ onMounted(() => {
       "projectIssue",
       "projectIssueStatus",
       "projectAssignee",
+      "developmentRole",
     ],
     {
       projectId: props.project.id,
@@ -288,6 +309,7 @@ onMounted(() => {
     issueOptions.value = result.SelectOptions.ProjectIssueOptions;
     issueStatusOptions.value = result.SelectOptions.ProjectIssueStatusOptions;
     projectAssigneeOptions.value = result.SelectOptions.ProjectAssigneeOptions;
+    developmentRoleOptions.value = result.SelectOptions.DevelopmentRoleOptions;
   });
 
   if (props.project.projectType == "scrum") {
@@ -301,6 +323,23 @@ onMounted(() => {
     });
   }
 });
+
+function deleteAssignee(assignee) {
+  issue.value.issueAssignees = issue.value.issueAssignees.filter(
+    (i) =>
+      !(
+        i.userId == assignee.userId &&
+        i.developmentRoleId == assignee.developmentRoleId
+      ),
+  );
+}
+
+function addAssignee() {
+  issue.value.issueAssignees.push({
+    userId: null,
+    developmentRoleId: null,
+  });
+}
 </script>
 
 <style lang="scss" scoped>
