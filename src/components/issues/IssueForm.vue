@@ -15,7 +15,7 @@
                 <div class="form-group row mb-4">
                   <div class="col-lg-12">
                     <FormValidator
-                      name="title"
+                      name="Title"
                       label="Title"
                       required
                     >
@@ -32,8 +32,9 @@
                 <div class="form-group row mb-4">
                   <div class="col-lg-12">
                     <FormValidator
-                      name="description"
+                      name="Description"
                       label="Description"
+                      required
                     >
                       <MarkdownEditor
                         :editor-id="`issue-editor`"
@@ -73,7 +74,7 @@
 
           <FormValidator
             class="mb-3"
-            name="Project Sprint"
+            name="ProjectSprintId"
             label="Project Sprint"
             v-if="project.projectType == 'scrum'"
           >
@@ -88,7 +89,7 @@
 
           <FormValidator
             class="mb-3"
-            name="issue_type"
+            name="issueType"
             label="Issue Type"
             required
           >
@@ -103,7 +104,7 @@
 
           <FormValidator
             class="mb-3"
-            name="priority"
+            name="Priority"
             label="Priority"
             required
           >
@@ -118,7 +119,7 @@
 
           <FormValidator
             class="mb-3"
-            name="issue_status_id"
+            name="IssueStatusId"
             label="Status"
             required
           >
@@ -133,7 +134,7 @@
 
           <FormValidator
             class="mb-3"
-            name="parent_id"
+            name="ParentId"
             label="Link Issues"
           >
             <el-select-v2
@@ -149,7 +150,7 @@
             <div class="col-lg-6">
               <FormValidator
                 label="Start date"
-                name="start_date"
+                name="StartDate"
               >
                 <DatePicker
                   v-model="issue.startDate"
@@ -164,7 +165,7 @@
             <div class="col-lg-6">
               <FormValidator
                 label="Deadline"
-                name="deadline"
+                name="Deadline"
               >
                 <DatePicker
                   v-model="issue.deadline"
@@ -196,7 +197,7 @@
                 >
                   <td>
                     <FormValidator
-                      :name="`issue_assignees_attributes.${index}.user_id`"
+                      :name="`IssueAssignees.${index}.UserId`"
                       required
                     >
                     </FormValidator>
@@ -208,17 +209,11 @@
                       filterable
                       clearable
                     />
-
-                    <FormValidator
-                      :name="`issue_assignees_attributes.${index}.base`"
-                      required
-                    >
-                    </FormValidator>
                   </td>
 
                   <td>
                     <FormValidator
-                      :name="`issue_assignees_attributes.${index}.development_role_id`"
+                      :name="`IssueAssignees.${index}.DevelopmentRoleId`"
                       required
                     >
                       <el-select-v2
@@ -341,11 +336,6 @@ function addAssignee() {
     userId: null,
     developmentRoleId: null,
   });
-}
-
-function viewModeToEdit() {
-  viewMode.value = "edit";
-  console.log(viewMode.value);
 }
 
 const descriptionRef = ref(null);

@@ -8,6 +8,7 @@ import {
 import {
   RemoveIssueOutOfSprintGQL,
   MoveIssueIntoSprintGQL,
+  UpdateIssueGQL,
 } from "@/apis/mutations/issues";
 
 export function FetchProjectIssuesList(projectId, pagyInput = {}, query = {}) {
@@ -54,5 +55,17 @@ export function FetchIssue(projectId, id) {
       id,
     },
     { loading: true },
+  );
+}
+
+export function UpdateIssue(projectId, id, formData = {}) {
+  return api(
+    UpdateIssueGQL,
+    {
+      projectId,
+      id,
+      input: formData,
+    },
+    { loading: true, toastMessage: "Update Issue Successfully" },
   );
 }

@@ -62,7 +62,11 @@ const route = useRoute();
 
 const emits = defineEmits("submitted");
 
-defineProps({
+import { IssueForm as FormData } from "@/formModels";
+
+import { UpdateIssue } from "@/apis/repositories";
+
+const props = defineProps({
   project: {
     type: Object,
     required: true,
@@ -71,14 +75,19 @@ defineProps({
 
 const { issue, modalTitle, issueModal } = storeToRefs(issueModalStore);
 
-function handleSave() {
+async function handleSave() {
   console.log(route.hash);
 
-  emits("submitted", {
-    event: "updated",
-    location: route.hash,
-  });
+  const formData = new FormData(issue.value);
+  console.log(formData);
 
-  issueModalStore.hideIssueModal();
+  await UpdateIssue(props.project.id, issue.value.id, formData);
+
+  // emits("submitted", {
+  //   event: "updated",
+  //   location: route.hash,
+  // });
+
+  // issueModalStore.hideIssueModal();
 }
 </script>

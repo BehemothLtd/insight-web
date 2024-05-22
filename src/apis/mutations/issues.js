@@ -11,3 +11,41 @@ export const MoveIssueIntoSprintGQL = gql`
     ProjectSprintAddIssue(projectId: $projectId, id: $id, issueId: $issueId)
   }
 `;
+
+export const UpdateIssueGQL = gql`
+  mutation ProjectUpdateIssue(
+    $projectId: ID!
+    $id: ID!
+    $input: ProjectModifyIssueInput!
+  ) {
+    ProjectUpdateIssue(projectId: $projectId, id: $id, input: $input) {
+      Issue {
+        id
+        code
+        title
+        description
+        archived
+        archiveable
+        issueStatusId
+        issueType
+        priority
+        status
+        position
+        createdAt
+        updatedAt
+        deadline
+        startDate
+        parentId
+        projectId
+        creatorId
+        projectSprintId
+        statusColorCode
+        issueAssignees {
+          id
+          userId
+          developmentRoleId
+        }
+      }
+    }
+  }
+`;
