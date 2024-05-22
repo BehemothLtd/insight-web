@@ -1,6 +1,10 @@
 import api from "@/apis/axios";
 
-import { listLeaveDayRequest, getLeaveDayRequest } from "@/apis/resolvers";
+import {
+  ListLeaveDayRequestGQL,
+  GetLeaveDayRequestGQL,
+  LeaveDayRequestReportGQL,
+} from "@/apis/resolvers";
 
 import {
   CreateLeaveDayRequestGQL,
@@ -10,11 +14,14 @@ import {
 } from "@/apis/mutations/leaveDayRequest";
 
 export function FetchListLeaveDayRequest(params = { input: {}, query: {} }) {
-  return api(listLeaveDayRequest, { input: params.input, query: params.query });
+  return api(ListLeaveDayRequestGQL, {
+    input: params.input,
+    query: params.query,
+  });
 }
 
 export function GetLeaveDayRequest(id) {
-  return api(getLeaveDayRequest, { id: id });
+  return api(GetLeaveDayRequestGQL, { id: id });
 }
 
 export function CreateLeaveDayRequest(
@@ -60,4 +67,10 @@ export function LeaveDayRequestChangeState(id, state) {
       toastMessage: "Change Leave Day Request State Successfully",
     },
   );
+}
+
+export function LeaveDayRequestReport({ query }) {
+  return api(LeaveDayRequestReportGQL, {
+    query: query,
+  });
 }

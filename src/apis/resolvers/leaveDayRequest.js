@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-export const listLeaveDayRequest = gql`
+export const ListLeaveDayRequestGQL = gql`
   query LeaveDayRequests($input: PagyInput!, $query: LeaveDayRequestsQuery) {
     LeaveDayRequests(input: $input, query: $query) {
       collection {
@@ -37,7 +37,7 @@ export const listLeaveDayRequest = gql`
   }
 `;
 
-export const getLeaveDayRequest = gql`
+export const GetLeaveDayRequestGQL = gql`
   query LeaveDayRequest($id: ID!) {
     LeaveDayRequest(id: $id) {
       id
@@ -72,6 +72,20 @@ export const getLeaveDayRequest = gql`
         timingDeactiveAt
         slackId
       }
+    }
+  }
+`;
+
+export const LeaveDayRequestReportGQL = gql`
+  query RequestReport($query: RequestReportInput) {
+    RequestReport(query: $query) {
+      userId
+      approvedTime
+      pendingTime
+      rejectedTime
+      userName
+      fullName
+      avatarKey
     }
   }
 `;

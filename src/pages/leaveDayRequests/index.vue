@@ -10,14 +10,14 @@
           <i class="bx bx-plus-circle font-size-16 align-middle me-2"></i>
           New
         </button>
-        <!-- <button
+        <button
           type="button"
           class="btn btn-primary waves-effect waves-light float-right mr-2"
           @click="$router.push(`/leave_day_requests/report`)"
         >
           <i class="bx bxs-report font-size-16 align-middle me-2"></i>
           Report
-        </button> -->
+        </button>
       </div>
       <BasicDataFilter
         :search-fields-list="searchFieldsList"
