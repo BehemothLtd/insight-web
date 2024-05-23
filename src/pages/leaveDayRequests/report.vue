@@ -21,7 +21,7 @@
       >
       </BasicDataFilter>
 
-      <RequestReport :leaveDayRequestReport="report"></RequestReport>
+      <RequestReport :leave-day-request-report="report"></RequestReport>
     </div>
   </div>
 </template>

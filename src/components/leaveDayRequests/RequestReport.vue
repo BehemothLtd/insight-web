@@ -19,10 +19,7 @@
         >
           <td>
             <div class="mr-3">
-              <!-- <UserAvatar
-                :avatar-url="report.avatarKey"
-                :user-name="report.userName"
-              ></UserAvatar> -->
+              <UserAvatar :user="user(report)"></UserAvatar>
               {{ report.userName }}
             </div>
           </td>
@@ -42,4 +39,11 @@ defineProps({
     required: true,
   },
 });
+
+function user(report) {
+  return {
+    name: report.userName,
+    avatarUrl: report.avatarKey,
+  };
+}
 </script>
