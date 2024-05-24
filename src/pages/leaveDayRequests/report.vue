@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="row">
-      <h3>{{ query }}</h3>
       <div class="text-right">
         <button
           type="button"
