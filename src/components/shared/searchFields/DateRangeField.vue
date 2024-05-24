@@ -3,7 +3,10 @@
     <div class="col-md-6 position-relative mb-3 mb-md-0">
       <i class="mdi mdi-calendar-check-outline"></i>
       <DatePicker
-        v-model="searchDateRange[0]"
+        :model-value="searchDateRange[0]"
+        @update:model-value="
+          (event) => (searchDateRange[0] = handleFormat(event))
+        "
         :enable-time-picker="false"
         placeholder="Start Date"
         @cleared="searchDateRange[0] = ''"
@@ -13,7 +16,10 @@
     <div class="col-md-6 position-relative">
       <i class="mdi mdi-calendar-check-outline"></i>
       <DatePicker
-        v-model="searchDateRange[1]"
+        :model-value="searchDateRange[1]"
+        @update:model-value="
+          (event) => (searchDateRange[1] = handleFormat(event))
+        "
         :enable-time-picker="false"
         placeholder="End Date"
         @cleared="searchDateRange[1] = ''"
@@ -23,11 +29,21 @@
 </template>
 
 <script setup>
+import moment from "moment";
+
+const handleFormat = (data) => {
+  return moment(data).format(props.formatValue);
+};
+
 const props = defineProps({
   classes: {
     type: String,
     required: false,
     default: "form-control w-100 p-1",
+  },
+  formatValue: {
+    type: String,
+    default: "YYYY-MM-DD",
   },
 });
 

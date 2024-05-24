@@ -1,5 +1,6 @@
 <template>
   <div :class="classes">
+    <h3>{{ inputValue }}</h3>
     <VSelect
       v-model="inputValue"
       multiple
@@ -27,7 +28,7 @@ const props = defineProps({
     type: Object,
     default: () => {
       return {
-        defaultOptions: [],
+        defaultValue: [],
       };
     },
   },
@@ -39,7 +40,7 @@ const props = defineProps({
   },
 });
 
-const inputValue = ref(props.options.defaultOptions);
+const inputValue = ref(props.options.defaultValue);
 const emit = defineEmits(["updated"]);
 
 const placeHolder = computed(() => {

@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="row">
+      <h3>{{ query }}</h3>
       <div class="text-right">
         <button
           type="button"
@@ -73,7 +74,6 @@ searchFieldsList.value = [
       searchComponents.MultipleSelectField,
       {
         selectOptions: LeaveDayRequestTypes,
-        defaultOptions: ["day_off"],
         defaultValue: ["day_off"],
       },
     ),
@@ -85,7 +85,6 @@ searchFieldsList.value = [
       "bx-time-five",
       searchComponents.DateRangeField,
       {
-        dateRangeDefault: defaultDateRange,
         defaultValue: defaultDateRange,
       },
     ),
