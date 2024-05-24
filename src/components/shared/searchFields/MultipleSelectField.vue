@@ -1,6 +1,5 @@
 <template>
   <div :class="classes">
-    <h3>{{ inputValue }}</h3>
     <VSelect
       v-model="inputValue"
       multiple
