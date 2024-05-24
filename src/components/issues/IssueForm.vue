@@ -200,15 +200,14 @@
                       :name="`IssueAssignees.${index}.UserId`"
                       required
                     >
+                      <el-select-v2
+                        v-model="assignee.userId"
+                        :options="projectAssigneeOptions"
+                        class="w-100"
+                        filterable
+                        clearable
+                      />
                     </FormValidator>
-
-                    <el-select-v2
-                      v-model="assignee.userId"
-                      :options="projectAssigneeOptions"
-                      class="w-100"
-                      filterable
-                      clearable
-                    />
                   </td>
 
                   <td>
