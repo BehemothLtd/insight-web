@@ -74,6 +74,7 @@ searchFieldsList.value = [
       {
         selectOptions: LeaveDayRequestTypes,
         defaultOptions: ["day_off"],
+        defaultValue: ["day_off"],
       },
     ),
   ],
