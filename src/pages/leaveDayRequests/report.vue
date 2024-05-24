@@ -15,9 +15,7 @@
       <BasicDataFilter
         :search-fields-list="searchFieldsList"
         :query="query"
-        search-title=""
-        @search="fetchRequestReport"
-        @reset="updateQuery({})"
+        @search="fetchList"
       >
       </BasicDataFilter>
 
@@ -39,11 +37,14 @@ import { LeaveDayRequestReport } from "@/apis/repositories";
 const { searchFieldsList, searchComponents } = useDynamicSearch();
 
 const { setBreadcrumb } = useBreadcrumb();
+
 const userOptions = ref([]);
 const query = ref({});
 const report = ref([]);
-const { updateQuery } = useGoQuery({
-  query: query.value,
+
+const { goQueryInput } = useGoQuery({
+  perPage: 100,
+  query: query,
 });
 
 const defaultDateRange = [
@@ -60,6 +61,9 @@ searchFieldsList.value = [
       searchComponents.SingleSelectField,
       {
         selectOptions: userOptions,
+        parseMethod: (value) => {
+          return value ? parseInt(value) : null;
+        },
       },
     ),
     new SearchField(
@@ -73,17 +77,18 @@ searchFieldsList.value = [
       },
     ),
   ],
-  // [
-  //   new SearchField(
-  //     "Time",
-  //     "created_at_between",
-  //     "bx-time-five",
-  //     searchComponents.DateRangeField,
-  //     {
-  //       dateRangeDefault: defaultDateRange,
-  //     },
-  //   ),
-  // ],
+  [
+    new SearchField(
+      "Time",
+      "created_at_between",
+      "bx-time-five",
+      searchComponents.DateRangeField,
+      {
+        dateRangeDefault: defaultDateRange,
+        defaultValue: defaultDateRange,
+      },
+    ),
+  ],
 ];
 
 setBreadcrumb({
@@ -104,23 +109,21 @@ setBreadcrumb({
   ],
 });
 
-async function fetchRequestReport() {
+async function fetchList() {
   const result = await LeaveDayRequestReport({
-    query: query.value,
+    query: goQueryInput.query,
   });
 
   report.value = result.RequestReport;
 }
 
 onMounted(async () => {
-  query.value = {
-    createdAtBetween: defaultDateRange,
-  };
   const result = await FetchSelectOptions(["user"]);
 
   if (result.SelectOptions) {
     userOptions.value = result.SelectOptions.UserOptions;
   }
-  fetchRequestReport();
+
+  fetchList();
 });
 </script>
