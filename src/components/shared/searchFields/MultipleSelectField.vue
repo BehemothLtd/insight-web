@@ -6,8 +6,6 @@
       :options="options.selectOptions"
       :reduce="(option) => option.value"
       :placeholder="placeHolder"
-      @option:selected="emitValue"
-      @option:deselected="emitValue"
     >
     </VSelect>
   </div>
@@ -39,25 +37,19 @@ const props = defineProps({
   },
 });
 
-const inputValue = ref(props.options.defaultValue);
-const emit = defineEmits(["updated"]);
+const inputValue = defineModel();
 
 const placeHolder = computed(() => {
   if (props.title) return props.title;
   else return "Search...";
 });
 
-function emitValue() {
-  emit("updated", inputValue);
-}
-
 defineExpose({
   clear,
 });
 
 function clear() {
-  inputValue.value = null;
-  emit("updated", null);
+  inputValue.value = [];
 }
 </script>
 <style lang="scss" scoped>
