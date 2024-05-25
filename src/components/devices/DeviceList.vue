@@ -40,9 +40,9 @@
             </td>
             <td class="device-row">{{ deviceItem.description }}</td>
             <td v-if="writePermission">
-              <!-- <span @click="showDevice(deviceItem.id)">
+              <span @click="showDevice(deviceItem.id)">
                 <i class="mdi mdi-pencil font-size-18 text-success"> </i>
-              </span> -->
+              </span>
               <span @click="destroyDevice(deviceItem.id, deviceItem.name)">
                 <i class="mdi mdi-delete font-size-18 text-danger ml-4"></i>
               </span>
@@ -57,24 +57,63 @@
       @change="onPageChange"
     ></Pagination>
 
-    <!-- <DeviceModal
-      v-if="isShowUpdateModal"
-      v-model="isShowUpdateModal"
+    <b-modal
+      ref="modal"
       title="Update Device"
-      @close="isShowUpdateModal = false"
-      @submit="updateDevice"
-    ></DeviceModal> -->
+      title-class="font-18"
+    >
+      <template #header></template>
+
+      <b-tabs v-model="tabIndex">
+        <b-tab title="Information">
+          <DeviceForm
+            v-model="device"
+            :device-type-options="deviceTypeOptions"
+            :user-options="userOptions"
+          ></DeviceForm>
+        </b-tab>
+        <b-tab title="History"></b-tab>
+      </b-tabs>
+
+      <template #footer>
+        <div class="modal-footer pb-0 border-0">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+            @click="hideModal()"
+          >
+            Cancel
+          </button>
+          <button
+            v-if="tabIndex == 0"
+            type="button"
+            class="btn btn-primary"
+            @click="updateDevice"
+          >
+            Save
+          </button>
+        </div>
+      </template>
+    </b-modal>
   </div>
 </template>
 
 <script setup>
 import useDynamicSearch from "@/composable/dynamicSearch";
 import SearchField from "@/types/searchField";
+import useModal from "@/composable/modal";
 
+import { omit } from "lodash";
 import { onMounted, ref, inject, computed } from "vue";
 import { useGoQuery } from "@bachdx/b-vuse";
 import { selectOptionDeviceState } from "@/utilities/selectOptions.js";
-import { FetchDeviceList, DestroyDevice } from "@/apis/repositories";
+import {
+  FetchDeviceList,
+  DestroyDevice,
+  FetchDevice,
+  UpdateDevice,
+} from "@/apis/repositories";
 
 const props = defineProps({
   writePermission: {
@@ -95,10 +134,12 @@ const props = defineProps({
 const Swal = inject("Swal");
 
 const devices = ref([]);
-// const device = ref({});
+const device = ref({});
 const metadata = ref({});
 const query = ref({});
+const tabIndex = ref(0);
 
+const { modal, showModal, hideModal } = useModal();
 const { searchFieldsList, searchComponents } = useDynamicSearch();
 const { goQueryInput, updatePage } = useGoQuery({
   perPage: 20,
@@ -178,6 +219,28 @@ async function destroyDevice(id, name) {
   }
 }
 
+async function showDevice(id) {
+  const result = await FetchDevice(id);
+  device.value = result.Device;
+  showModal();
+}
+
+async function updateDevice() {
+  device.value.deviceTypeId = Number(device.value.deviceTypeId);
+  device.value.userId = device.value.userId
+    ? Number(device.value.userId)
+    : null;
+
+  const id = device.value.id;
+  const input = omit(device.value, "id");
+  const result = await UpdateDevice(id, input);
+
+  if (result) {
+    await fetchListDevices();
+    hideModal();
+  }
+}
+
 defineExpose({
   fetchListDevices,
 });
@@ -194,5 +257,13 @@ onMounted(async () => {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 300px;
+}
+:deep(.tab-content) {
+  margin-top: 20px;
+}
+
+:deep(.nav-item) {
+  font-weight: 700;
+  font-size: 15px;
 }
 </style>

@@ -1,12 +1,18 @@
 import api from "@/apis/axios";
 
-import { DeviceTypesGQL, DeviceTypeGQL, DevicesGQL } from "@/apis/resolvers";
+import {
+  DeviceTypesGQL,
+  DeviceTypeGQL,
+  DevicesGQL,
+  DeviceGQL,
+} from "@/apis/resolvers";
 import {
   UpdateDeviceTypeGQL,
   DestroyDeviceTypeGQL,
   CreateDeviceTypeGQL,
   DestroyDeviceGQL,
   CreateDeviceGQL,
+  UpdateDeviceGQL,
 } from "@/apis/mutations";
 
 // Queries
@@ -23,7 +29,6 @@ export function FetchDeviceType(id) {
 }
 
 export function UpdateDeviceType(id, input) {
-  console.log(input);
   return api(UpdateDeviceTypeGQL, {
     id,
     input,
@@ -57,6 +62,19 @@ export function FetchDeviceList(params = { input: {}, query: {} }) {
 
 export function CreateDevice(input) {
   return api(CreateDeviceGQL, {
+    input,
+  });
+}
+
+export function FetchDevice(id) {
+  return api(DeviceGQL, {
+    id,
+  });
+}
+
+export function UpdateDevice(id, input) {
+  return api(UpdateDeviceGQL, {
+    id,
     input,
   });
 }

@@ -21,8 +21,8 @@
             required
           >
             <input
-              class="form-control"
               v-model="userDetail.fullName"
+              class="form-control"
               placeholder="Full Name"
             />
           </FormValidator>
@@ -37,8 +37,8 @@
           >
             <input
               id="email"
-              class="form-control"
               v-model="userDetail.email"
+              class="form-control"
               placeholder="domain behemoth.vn, kerberos.jp"
             />
           </FormValidator>
@@ -53,8 +53,8 @@
           >
             <input
               id="slackId"
-              class="form-control"
               v-model="userDetail.slackId"
+              class="form-control"
               placeholder="ABCDEFGH"
             />
           </FormValidator>
@@ -70,8 +70,8 @@
           >
             <textarea
               id="about"
-              class="form-control"
               v-model="userDetail.about"
+              class="form-control"
               placeholder="Enter something..."
               rows="6"
               max-rows="6"

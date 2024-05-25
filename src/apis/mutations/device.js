@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { DeviceBasicFields } from "@/apis/fragment";
 
 export const UpdateDeviceTypeGQL = gql`
   mutation DeviceTypeUpdate($id: ID!, $input: DeviceTypeInput!) {
@@ -38,17 +39,22 @@ export const CreateDeviceGQL = gql`
   mutation DeviceCreate($input: DeviceInput!) {
     DeviceCreate(input: $input) {
       device {
-        id
-        code
-        name
-        seller
-        state
-        description
-        deviceType {
-          id
-          name
-        }
+        ...DeviceBasicFieldFragment
       }
     }
   }
+
+  ${DeviceBasicFields}
+`;
+
+export const UpdateDeviceGQL = gql`
+  mutation DeviceUpdate($id: ID!, $input: DeviceInput!) {
+    DeviceUpdate(id: $id, input: $input) {
+      device {
+        ...DeviceBasicFieldFragment
+      }
+    }
+  }
+
+  ${DeviceBasicFields}
 `;

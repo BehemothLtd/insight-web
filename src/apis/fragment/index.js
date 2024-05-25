@@ -4,3 +4,4 @@ export * from "./projectIssueStatuses";
 export * from "./projects";
 export * from "./issues";
 export * from "./projectSprints";
+export * from "./devices";
