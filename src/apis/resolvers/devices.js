@@ -1,5 +1,6 @@
 import gql from "graphql-tag";
-import { METADATA_FIELDS } from "@/apis/fragment";
+
+import { METADATA_FIELDS, DeviceBasicFields } from "@/apis/fragment";
 
 export const DeviceTypesGQL = gql`
   query DeviceTypes($input: PagyInput) {
@@ -31,16 +32,7 @@ export const DevicesGQL = gql`
   query Devices($input: PagyInput, $query: DevicesQuery) {
     Devices(input: $input, query: $query) {
       collection {
-        id
-        code
-        name
-        seller
-        state
-        deviceTypeId
-        deviceType {
-          name
-        }
-        description
+        ...DeviceBasicFieldFragment
       }
       metadata {
         ...MetadataFragment
@@ -49,4 +41,15 @@ export const DevicesGQL = gql`
   }
 
   ${METADATA_FIELDS}
+  ${DeviceBasicFields}
+`;
+
+export const DeviceGQL = gql`
+  query Device($id: ID!) {
+    Device(id: $id) {
+      ...DeviceBasicFieldFragment
+    }
+  }
+
+  ${DeviceBasicFields}
 `;
