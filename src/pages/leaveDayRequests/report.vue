@@ -80,7 +80,7 @@ searchFieldsList.value = [
   [
     new SearchField(
       "Time",
-      "created_at_between",
+      "createdAtBetween",
       "bx-time-five",
       searchComponents.DateRangeField,
       {
