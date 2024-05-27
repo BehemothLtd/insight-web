@@ -95,8 +95,17 @@ props.searchFieldsList.forEach((listOfField) => {
   const routeQuery = route.query;
 
   listOfField.forEach((field) => {
-    props.query[field.ransacker] =
-      routeQuery[field.ransacker] || field.defaultValue;
+    const propsQuery = props.query;
+    const ransacker = field.ransacker;
+    const fieldOptions = field.options;
+
+    if (!routeQuery[ransacker])
+      propsQuery[ransacker] = fieldOptions?.defaultValue;
+    else if (fieldOptions?.parseMethod) {
+      const method = fieldOptions.parseMethod;
+
+      propsQuery[ransacker] = method(routeQuery[ransacker]);
+    } else propsQuery[ransacker] = routeQuery[ransacker];
   });
 });
 

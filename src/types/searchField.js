@@ -6,7 +6,6 @@ export default class SearchField {
     component,
     options = new SearchFieldOptions(),
     classes,
-    defaultValue = null,
   ) {
     this.title = title;
     this.icon = icon;
@@ -14,7 +13,7 @@ export default class SearchField {
     this.component = component;
     this.options = options;
     this.classes = classes;
-    this.defaultValue = defaultValue;
+    this.defaultValue = options.defaultValue;
   }
 }
 
@@ -24,10 +23,14 @@ class SearchFieldOptions {
     dateRangeDefault = [],
     defaultOptions = [],
     classes = null,
+    defaultValue = null,
+    parseMethod = null,
   } = {}) {
     this.selectOptions = selectOptions;
     this.dateRangeDefault = dateRangeDefault;
     this.classes = classes;
     this.defaultOptions = defaultOptions;
+    this.defaultValue = defaultValue;
+    this.parseMethod = parseMethod;
   }
 }
