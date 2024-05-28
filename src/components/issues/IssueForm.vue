@@ -274,20 +274,26 @@ const props = defineProps({
 
 const issue = defineModel();
 
-import { FetchSelectOptions, FetchProjectSprints } from "@/apis/repositories";
+import { FetchProjectSprints } from "@/apis/repositories";
 
-const issueTypeOptions = ref([]);
-const issuePriorityOptions = ref([]);
 const sprintOptions = ref([]);
-const issueOptions = ref([]);
-const issueStatusOptions = ref([]);
-const projectAssigneeOptions = ref([]);
-const developmentRoleOptions = ref([]);
+
+import useSelectOptions from "@/composable/useSelectOptions";
+
+const {
+  issueTypeOptions,
+  issuePriorityOptions,
+  issueOptions,
+  issueStatusOptions,
+  projectAssigneeOptions,
+  developmentRoleOptions,
+  fetchSelectOptions,
+} = useSelectOptions();
 
 const viewMode = ref("view");
 
 onMounted(() => {
-  FetchSelectOptions(
+  fetchSelectOptions(
     [
       "issueType",
       "issuePriority",
@@ -299,14 +305,7 @@ onMounted(() => {
     {
       projectId: props.project.id,
     },
-  ).then((result) => {
-    issueTypeOptions.value = result.SelectOptions.IssueTypeOptions;
-    issuePriorityOptions.value = result.SelectOptions.IssuePriorityOptions;
-    issueOptions.value = result.SelectOptions.ProjectIssueOptions;
-    issueStatusOptions.value = result.SelectOptions.ProjectIssueStatusOptions;
-    projectAssigneeOptions.value = result.SelectOptions.ProjectAssigneeOptions;
-    developmentRoleOptions.value = result.SelectOptions.DevelopmentRoleOptions;
-  });
+  );
 
   if (props.project.projectType == "scrum") {
     FetchProjectSprints(props.project.id).then((result) => {
