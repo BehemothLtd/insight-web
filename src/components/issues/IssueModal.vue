@@ -76,10 +76,7 @@ const props = defineProps({
 const { issue, modalTitle, issueModal } = storeToRefs(issueModalStore);
 
 async function handleSave() {
-  console.log(route.hash);
-
   const formData = new FormData(issue.value);
-  console.log(formData);
 
   await UpdateIssue(props.project.id, issue.value.id, formData);
 

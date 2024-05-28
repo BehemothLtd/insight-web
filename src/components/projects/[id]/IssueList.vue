@@ -22,7 +22,7 @@
             :draggable="draggable"
             :issue="issue"
             :title-length="titleLength"
-            @click="issueModalStore.editIssue(projectId, issue.id)"
+            @click="editIssue(issue)"
           >
           </IssueBasicRow>
           <tr v-else>
@@ -46,7 +46,7 @@ import { useProjectIssueStore } from "@/stores/projectIssue";
 const projectIssueStore = useProjectIssueStore();
 const { isDraggingIssue } = storeToRefs(projectIssueStore);
 
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 import { useIssueModalStore } from "@/stores/issueModal";
 const issueModalStore = useIssueModalStore();
@@ -81,8 +81,15 @@ defineProps({
 });
 
 const route = useRoute();
+const router = useRouter();
 
 const projectId = route.params.id;
+
+async function editIssue(issue) {
+  router.push({ query: { issueId: issue.id }, hash: route.hash });
+
+  await issueModalStore.editIssue(projectId, issue.id);
+}
 </script>
 
 <style lang="scss" scoped>
