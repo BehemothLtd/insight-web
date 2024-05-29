@@ -1,5 +1,16 @@
 <template>
+  <div class="actions">
+    <button
+      v-b-tooltip.hover
+      title="Toggle filter"
+      class="btn btn-light mr-2"
+      @click="showFilters = !showFilters"
+    >
+      <i class="mdi mdi-filter"></i>
+    </button>
+  </div>
   <IssueSearch
+    v-if="showFilters"
     v-model="query"
     @search="fetchList"
   >
@@ -61,6 +72,7 @@ const { goQueryInput, updatePage } = useGoQuery({
 });
 const issues = ref([]);
 const metadata = ref({});
+const showFilters = ref(false);
 
 async function fetchList() {
   const result = await FetchProjectIssuesList(
@@ -84,3 +96,13 @@ function onPageChange(page) {
   fetchList();
 }
 </script>
+
+<style lang="scss" scoped>
+.actions {
+  display: inline;
+  position: absolute;
+  right: 15px;
+  top: 50px;
+  text-align: right !important;
+}
+</style>

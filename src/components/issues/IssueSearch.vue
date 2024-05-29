@@ -14,6 +14,10 @@ import SearchField from "@/types/searchField";
 
 const { searchFieldsList, searchComponents } = useDynamicSearch();
 const userOptions = ref([]);
+const projectIssueStatusOptions = ref([]);
+import { useRoute } from "vue-router";
+const route = useRoute();
+const projectId = route.params.id;
 
 const query = defineModel();
 
@@ -85,13 +89,57 @@ searchFieldsList.value = [
       },
     ),
   ],
+  [
+    new SearchField(
+      "Archived",
+      "archivedEq",
+      "mdi mdi-archive",
+      searchComponents.SingleSelectField,
+      {
+        selectOptions: [
+          { label: "True", value: true },
+          { label: "False", value: false },
+        ],
+      },
+    ),
+    new SearchField(
+      "Priority",
+      "priorityEq",
+      "mdi mdi-priority-high",
+      searchComponents.SingleSelectField,
+      {
+        selectOptions: [
+          { label: "lowest", value: "lowest" },
+          { label: "low", value: "low" },
+          { label: "normal", value: "normal" },
+          { label: "high", value: "high" },
+          { label: "highest", value: "highest" },
+        ],
+      },
+    ),
+    new SearchField(
+      "Status",
+      "issueStatusIdEq",
+      "mdi mdi-cached",
+      searchComponents.SingleSelectField,
+      {
+        selectOptions: projectIssueStatusOptions,
+      },
+    ),
+  ],
 ];
 
 onMounted(async () => {
-  const result = await FetchSelectOptions(["user"]);
+  const result = await FetchSelectOptions(["user", "projectIssueStatus"], {
+    projectId: projectId,
+  });
+
   if (result.SelectOptions) {
     userOptions.value = result.SelectOptions.UserOptions;
+    projectIssueStatusOptions.value =
+      result.SelectOptions.ProjectIssueStatusOptions;
   }
+
   userOptions.value.unshift({ label: "unassign", value: 0 });
 });
 </script>
