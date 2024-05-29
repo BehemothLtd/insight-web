@@ -13,8 +13,6 @@ import useDynamicSearch from "@/composable/dynamicSearch";
 import SearchField from "@/types/searchField";
 
 const { searchFieldsList, searchComponents } = useDynamicSearch();
-const userOptions = ref([]);
-const projectIssueStatusOptions = ref([]);
 import { useRoute } from "vue-router";
 const route = useRoute();
 const projectId = route.params.id;
@@ -23,8 +21,9 @@ const query = defineModel();
 
 defineEmits(["search"]);
 
-import { FetchSelectOptions } from "@/apis/repositories";
-
+import useSelectOptions from "@/composable/useSelectOptions";
+const { issueStatusOptions, userOptions, fetchSelectOptions } =
+  useSelectOptions();
 searchFieldsList.value = [
   [
     new SearchField(
@@ -123,23 +122,15 @@ searchFieldsList.value = [
       "mdi mdi-cached",
       searchComponents.SingleSelectField,
       {
-        selectOptions: projectIssueStatusOptions,
+        selectOptions: issueStatusOptions,
       },
     ),
   ],
 ];
 
 onMounted(async () => {
-  const result = await FetchSelectOptions(["user", "projectIssueStatus"], {
+  await fetchSelectOptions(["user", "projectIssueStatus"], {
     projectId: projectId,
   });
-
-  if (result.SelectOptions) {
-    userOptions.value = result.SelectOptions.UserOptions;
-    projectIssueStatusOptions.value =
-      result.SelectOptions.ProjectIssueStatusOptions;
-  }
-
-  userOptions.value.unshift({ label: "unassign", value: 0 });
 });
 </script>
