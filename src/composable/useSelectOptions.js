@@ -9,6 +9,7 @@ export default function useSelectOptions() {
   const issueStatusOptions = ref([]);
   const projectAssigneeOptions = ref([]);
   const developmentRoleOptions = ref([]);
+  const userOptions = ref([]);
 
   function fetchSelectOptions(keys, params = {}) {
     FetchSelectOptions(keys, params).then((response) => {
@@ -20,10 +21,12 @@ export default function useSelectOptions() {
       issueStatusOptions.value = result.ProjectIssueStatusOptions;
       projectAssigneeOptions.value = result.ProjectAssigneeOptions;
       developmentRoleOptions.value = result.DevelopmentRoleOptions;
+      userOptions.value = result.UserOptions;
     });
   }
 
   return {
+    userOptions,
     issueTypeOptions,
     issuePriorityOptions,
     issueOptions,
