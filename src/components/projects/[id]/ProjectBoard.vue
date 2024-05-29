@@ -15,8 +15,6 @@ import { FetchProjectBoardData } from "@/apis/repositories";
 
 onMounted(() => {
   FetchProjectBoardData(project.value.id).then((result) => {
-    console.log(result);
-
     projectBoardData.value = result.ProjectBoard;
   });
 });
