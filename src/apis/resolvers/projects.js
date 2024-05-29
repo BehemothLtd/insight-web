@@ -5,6 +5,7 @@ import {
   ProjectAssigneeBasicFields,
   ProjectIssueStatusBasicFields,
   METADATA_FIELDS,
+  IssueBasicFields,
 } from "@/apis/fragment";
 
 export const FetchProjectListGQL = gql`
@@ -61,4 +62,26 @@ export const FetchProjectBasicInfoGQL = gql`
   ${ProjectBasicFields}
   ${ProjectAssigneeBasicFields}
   ${ProjectIssueStatusBasicFields}
+`;
+
+export const FetchProjectBoardDataGQL = gql`
+  query ($id: ID!) {
+    ProjectBoard(id: $id) {
+      id
+      issueStatus {
+        id
+        title
+      }
+      issues {
+        ...IssueBasicFieldFragment
+        issueAssignees {
+          id
+          userId
+          developmentRoleId
+        }
+      }
+    }
+  }
+
+  ${IssueBasicFields}
 `;

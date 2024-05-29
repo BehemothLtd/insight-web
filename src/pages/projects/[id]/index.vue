@@ -26,6 +26,10 @@
           </b-tab>
         </b-tabs>
 
+        <div v-if="currentTabIdx == TAB_IDX['board']">
+          <ProjectBoard v-model="project" />
+        </div>
+
         <div v-show="currentTabIdx == TAB_IDX['basicInfo']">
           <ProjectSummary v-model="project" />
         </div>
@@ -92,7 +96,7 @@ const router = useRouter();
 const projectId = route.params.id;
 const project = ref({});
 
-const currentTabIdx = ref(0);
+const currentTabIdx = ref(2); // Basic Information Tab is init page
 
 async function fetchProject() {
   const result = await FetchProjectBasicInfo(projectId);
@@ -163,8 +167,6 @@ function handleIssueModalEvent(eventLog) {
   const location = eventLog.location;
 
   if (event == "updated") {
-    console.log(projectSprintsRef);
-
     if (location == "Sprints") {
       projectSprintsRef.value.onIssueUpdated();
     }

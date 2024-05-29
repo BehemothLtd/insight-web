@@ -3,6 +3,7 @@ import api from "@/apis/axios";
 import {
   FetchProjectListGQL,
   FetchProjectBasicInfoGQL,
+  FetchProjectBoardDataGQL,
 } from "@/apis/resolvers";
 
 import {
@@ -176,6 +177,19 @@ export function ProjectCreateProjectIssueStatus(projectId, issueStatusId) {
     {
       loading: true,
       toastMessage: "Create new status successfully",
+    },
+  );
+}
+
+// TODO: add query
+export function FetchProjectBoardData(id) {
+  return api(
+    FetchProjectBoardDataGQL,
+    {
+      id: id,
+    },
+    {
+      loading: true,
     },
   );
 }
