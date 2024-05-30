@@ -20,7 +20,7 @@
             v-for="tab in tabs"
             :key="tab.label"
             :title="tab.label"
-            @click="changeTab(tab)"
+            @click.prevent="changeTab(tab)"
             :disabled="tab.disabled"
           >
           </b-tab>
@@ -30,12 +30,12 @@
           <ProjectBoard v-model="project" />
         </div>
 
-        <div v-show="currentTabIdx == TAB_IDX['basicInfo']">
-          <ProjectSummary v-model="project" />
-        </div>
-
         <div v-show="currentTabIdx == TAB_IDX['issueStatuses']">
           <ProjectIssueStatuses v-model="project" />
+        </div>
+
+        <div v-show="currentTabIdx == TAB_IDX['basicInfo']">
+          <ProjectSummary v-model="project" />
         </div>
 
         <div v-if="currentTabIdx == TAB_IDX['issues']">
@@ -112,8 +112,12 @@ onMounted(async () => {
 
 function setInitialTab() {
   const hash = route.hash.replace("#", "");
-  currentTabIdx.value =
-    tabs.value.find((tab) => tab.hashKey === hash)?.idx || TAB_IDX["basicInfo"];
+
+  const currentTabIndex = tabs.value.find((tab) => tab.hashKey === hash)?.idx;
+
+  if (currentTabIndex != null) {
+    currentTabIdx.value = currentTabIndex;
+  }
 }
 
 const TAB_IDX = {
@@ -158,7 +162,6 @@ const tabs = computed(() => [
 ]);
 
 function changeTab(tab) {
-  currentTabIdx.value = tab.idx;
   router.push({ hash: `#${tab.hashKey}` });
 }
 
