@@ -48,6 +48,14 @@ export const FetchSelectOptionsGQL = gql`
         label
         value
       }
+      CurrentUserProjectOptions {
+        label
+        value
+      }
+      CurrentUserProjectIssueOptions {
+        label
+        value
+      }
     }
   }
 `;
