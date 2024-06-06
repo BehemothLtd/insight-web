@@ -7,7 +7,22 @@
         search-title=""
         @search="fetchList"
       >
+        <button
+          name="button"
+          class="btn btn-primary mr-2"
+          @click="showModal()"
+        >
+          <i class="bx bx-plus-circle font-size-16 align-middle me-2"></i>
+          Log Time
+        </button>
       </BasicDataFilter>
+
+      <WorkingTimelogModal
+        ref="modalWorkingTimelog"
+        :project-options="projectOptions"
+        @reinit="showModal()"
+        @refetch="refetchList"
+      />
 
       <WorkingTimelogList
         :working-timelogs="workingTimelogs"
@@ -24,6 +39,7 @@ import useDynamicSearch from "@/composable/dynamicSearch";
 import SearchField from "@/types/searchField";
 
 import { fetchListWorkingLogs } from "@/apis/repositories";
+import { FetchSelectOptions } from "@/apis/repositories";
 
 const { searchFieldsList, searchComponents } = useDynamicSearch();
 searchFieldsList.value = [
@@ -52,7 +68,7 @@ searchFieldsList.value = [
 ];
 
 const query = ref({});
-const { goQueryInput, updateQuery } = useGoQuery({
+const { goQueryInput, resetQuery, updateQuery } = useGoQuery({
   perPage: 50,
   query: query,
   page: 1,
@@ -60,6 +76,8 @@ const { goQueryInput, updateQuery } = useGoQuery({
 
 const workingTimelogs = ref([]);
 const metadata = ref({});
+const projectOptions = ref([]);
+const modalWorkingTimelog = ref();
 
 async function fetchList() {
   const result = await fetchListWorkingLogs({
@@ -71,8 +89,19 @@ async function fetchList() {
   metadata.value = result.WorkingTimelogs.metadata;
 }
 
+function refetchList() {
+  resetQuery({});
+  fetchList();
+}
+
+function showModal() {
+  modalWorkingTimelog.value.show(null);
+}
+
 onMounted(async () => {
   await fetchList();
+  const response = await FetchSelectOptions(["currentUserProjects"]);
+  projectOptions.value = response.SelectOptions.CurrentUserProjectOptions;
 });
 </script>
 

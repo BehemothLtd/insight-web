@@ -21,7 +21,7 @@ export function fetchWorkingTimelogByAttr(
   params,
   options = { loading: false, hideToastError: true },
 ) {
-  return api(WorkingTimelogQuery.fetchWorkingTimelogByAttr, params, options);
+  return api(WorkingTimelogQuery.fetchWorkingLogByAttr, params, options);
 }
 
 export function fetchWorkingTimelogById(
