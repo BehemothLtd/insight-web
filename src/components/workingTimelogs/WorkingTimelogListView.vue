@@ -27,6 +27,7 @@
       <WorkingTimelogList
         :working-timelogs="workingTimelogs"
         :metadata="metadata"
+        @onPageChange="onPageChange"
       />
     </b-row>
   </b-card>
@@ -68,7 +69,7 @@ searchFieldsList.value = [
 ];
 
 const query = ref({});
-const { goQueryInput, resetQuery, updateQuery } = useGoQuery({
+const { goQueryInput, resetQuery, updatePage } = useGoQuery({
   perPage: 50,
   query: query,
   page: 1,
@@ -96,6 +97,10 @@ function refetchList() {
 
 function showModal() {
   modalWorkingTimelog.value.show(null);
+}
+
+function onPageChange(page) {
+  updatePage(page, fetchList);
 }
 
 onMounted(async () => {

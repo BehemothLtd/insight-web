@@ -41,11 +41,13 @@
 
   <Pagination
     :meta="metadata"
-    @change="onPageChange"
+    @change="$emit('onPageChange', $event)"
   ></Pagination>
 </template>
 
 <script setup>
+defineEmits(["onPageChange"]);
+
 defineProps({
   workingTimelogs: {
     type: Array,

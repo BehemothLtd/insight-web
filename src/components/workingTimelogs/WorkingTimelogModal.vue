@@ -3,6 +3,7 @@
     ref="modal"
     title="Working Timelog Modal"
     title-class="font-18"
+    hide-footer
   >
     <b-card>
       <b-row class="d-flex align-items-baseline">
@@ -207,7 +208,7 @@ defineExpose({
 const emits = defineEmits(["reinit", "refetch"]);
 defineProps({
   projectOptions: {
-    type: Object,
+    type: Array,
     default: [],
   },
 });
