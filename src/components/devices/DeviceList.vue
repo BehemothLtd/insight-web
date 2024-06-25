@@ -72,7 +72,12 @@
             :user-options="userOptions"
           ></DeviceForm>
         </b-tab>
-        <b-tab title="History"></b-tab>
+        <b-tab title="History">
+          <DeviceUsingHistoryList
+            v-if="tabIndex == 1"
+            :device-id="device.id"
+          ></DeviceUsingHistoryList>
+        </b-tab>
       </b-tabs>
 
       <template #footer>
@@ -220,6 +225,7 @@ async function destroyDevice(id, name) {
 }
 
 async function showDevice(id) {
+  tabIndex.value = 0;
   const result = await FetchDevice(id);
   device.value = result.Device;
   showModal();

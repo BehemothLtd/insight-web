@@ -5,6 +5,7 @@ import {
   DeviceTypeGQL,
   DevicesGQL,
   DeviceGQL,
+  DevicesUsingHistoriesGQL,
 } from "@/apis/resolvers";
 import {
   UpdateDeviceTypeGQL,
@@ -55,6 +56,13 @@ export function CreateDeviceType(input) {
 
 export function FetchDeviceList(params = { input: {}, query: {} }) {
   return api(DevicesGQL, {
+    input: params.input,
+    query: params.query,
+  });
+}
+
+export function FetchDevicesUsingHistory(params = { input: {}, query: {} }) {
+  return api(DevicesUsingHistoriesGQL, {
     input: params.input,
     query: params.query,
   });

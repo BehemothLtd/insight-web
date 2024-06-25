@@ -53,3 +53,28 @@ export const DeviceGQL = gql`
 
   ${DeviceBasicFields}
 `;
+
+export const DevicesUsingHistoriesGQL = gql`
+  query DevicesUsingHistories(
+    $input: PagyInput
+    $query: DevicesUsingHistoryQuery
+  ) {
+    DevicesUsingHistories(input: $input, query: $query) {
+      collection {
+        id
+        state
+        createdAt
+        updatedAt
+        user {
+          name
+          id
+        }
+      }
+      metadata {
+        ...MetadataFragment
+      }
+    }
+  }
+
+  ${METADATA_FIELDS}
+`;
