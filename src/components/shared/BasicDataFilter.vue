@@ -119,6 +119,7 @@ function clear() {
   });
 
   router.push({ query: {}, hash: route.hash });
+  emits("reset");
 }
 
 function onSearch() {
