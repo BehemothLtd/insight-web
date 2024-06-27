@@ -1,7 +1,7 @@
 export default [
   {
     path: "/issue_statuses",
-    name: "issueStatusList",
+    name: "IssueStatusList",
     meta: {
       authRequired: true,
     },
