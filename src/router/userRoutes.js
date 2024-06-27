@@ -1,7 +1,7 @@
 export default [
   {
     path: "/users",
-    name: "User",
+    name: "UserList",
     meta: { authRequired: true },
     component: () => import("@/pages/users/index.vue"),
   },

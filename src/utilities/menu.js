@@ -48,7 +48,7 @@ export const menu = [
         title: "Leave Day Request",
         icon: "bx bx-calendar-event",
         url: "/leave_day_requests",
-        name: ["Leave Day Request"],
+        name: ["LeaveDayRequests", "LeaveDayRequestReport"],
         permission: { target: "leave_day_requests", action: "read" },
       },
       {
@@ -86,7 +86,7 @@ export const menu = [
         title: "Issue Statuses",
         icon: "bx bx-check-circle",
         url: "/issue_statuses",
-        name: ["Issue Status", "Issue Status Detail"],
+        name: ["IssueStatusList"],
         permission: { target: "issue_statuses", action: "read" },
       },
       {
@@ -100,7 +100,7 @@ export const menu = [
         title: "Devices",
         icon: "bx bx-devices",
         url: "/devices",
-        name: ["Devices Managment"],
+        name: ["Devices"],
         permission: { target: "devices", action: "read" },
       },
     ],

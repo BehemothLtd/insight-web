@@ -1,7 +1,7 @@
 export default [
   {
     path: "/working-time-logs",
-    name: "WorkingTimelogs",
+    name: "WorkingTimeLogs",
     meta: { authRequired: true },
     component: () => import("@/pages/workingTimelogs/index.vue"),
   },
