@@ -27,6 +27,10 @@
         :issue-statuses="list"
         @show-detail="fetchIssueStatusDetail"
       />
+      <Pagination
+        :meta="metadata"
+        @change="onPageChange"
+      ></Pagination>
     </div>
 
     <IssueStatusModal
@@ -64,7 +68,7 @@ const metadata = ref({});
 const issueStatusModal = ref();
 const issueStatus = ref({});
 
-const { goQueryInput, resetQuery } = useGoQuery({
+const { goQueryInput, resetQuery, updatePage } = useGoQuery({
   perPage: 10,
   query: query,
 });
@@ -170,5 +174,9 @@ async function onSubmit(issueStatus) {
 
 function modalTitle() {
   return issueStatus.value.id ? "Issue status" : "New issue status";
+}
+
+function onPageChange(page) {
+  updatePage(page, fetchIssueStatusList);
 }
 </script>
