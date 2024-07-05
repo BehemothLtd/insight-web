@@ -93,7 +93,7 @@ export const menu = [
         title: "Company Levels",
         icon: "bx bx-chart",
         url: "/company_levels",
-        name: ["Company Levels"],
+        name: ["CompanyLevels"],
         permission: { target: "company_levels", action: "read" },
       },
       {

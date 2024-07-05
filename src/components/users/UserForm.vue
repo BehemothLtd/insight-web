@@ -167,7 +167,7 @@
             <VSelect
               v-model="user.companyLevelId"
               class="w-100"
-              :options="selectOptionCompanyLevel"
+              :options="companyLevelOptions()"
               :reduce="(option) => option.value"
               :disabled="!writePermission"
             >
@@ -225,8 +225,8 @@ import { onMounted } from "vue";
 import {
   selectOptionsState,
   selectOptionsGender,
-  selectOptionCompanyLevel,
 } from "@/utilities/selectOptions.js";
+import { CompanyLevels } from "@/constants";
 
 defineProps({
   emailDisable: {
@@ -250,6 +250,12 @@ const user = defineModel();
 async function onUpdateAvatar(value) {
   user.value.avatarKey = value.key;
   user.value.avatarUrl = value.url;
+}
+
+function companyLevelOptions() {
+  return CompanyLevels.map((cl) => {
+    return { value: String(cl.id), label: cl.title };
+  });
 }
 
 onMounted(() => {

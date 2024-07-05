@@ -7,7 +7,8 @@ import deviceRoutes from "./deviceRoutes";
 import workingTimelogRouters from "./workingTimelogRouters";
 import leaveDayRequestRoutes from "./leaveDayRequestRoutes";
 import ProjectExperienceRoute from "./projectExperiences";
-import issueStatus from "./issueStatus";
+import IssueStatusRoutes from "./issueStatusRoutes";
+import CompanyLevelRoutes from "./companyLevelRoutes";
 
 export default [
   {
@@ -34,7 +35,8 @@ export default [
   ...ProjectRoutes,
   ...leaveDayRequestRoutes,
   ...ProjectExperienceRoute,
-  ...issueStatus,
+  ...IssueStatusRoutes,
+  ...CompanyLevelRoutes,
 
   // Admin
   ...AdminAttendance,

@@ -44,7 +44,7 @@ const query = ref({});
 const users = ref([]);
 const metadata = ref({});
 
-const { goQueryInput, updatePage, updateQuery } = useGoQuery({
+const { goQueryInput, updatePage } = useGoQuery({
   perPage: 10,
   query: query,
 });
