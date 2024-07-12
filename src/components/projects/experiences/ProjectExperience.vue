@@ -15,6 +15,7 @@
         v-for="experience in projectExperiences"
         :key="experience.id"
         :experience="experience"
+        :write-permission="writePermission"
         v-bind="$attrs"
         @detail="showDetail"
         @delete="destroy"
@@ -41,6 +42,7 @@
           v-bind="$attrs"
           @create="create"
           @update="update"
+          @close="hideModal"
         />
       </b-modal>
     </div>
@@ -66,9 +68,13 @@ defineProps({
     type: Object,
     default: () => {},
   },
+  writePermission: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emits = defineEmits(["refetch"]);
+const emits = defineEmits(["refetch", "onPageChange"]);
 const Swal = inject("Swal");
 
 // =========HANDLE MODAL=========
@@ -131,3 +137,9 @@ async function destroy(id) {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+:deep(.md-editor-footer-label) {
+  margin: 0;
+}
+</style>

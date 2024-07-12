@@ -24,6 +24,7 @@
             :device-type-options="deviceTypeOptions"
             :user-options="userOptions"
             :write-permission="writePermission"
+            @fetch-options="fetchSelectOptions"
           ></DeviceList>
         </b-tab>
 
@@ -40,7 +41,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, inject, computed } from "vue";
+import { ref, inject, computed } from "vue";
 import { useBreadcrumb } from "@bachdx/b-vuse";
 import { FetchSelectOptions } from "@/apis/repositories";
 
@@ -77,10 +78,6 @@ async function fetchSelectOptions() {
     userOptions.value = result.SelectOptions.UserOptions;
   }
 }
-
-onMounted(async () => {
-  await fetchSelectOptions();
-});
 </script>
 
 <style lang="scss" scoped>

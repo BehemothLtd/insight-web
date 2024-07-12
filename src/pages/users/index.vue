@@ -5,7 +5,8 @@
         v-if="searchFieldsList.length > 0"
         :search-fields-list="searchFieldsList"
         :query="query"
-        @search="searchList"
+        @search="fetchListUser"
+        @reset="resetQuery(fetchListUser)"
       />
 
       <NewUser
@@ -44,7 +45,7 @@ const query = ref({});
 const users = ref([]);
 const metadata = ref({});
 
-const { goQueryInput, updatePage } = useGoQuery({
+const { goQueryInput, updatePage, resetQuery } = useGoQuery({
   perPage: 10,
   query: query,
 });
@@ -108,10 +109,6 @@ async function fetchListUser() {
 
 function onPageChange(page) {
   updatePage(page, fetchListUser);
-}
-
-function searchList() {
-  fetchListUser();
 }
 
 async function toggleActiveUser(id) {

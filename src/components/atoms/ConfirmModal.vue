@@ -21,7 +21,8 @@
       <button
         type="button"
         class="btn btn-danger"
-        @click="$emit('confirm')">
+        @click="$emit('confirm')"
+      >
         Delete
       </button>
     </div>
@@ -29,7 +30,7 @@
 </template>
 
 <script setup>
-const props = defineProps({
+defineProps({
   description: {
     type: String,
     default: "",
@@ -39,4 +40,5 @@ const props = defineProps({
     default: "item",
   },
 });
+defineEmits(["close", "confirm"]);
 </script>
