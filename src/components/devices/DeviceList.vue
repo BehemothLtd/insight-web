@@ -153,6 +153,7 @@ const { goQueryInput, updatePage } = useGoQuery({
 
 const deviceTypeOptions = computed(() => props.deviceTypeOptions);
 const userOptions = computed(() => props.userOptions);
+const emits = defineEmits(["fetchOptions"]);
 
 searchFieldsList.value = [
   [
@@ -195,6 +196,7 @@ searchFieldsList.value = [
 ];
 
 async function fetchListDevices() {
+  emits("fetchOptions");
   const result = await FetchDeviceList({
     input: goQueryInput.pagyInput,
     query: goQueryInput.query,

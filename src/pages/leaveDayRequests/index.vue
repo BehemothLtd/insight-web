@@ -24,7 +24,7 @@
         :query="query"
         search-title=""
         @search="fetchListLeaveDayRequest"
-        @reset="updateQuery({})"
+        @reset="resetQuery(fetchListLeaveDayRequest)"
       >
       </BasicDataFilter>
 
@@ -87,7 +87,7 @@ const Swal = inject("Swal");
 const { modal, showModal, hideModal } = useModal();
 
 const query = ref({});
-const { goQueryInput, updatePage, updateQuery } = useGoQuery({
+const { goQueryInput, updatePage, resetQuery } = useGoQuery({
   perPage: 10,
   query: query,
 });

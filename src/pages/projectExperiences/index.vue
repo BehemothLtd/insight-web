@@ -3,6 +3,7 @@
     :search-fields-list="searchFieldsList"
     :query="query"
     @search="fetchList"
+    @reset="resetQuery(fetchList)"
   />
 
   <ProjectExperience
@@ -72,7 +73,7 @@ import { useGoQuery } from "@bachdx/b-vuse";
 import { SelfFetchProjectExperiences } from "@/apis/repositories";
 
 const query = ref({});
-const { goQueryInput, updatePage, updateQuery } = useGoQuery({
+const { goQueryInput, updatePage, resetQuery } = useGoQuery({
   perPage: 10,
   query: query,
 });
@@ -102,7 +103,12 @@ onMounted(async () => {
     const result = await FetchSelectOptions(["project"]);
 
     if (result.SelectOptions) {
-      projectOptions.value = result.SelectOptions.ProjectOptions;
+      projectOptions.value = result.SelectOptions.ProjectOptions.map((item) => {
+        return {
+          label: item.label,
+          value: String(item.value),
+        };
+      });
     }
 
     fetchList();

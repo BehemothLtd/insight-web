@@ -55,7 +55,7 @@
       type="button"
       class="btn btn-secondary mr-2"
       data-bs-dismiss="modal"
-      @click="handleCloseModal"
+      @click="$emit('close')"
     >
       Close
     </button>
@@ -78,7 +78,7 @@ defineProps({
     default: () => [],
   },
 });
-const emits = defineEmits(["update", "create"]);
+const emits = defineEmits(["update", "create", "close"]);
 const projectExperience = defineModel();
 
 function handleSave() {
