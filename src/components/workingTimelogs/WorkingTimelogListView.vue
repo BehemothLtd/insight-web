@@ -26,7 +26,9 @@
 
       <WorkingTimelogList
         :working-timelogs="workingTimelogs"
+        :project-options="projectOptions"
         :metadata="metadata"
+        @refetch="refetchList"
         @onPageChange="onPageChange"
       />
     </b-row>
@@ -91,8 +93,7 @@ async function fetchList() {
 }
 
 function refetchList() {
-  resetQuery({});
-  fetchList();
+  resetQuery(fetchList);
 }
 
 function showModal() {

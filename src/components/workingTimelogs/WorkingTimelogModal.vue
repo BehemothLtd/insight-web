@@ -4,6 +4,7 @@
     title="Working Timelog Modal"
     title-class="font-18"
     hide-footer
+    @hide="resetModal"
   >
     <b-card>
       <b-row class="d-flex align-items-baseline">
@@ -65,7 +66,7 @@
         <b-col cols="11">
           <form-validator
             label="Date"
-            name="logged_at"
+            name="loggedAt"
             required
           >
             <DatePicker
@@ -178,7 +179,7 @@
 
 <script setup>
 import useModal from "@/composable/modal";
-import { ref, onMounted, watch, computed } from "vue";
+import { ref, watch, computed } from "vue";
 import { useGlobalStore } from "@/stores/global";
 import { FetchSelectOptions } from "@/apis/repositories";
 import {
@@ -204,12 +205,13 @@ const dataExisted = ref(false);
 
 defineExpose({
   show,
+  hide,
 });
 const emits = defineEmits(["reinit", "refetch"]);
 defineProps({
   projectOptions: {
     type: Array,
-    default: [],
+    default: () => [],
   },
 });
 
@@ -293,6 +295,16 @@ async function submit(keepShowing = false) {
   }
 }
 
+function resetModal() {
+  workingTimelog.value = {
+    description: "",
+    minutes: 0,
+    loggedAt: null,
+    issueId: null,
+    projectId: null,
+  };
+}
+
 async function fetchIssue(projectId) {
   if (projectId) {
     const result = await FetchSelectOptions(["currentUserProjectIssues"], {
@@ -306,8 +318,10 @@ async function fetchIssue(projectId) {
 
 watch(
   () => workingTimelog.value.projectId,
-  async (newVal) => {
-    workingTimelog.value.issueId = null;
+  async (newVal, oldVal) => {
+    if (oldVal) {
+      workingTimelog.value.issueId = null;
+    }
     if (newVal) {
       await fetchIssue(newVal);
     }
