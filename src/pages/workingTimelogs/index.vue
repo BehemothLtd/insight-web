@@ -18,19 +18,19 @@
 
 <script setup>
 import WorkingTimeLogListView from "@/components/workingTimelogs/WorkingTimelogListView.vue";
-// import WorkingTimeLogsTempo from "@/components/workingTimelogs/WorkingTimeLogsTempo.vue";
+import WorkingTimeLogsTempo from "@/pages/tempo/index.vue";
 import { useBreadcrumb } from "@bachdx/b-vuse";
 
 const { setBreadcrumb } = useBreadcrumb();
 
 const tabSetting = [
-  // {
-  //   label: "Tempo",
-  //   hashKey: "tempo",
-  //   component: WorkingTimeLogsTempo,
-  //   icon: "",
-  //   default: true,
-  // },
+  {
+    label: "Tempo",
+    hashKey: "tempo",
+    component: WorkingTimeLogsTempo,
+    icon: "",
+    default: true,
+  },
   {
     label: "List",
     hashKey: "list",

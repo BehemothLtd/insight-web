@@ -31,6 +31,12 @@ export default [
     meta: { authRequired: true },
     component: () => import("@/pages/users/profile.vue"),
   },
+  {
+    path: "/tempo",
+    name: "tempo",
+    meta: { authRequired: true },
+    component: () => import("@/pages/tempo/index.vue"),
+  },
   ...ClientsRoute,
   ...ProjectRoutes,
   ...leaveDayRequestRoutes,

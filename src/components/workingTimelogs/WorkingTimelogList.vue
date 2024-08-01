@@ -9,7 +9,7 @@
         <th scope="col">Description</th>
         <th scope="col">Time</th>
         <th scope="col">Date</th>
-        <!-- <th scope="col">Action</th> -->
+        <th scope="col">Action</th>
       </tr>
     </thead>
 
@@ -35,9 +35,40 @@
         </td>
         <td>{{ filters.hoursWithMinutes(log.minutes) }}</td>
         <td>{{ log.loggedAt }}</td>
+        <td>
+          <div class="d-flex gap-3">
+            <span
+              class="text-success btn-pointer"
+              @click="
+                onEdit(
+                  log.id,
+                  log.loggedAt,
+                  Number(log.project.id),
+                  Number(log.issue.id),
+                )
+              "
+            >
+              <i class="mdi mdi-pencil font-size-18"></i>
+            </span>
+            <!-- <span
+              href="javascript:void(0);"
+              class="text-danger btn-pointer"
+              @click="onDeleteWorkingTimeLog(log.id, log.issue?.id)"
+            >
+              <i class="mdi mdi-delete font-size-18"></i>
+            </span> -->
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>
+
+  <WorkingTimelogModal
+    ref="modalWorkingTimelog"
+    :project-options="projectOptions"
+    @reinit="showModal()"
+    @refetch="$emit('refetch')"
+  />
 
   <Pagination
     :meta="metadata"
@@ -46,7 +77,9 @@
 </template>
 
 <script setup>
-defineEmits(["onPageChange"]);
+import { ref } from "vue";
+
+defineEmits(["onPageChange", "refetch"]);
 
 defineProps({
   workingTimelogs: {
@@ -57,7 +90,17 @@ defineProps({
     type: Object,
     default: () => {},
   },
+  projectOptions: {
+    type: Array,
+    default: () => [],
+  },
 });
+
+const modalWorkingTimelog = ref();
+
+function onEdit(id, loggedAt, projectId, issueId) {
+  modalWorkingTimelog.value.show({ id, loggedAt, projectId, issueId });
+}
 </script>
 
 <style scoped>

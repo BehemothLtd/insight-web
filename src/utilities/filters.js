@@ -11,7 +11,7 @@ export default {
 
   fullDateDay: (datetime) => {
     return datetime
-      ? moment(new Date(datetime.replace(/-/g, "/"))).format("ddd, YYYY-MM-DD")
+      ? moment(new Date(datetime.replace(/-/g, "/"))).format("ddd, DD-MM-YYYY")
       : "";
   },
 

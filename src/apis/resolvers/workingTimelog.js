@@ -88,3 +88,17 @@ export const fetchWorkingLogList = gql`
     }
   }
 `;
+
+export const selfWorkingTimeLogsGQL = gql`
+  query SelfWorkingTimeLogHistory($query: SelfWorkingTimelogHistoryInput) {
+    SelfWorkingTimeLogHistory(query: $query) {
+      id
+      issueName
+      issueDescription
+      issueId
+      projectId
+      minutes
+      loggedAt
+    }
+  }
+`;
