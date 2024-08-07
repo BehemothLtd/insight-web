@@ -24,3 +24,9 @@ export const logTime = gql`
     }
   }
 `;
+
+export const destroyWorkingTimelogGql = gql`
+  mutation ($id: ID!) {
+    SelfWorkingTimelogDestroy(id: $id)
+  }
+`;
