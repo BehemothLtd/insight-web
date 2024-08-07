@@ -89,15 +89,15 @@
                       @click.stop.prevent="onCopy(element)"
                     >
                       <i class="fas fa-copy"></i>
-                    </button>
+                    </button> -->
                     <button
                       v-b-tooltip.hover
                       class="btn action-btn"
                       title="delete"
-                      @click.stop.prevent="onDelete(element)"
+                      @click.stop.prevent="onDelete(element.id)"
                     >
                       <i class="bx bx bx-trash"></i>
-                    </button> -->
+                    </button>
                   </div>
                 </div>
               </template>
@@ -116,9 +116,14 @@
 </template>
 
 <script setup>
-import { onMounted, computed, ref, watch } from "vue";
+import { onMounted, computed, ref, watch, inject } from "vue";
 import moment from "moment";
-import { selfWorkingTimelogs, FetchSelectOptions } from "@/apis/repositories";
+import {
+  selfWorkingTimelogs,
+  FetchSelectOptions,
+  destroyWorkingTimelog,
+} from "@/apis/repositories";
+
 import draggable from "vuedraggable";
 // ===========DATA=========
 const dragOptions = ref({
@@ -128,6 +133,7 @@ const dragOptions = ref({
 });
 const timelogHistoryInput = defineModel();
 const projectOptions = ref([]);
+const Swal = inject("Swal");
 
 const modalWorkingTimelog = ref();
 
@@ -172,13 +178,20 @@ function getTotalLoggedTime(date) {
 
 function onLogTime(id, loggedAt, projectId, issueId) {
   loggedAt = moment(loggedAt).format("DD-MM-YYYY");
-  modalWorkingTimelog.value.show({
-    id,
-    loggedAt,
-    projectId,
-    issueId,
-    description: "",
-  });
+  let disabledOptions = [];
+  if (id) {
+    disabledOptions = ["projectId", "issueId"];
+  }
+  modalWorkingTimelog.value.show(
+    {
+      id,
+      loggedAt,
+      projectId,
+      issueId,
+      description: "",
+    },
+    disabledOptions,
+  );
 }
 watch(
   () => timelogHistoryInput.value,
@@ -190,6 +203,21 @@ watch(
 
 function closeModal() {
   modalWorkingTimelog.value.hide();
+}
+
+async function onDelete(id) {
+  const confirmation = await Swal.fire({
+    title: "Warning !",
+    icon: "warning",
+    html: "Are you sure want to delete this timelog?",
+    showCancelButton: true,
+    confirmButtonText: "Yes",
+    cancelButtonText: "Cancel",
+  });
+  if (confirmation.isConfirmed) {
+    await destroyWorkingTimelog({ id });
+    fetchList();
+  }
 }
 
 async function fetchList() {

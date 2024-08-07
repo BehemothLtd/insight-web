@@ -114,7 +114,7 @@
                 class="form-control w-75"
                 placeholder="0"
                 :disabled="fieldIsDisabled('minutes')"
-                step="1"
+                step="15"
                 max="60"
                 min="0"
               />
@@ -257,7 +257,6 @@ function show(initWorkingTimelog, initDisabledField = []) {
   }
 
   disableFields.value = initDisabledField;
-  fetchIssue(workingTimelog.value.projectId);
 
   showModal();
 }

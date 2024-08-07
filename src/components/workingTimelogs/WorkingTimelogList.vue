@@ -50,13 +50,12 @@
             >
               <i class="mdi mdi-pencil font-size-18"></i>
             </span>
-            <!-- <span
-              href="javascript:void(0);"
+            <span
               class="text-danger btn-pointer"
-              @click="onDeleteWorkingTimeLog(log.id, log.issue?.id)"
+              @click="onDeleteWorkingTimeLog(log.id)"
             >
               <i class="mdi mdi-delete font-size-18"></i>
-            </span> -->
+            </span>
           </div>
         </td>
       </tr>
@@ -77,9 +76,12 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, inject } from "vue";
+import { destroyWorkingTimelog } from "@/apis/repositories";
 
-defineEmits(["onPageChange", "refetch"]);
+const Swal = inject("Swal");
+
+const emits = defineEmits(["onPageChange", "refetch"]);
 
 defineProps({
   workingTimelogs: {
@@ -99,7 +101,25 @@ defineProps({
 const modalWorkingTimelog = ref();
 
 function onEdit(id, loggedAt, projectId, issueId) {
-  modalWorkingTimelog.value.show({ id, loggedAt, projectId, issueId });
+  modalWorkingTimelog.value.show({ id, loggedAt, projectId, issueId }, [
+    "projectId",
+    "issueId",
+  ]);
+}
+
+async function onDeleteWorkingTimeLog(id) {
+  const confirmation = await Swal.fire({
+    title: "Warning !",
+    icon: "warning",
+    html: "Are you sure want to delete this timelog?",
+    showCancelButton: true,
+    confirmButtonText: "Yes",
+    cancelButtonText: "Cancel",
+  });
+  if (confirmation.isConfirmed) {
+    await destroyWorkingTimelog({ id });
+    emits("refetch");
+  }
 }
 </script>
 

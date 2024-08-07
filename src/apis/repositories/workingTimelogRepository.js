@@ -34,3 +34,10 @@ export function selfWorkingTimelogs(
 ) {
   return api(WorkingTimelogQuery.selfWorkingTimeLogsGQL, params, options);
 }
+
+export function destroyWorkingTimelog(
+  params,
+  options = { loading: true, toastMessage: "Toast success" },
+) {
+  return api(WorkingTimelogMutation.destroyWorkingTimelogGql, params, options);
+}
